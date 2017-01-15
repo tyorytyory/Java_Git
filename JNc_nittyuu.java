@@ -70,7 +70,6 @@ public class JNc_nittyuu{
                     }
                     if(count_if == 4 && count1 != 0 && count2 == 0){
                     	i3 = i1-1;
-                    	//System.out.println(i2 + " " + i3);
                     	count2++;
                     	String d1 = Index.substring(i2,i3-13);//時間
                     	String d2 = Index.substring(i2+3,i3-10);//分
@@ -79,15 +78,6 @@ public class JNc_nittyuu{
                     	hour = Double.parseDouble(d1);//時間
                     	minute = Double.parseDouble(d2);//分
                     	second = Double.parseDouble(d3);//秒
-                    	//micro = Double.parseDouble(d4);
-
-                    	//System.out.println(d1 + " " + d2 + " " + d3);
-
-
-                    	//System.out.println(hour);
-                    	/*if(hour >= 9 && hour <= 15){
-                    		pw.println(Index);
-                    	}*///日中の取引
                     }
                     /*if(count_if == 4 && !(a.equals(",")) && count3 == 0){//約定を取り出すプログラム
                     	i4 = i1;
@@ -112,41 +102,28 @@ public class JNc_nittyuu{
         		count3 = 0;
         		count4 = 0;
 
-
         		i2 = 0;
                 i3 = 0;
                 i4 = 0;
                 i5 = 0;
 
                 String d5 = Index.substring(12,20);
-                //String d5 = Index.substring(82,90);//comb2
                 day = Integer.parseInt(d5);
-                //System.out.println(day);
 
 
-                hour = hour*60*60;
-            	minute = minute*60;
-            	//micro = micro/1000000;
-            	k_all_time = hour + minute + second; //+ micro;
-            	//System.out.println(k_all_time);
-            	/*BigDecimal x1 = new BigDecimal(k_all_time);
-            	k_all_time = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();*/
+                hour = hour*60*60;//時間を秒に換算
+            	minute = minute*60;//時間を分に換算
+            	k_all_time = hour + minute + second;//その取引を秒で換算
             	if((day < 20110214) &&
-            			((k_all_time >= 32400 && k_all_time<=39600) || (k_all_time >= 45000 && k_all_time <= 54000))){
+            			((k_all_time >= 32400 && k_all_time<=39600) || (k_all_time >= 45000 && k_all_time <= 54600))){
             		pw.println(Index);
             	}
             	else if((day >= 20110214) &&
-            			(k_all_time >= 32400 && k_all_time <= 54000)){
+            			(k_all_time >= 32400 && k_all_time <= 54600)){
             		pw.println(Index);
             	}
 
         	}
-
-
-
-
-
-
 
         }
 
