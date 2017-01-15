@@ -54,7 +54,7 @@ public class simulater_new {//11/10更新
 		alpha_array[21] = 1.93;
 		alpha_array[22] = 1.68;
 		alpha_array[23] = 1.34;
-		
+
 
 		do{
 
@@ -65,7 +65,7 @@ public class simulater_new {//11/10更新
 			for(int i=0;i<=dummy_c1;i++){
 				c = ransu.NextUnif();
 			}
-			
+
 			for(int i=0;i<24;i++){
 				for_time=0.0;
 				for_count[i] = 0;//初期化
@@ -134,7 +134,7 @@ public class simulater_new {//11/10更新
                         }
                     }
 	    			second = d1;
-	    			
+
 	    			if(d1 == trade_timing[i2]){
 
 	    				for(double n = 1;n<50000;n++){
@@ -190,7 +190,7 @@ public class simulater_new {//11/10更新
                             bid_depth -= 30;
                             pw.print(",Trade,," + ask_price + ",30");
                         }
- 
+
                         i2++;
                         if(bid_depth <= 0){
                         	bid_depth = 100;

@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 //新しいTick Dataでの指値注文の注文量と間隔を求めるプログラム　約定と約定の間にある指値を数えるプログラム
 public class JNIc_limit_order{
 
@@ -82,7 +81,7 @@ public class JNIc_limit_order{
             int bid_volume_first = 0;
             int ask_volume_first = 0;
             String time_first = null;
-            
+
             double trade_time = 0.0;//約定の時間（計算結果）
             double trade_price2 = 0.0;//約定価格
             int trade_volume2 = 0;
@@ -100,7 +99,8 @@ public class JNIc_limit_order{
 
 
 
-        	FileReader fr = new FileReader("/volumes/HDJA-UT/日経平均先物/日経平均先物データ/" + txtFileName);
+        	//FileReader fr = new FileReader("/volumes/HDJA-UT/日経平均先物/日経平均先物データ/" + txtFileName);//Macの場合
+        	FileReader fr = new FileReader(txtFileName);//Windowsの場合
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
@@ -114,11 +114,11 @@ public class JNIc_limit_order{
             	Index = line;
             	//System.out.println(Index);
             	//System.out.println(Index.substring(0,1));
-            	
+
             	i2 = Index.length();
-            	
+
             	if(!(Index.substring(0,1).equals("#"))){
-            		
+
             	day = line.substring(12,20);//年月日
             	day_number = Integer.parseInt(day);//年月日
             	time = line.substring(21,36);//時間
@@ -130,7 +130,7 @@ public class JNIc_limit_order{
         		time2 = Double.parseDouble(c2);//分
         		time3 = Double.parseDouble(c3);//秒
         		time_total1 = time1*3600 + time2*60 + time3;//時間を秒で表示
-            	
+
             	if(!(day.equals(day1))){
             		if(count14 != 0){
                 		//for(int i = 0;i<for_array;i++){
@@ -184,12 +184,13 @@ public class JNIc_limit_order{
                 for(i1=0;i1<i2;i1++){
                     a = Index.substring(i1,i1+1);
                     if(count == 5 && !(a.equals(",")) && count1 == 0){
-                    	
+
                     	i7 = i1;
                     	count1++;
                     }
                     if(count == 6 && count1 != 0 && count2 == 0){
                     	i8 = i1-1;
+                    	System.out.println(Index);
                     	trade_price = Index.substring(i7,i8);//Tradeの約定価格
                     	trade_price1 =Integer.parseInt(trade_price);
                     	count2++;
@@ -266,7 +267,7 @@ public class JNIc_limit_order{
                     }
                 }
                 if(bid1[1]>ask1[1] && bid1[1] != 0 && ask1[1] != 0){//意味の分からないことが起きていないか確認
-                													
+
                 	System.out.println(day + " " + time + " " + bid1[1] + " " + ask1[1]);
                 }
                 if(transaction.equals("Trade")){
@@ -281,7 +282,7 @@ public class JNIc_limit_order{
                 	bid_volume2 = bid_volume1;
                 	ask_volume2 = ask_volume1;
                 	time_total2 = time_total1;
-                	System.out.println(day + " " + bid_volume2 + " " + ask_volume2 );
+                	//System.out.println(day + " " + bid_volume2 + " " + ask_volume2 );
                 	//System.out.println(Index + " " + ask_volume + " " + ask1[0]);
                 }
                 /*else if((bid1[0] != bid1[1] || ask1[0] != ask1[1]) && count13 != 0 && bid1[1] != 0 && ask1[1] != 0 && bid1[1] != ask1[1]){//板が移動したことを認知するプログラム
@@ -312,9 +313,9 @@ public class JNIc_limit_order{
                     		//ask_volume_dif = ask_volume1 - ask_volume2;
                     		//ask_volume2 += ask_volume_dif;
                 		//}
-                
-                
-                    	
+
+
+
                 		if(bid_volume1 != 0 && ask_volume1 != 0 && !(transaction.equals("Trade"))){
                 			//System.out.println(time_total1);
                     		if(trade_time == time_total1 && trade_price1 == bid1[1]){
@@ -332,7 +333,7 @@ public class JNIc_limit_order{
                     			bid_volume_dif = bid_volume1 - bid_volume2;
                     		}
                     		bid_volume2 = bid_volume1;
-                    		
+
                     		/*if(bid_volume_dif <= 0){
                     			bid_volume2 = bid_volume1;
                     		}
@@ -340,16 +341,16 @@ public class JNIc_limit_order{
                     			bid_volume2 += bid_volume_dif;
                     			bid_volume_dif_total +=bid_volume_dif;
                     		}*/
-                    		
-                    		
+
+
                     		if(trade_time == time_total1 && trade_price1 == ask1[1]){
                     			if((trade_volume1 > (ask_volume2 - ask_volume1))){//指値注文
                     				ask_volume_dif = trade_volume1 - (ask_volume2 - ask_volume1);
-                    				if(day.equals("20060105")){
+                    				/*if(day.equals("20060105")){
                     					System.out.println(trade_volume1 + " " + ask_volume2 + " " + ask_volume1);
                     					System.out.println(Index);
-                    				}
-                    				
+                    				}*/
+
                     			}
                     			else{//注文の取り消しとか
                     				ask_volume_dif = 0;
@@ -361,8 +362,8 @@ public class JNIc_limit_order{
                     		else{
                     			ask_volume_dif = ask_volume1 - ask_volume2;
                     		}
-                    		
-                    		
+
+
                     		ask_volume2 = ask_volume1;
 
                     		/*if(ask_volume_dif <= 0){
@@ -410,7 +411,7 @@ public class JNIc_limit_order{
                     			ask_volume2 -= trade_volume1;
                     		}
                 		}*/
-                
+
                 }
 
 
