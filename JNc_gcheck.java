@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
+import java.util.Calendar;//test
 //2016年に入手したJNcファイルに対し、データを使う使用に限月のデータを抽出するプログラム
 public class JNc_gcheck{
 
