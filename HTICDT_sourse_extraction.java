@@ -29,13 +29,13 @@ public class HTICDT_sourse_extraction{
 
 
 
-        	FileReader fr = new FileReader("E:/日経平均先物/2008/" + txtFileName);
+        	FileReader fr = new FileReader("E:/日経平均先物/2010/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
             String[] filename = txtFileName.split("\\.");
 
-         	File file = new File(filename[1] +
+         	File file = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2010/" + filename[1] +
          			//"_"+filename[2] + //.が2つある場合
          			"_market_limit_gcheck.txt");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
@@ -125,7 +125,7 @@ public class HTICDT_sourse_extraction{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
             	}*///2007年バージョン
 
-            	if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
+            	/*if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("303") && day < 300 && day >= 0)
             	{
             		pw.println(Index);
@@ -152,7 +152,7 @@ public class HTICDT_sourse_extraction{
             	}
             	else{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
-            	}//2008年バージョン
+            	}*///2008年バージョン
 
             	/*if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("403") && day < 300 && day >= 0)
@@ -183,34 +183,34 @@ public class HTICDT_sourse_extraction{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
             	}*///2009年バージョン
 
-            	/*if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& record2.equals(" 0"))
+            	if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("503") && day < 300 && day >= 0)
             	{
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("506") && day < 600 && day >= 300)
             	{
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("509") && day < 900 && day >= 600)
             	{
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("512") && day < 1200 && day >= 900)
             	{
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("603") && day < 1300 && day >= 1200)
             	{
             		pw.println(Index);
             	}
             	else{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
-            	}*///2010年バージョン(2010/7/16まで)
+            	}//2010年バージョン(2010/7/16まで)
 
 
             	}
