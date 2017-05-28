@@ -115,11 +115,11 @@ public class JNc_nittyuu{
             	minute = minute*60;//時間を分に換算
             	k_all_time = hour + minute + second;//その取引を秒で換算
             	if((day < 20110214) &&
-            			((k_all_time >= 32400 && k_all_time<=39600) || (k_all_time >= 45000 && k_all_time <= 54600))){
+            			((k_all_time >= 32400 && k_all_time<=39600) || (k_all_time >= 45000 && k_all_time <= 56700))){//56700にするには15時15分以降の微妙のタイムラグも取得したいからである。
             		pw.println(Index);
             	}
             	else if((day >= 20110214) &&
-            			(k_all_time >= 32400 && k_all_time <= 54600)){
+            			(k_all_time >= 32400 && k_all_time <= 56700)){
             		pw.println(Index);
             	}
 

@@ -35,8 +35,9 @@ public class HTICDT_limit_order{
             int count10 = 0;
             int count11 = 0;
             int count12 = 0;
-            int count13 = 0;
+            int count13 = 0;//初期値設定のために必要な関数
             //文字の抽出のプログラムで必要（ここまで）
+            int count_trade_before = 0;//指値注文の直前に約定があったかどうか（同時刻に）
             int count_hiruma1 = 0;//昼休みのfor文で必要な関数
             String day = null;//日付
             String transaction = null;//Quote or Trade
@@ -104,7 +105,7 @@ public class HTICDT_limit_order{
             		String c1 = Index.substring(30,32);//時
             		String c2 = Index.substring(32,34);//分
             		String c3 = Index.substring(36,38);//秒
-            		String Quote = Index.substring(49,52);//最良売り気配(  0)or最良買い気配(128)
+            		String record = Index.substring(49,52);//最良売り気配(  0)or最良買い気配(128)or寄り付き（  1)
             		time1 = Double.parseDouble(c1);//時
             		time2 = Double.parseDouble(c2);//分
             		time3 = Double.parseDouble(c3);//秒
@@ -122,7 +123,7 @@ public class HTICDT_limit_order{
                     	count13 = 0;//初期化
                 	}
 
-                	if(time_total1 > 45000.0 && count_hiruma1 == 0 && day_number < 20110214){//2012/2/14までは昼休みがあるのでそこに関して調整する箇所
+                	if(time_total1 > 39600.0 && count_hiruma1 == 0 && day_number < 20110214){//2012/2/14までは昼休みがあるのでそこに関して調整する箇所
                 		number1 = 0;//初期化
                 		bid_volume1 = 0;//初期化
                 		ask_volume1 = 0;//初期化
@@ -213,37 +214,39 @@ public class HTICDT_limit_order{
                     }*/
 
                     if(transaction.equals(" 0")){
-
                     	trade_price = Index.substring(41,47);//Tradeの約定価格
                     	trade_price1 =Integer.parseInt(trade_price);
                     	trade_volume = Index.substring(56,66);//Tradeの出来高
                     	trade_volume1 =Integer.parseInt(trade_volume);
+                    	count_trade_before = 0;
+                    	count_trade_before++;
                     }
-                    else if((transaction.equals("33")) && Quote.equals("128")){
-
+                    else if((transaction.equals("33")) && record.equals("128")){
                     	bid=Index.substring(41,47);//最良買気配の値段
                         bid1[number1] = Integer.parseInt(bid);
                         bid_volume = Index.substring(56,66);//最良売気配の累積枚数
                     	bid_volume1 =Integer.parseInt(bid_volume);
+                    	count_trade_before++;
                     }
-                    else if((transaction.equals("33")) && Quote.equals("  0")){
+                    else if((transaction.equals("33")) && record.equals("  0")){
                     	//System.out.println(Quote);
                     	ask=Index.substring(41,47);//最良売気配の値段
                         ask1[number1] = Integer.parseInt(ask);
                         ask_volume = Index.substring(56,66);//最良売気配の累積枚数
                     	ask_volume1 =Integer.parseInt(ask_volume);
+                    	count_trade_before++;
                     }
 
 
                     if(bid1[1]>ask1[1] && bid1[1] != 0 && ask1[1] != 0){//意味の分からないことが起きていないか確認(買値＞売値)
 
-                    	System.out.println(day + " " + time + " " + bid1[1] + " " + ask1[1]);
+                    	//System.out.println(day + " " + time + " " + bid1[1] + " " + ask1[1]);
                     }
                     if(transaction.equals(" 0")){
                     	trade_time = time_total1;
                     }
 
-                    if(bid1[0] != ask1[0] && ask1[0] != 0 && bid1[0] != 0 && count13 == 0){//寄り付きが終了したときの初期値の設定
+                    if(record.equals("  1") && count13 == 0){//寄り付きが終了したときの初期値の設定
                     	count13++;
                     	number1++;
                     	day1 = day;
@@ -252,58 +255,75 @@ public class HTICDT_limit_order{
                     	//System.out.println(day + " " + bid_volume2 + " " + ask_volume2 );
                     	//System.out.println(Index + " " + ask_volume + " " + ask1[0]);
                     }
+                    if(count13 >= 1 && count13 < 3){
+                    	if(record.equals("  0")){
+                    		ask_volume2 = ask_volume1;
+                    		count13++;
+                    	}
+                    	if(record.equals("128")){
+                    		bid_volume2 = bid_volume1;
+                    		count13++;
+                    	}
+                    }
 
-                    else if(count13 != 0){//共通
+                    else if(count13 >= 3){//共通
 
                     		if(bid_volume1 != 0 && ask_volume1 != 0 && !(transaction.equals(" 0"))){
-                    			//System.out.println(time_total1);
-                        		if(trade_time == time_total1 && trade_price1 == bid1[1]){//約定と同時に起きた指値注文
-                        			if(trade_volume1 > (bid_volume2 - bid_volume1)){
-                        				bid_volume_dif = trade_volume1 - (bid_volume2 - bid_volume1);
-                        			}
-                        			else{//注文の取り消しとか
-                        				bid_volume_dif = 0;
-                        			}
-                        		}
-                        		else if(trade_volume1 == bid_volume2){//板の移動
-                        			bid_volume_dif = 0;
-                        		}
-                        		else{//指値注文
-                        			bid_volume_dif = bid_volume1 - bid_volume2;
-                        		}
-                        		bid_volume2 = bid_volume1;//1つ前の注文にしている。
+                    			//System.out.println(count13);
 
-                        		if(trade_time == time_total1 && trade_price1 == ask1[1]){//約定と同時に起きた指値注文
-                        			if((trade_volume1 > (ask_volume2 - ask_volume1))){
-                        				ask_volume_dif = trade_volume1 - (ask_volume2 - ask_volume1);
-                        				/*if(day.equals("20060105")){
-                        					System.out.println(trade_volume1 + " " + ask_volume2 + " " + ask_volume1);
-                        					System.out.println(Index);
-                        				}*/
+                    			if(record.equals("128")){
+                    				if(trade_time == time_total1 && trade_price1 == bid1[1] && count_trade_before == 3){//約定と同時に起きた指値注文
+                            			if(trade_volume1 > (bid_volume2 - bid_volume1)){
+                            				bid_volume_dif = trade_volume1 - (bid_volume2 - bid_volume1);
+                            			}
+                            			else{//注文の取り消しとか
+                            				bid_volume_dif = 0;
+                            			}
+                            		}
+                            		else if(trade_volume1 == bid_volume2){//板の移動
+                            			bid_volume_dif = 0;
+                            		}
+                            		else{//指値注文
+                            			bid_volume_dif = bid_volume1 - bid_volume2;
+                            		}
+                            		bid_volume2 = bid_volume1;//1つ前の注文にしている。
 
-                        			}
-                        			else{//注文の取り消しとか
-                        				ask_volume_dif = 0;
-                        			}
-                        		}
-                        		else if(trade_volume1 == ask_volume2){//板の移動
-                        			ask_volume_dif = 0;
-                        		}
-                        		else{//指値注文
-                        			ask_volume_dif = ask_volume1 - ask_volume2;
-                        		}
+                            		if(bid_volume_dif > 0){
+                            			//pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
+                            			pw.println("bid," + Index + "," + bid_volume_dif);
 
-                        		ask_volume2 = ask_volume1;//1つ前の注文にしている。
+                            		}
+                    			}
 
+                    			if(record.equals("  0")){
+                    				if(trade_time == time_total1 && trade_price1 == ask1[1] && count_trade_before == 2){//約定と同時に起きた指値注文
+                            			if((trade_volume1 > (ask_volume2 - ask_volume1))){
+                            				ask_volume_dif = trade_volume1 - (ask_volume2 - ask_volume1);
+                            				/*if(day.equals("20060105")){
+                            					System.out.println(trade_volume1 + " " + ask_volume2 + " " + ask_volume1);
+                            					System.out.println(Index);
+                            				}*/
 
-                        		if(bid_volume_dif > 0){
-                        			pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
+                            			}
+                            			else{//注文の取り消しとか
+                            				ask_volume_dif = 0;
+                            			}
+                            		}
+                            		else if(trade_volume1 == ask_volume2){//板の移動
+                            			ask_volume_dif = 0;
+                            		}
+                            		else{//指値注文
+                            			ask_volume_dif = ask_volume1 - ask_volume2;
+                            		}
 
-                        		}
-                        		if(ask_volume_dif > 0){
-                        			pw.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
+                            		ask_volume2 = ask_volume1;//1つ前の注文にしている。
 
-                        		}
+                            		if(ask_volume_dif > 0){
+                            			//pw.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
+                            			pw.println("ask," + Index + "," + ask_volume_dif);
+                            		}
+                    			}
+
 
                         	}
 
