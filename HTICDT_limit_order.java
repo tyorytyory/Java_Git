@@ -246,8 +246,8 @@ public class HTICDT_limit_order{
                             		bid_price_before = bid1[1];//1つ前の最良買気配の値段の代入
 
                             		if(bid_volume_dif > 0){
-                            			//pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
-                            			pw.println("bid," + Index + "," + bid_volume_dif);
+                            			pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
+                            			//pw.println("bid," + Index + "," + bid_volume_dif);
 
                             		}
                     			}
@@ -272,8 +272,8 @@ public class HTICDT_limit_order{
                             		ask_price_before = ask1[1];//1つ前の最良売気配の値段の代入
 
                             		if(ask_volume_dif > 0){
-                            			//pw.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
-                            			pw.println("ask," + Index + "," + ask_volume_dif);
+                            			pw.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
+                            			//pw.println("ask," + Index + "," + ask_volume_dif);
                             		}
                     			}
 
