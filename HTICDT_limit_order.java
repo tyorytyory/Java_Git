@@ -11,7 +11,7 @@ public class HTICDT_limit_order{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist2.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -189,7 +189,7 @@ public class HTICDT_limit_order{
                     	}
 
                     	if(bid1[1] != trade_price1 && ask1[1] != trade_price1 && bid1[1] != 0 && ask1[1] != 0){
-                    		System.out.println(Index + "+++" + bid1[1] + "," + ask1[1]);
+                    		//System.out.println(Index + "+++" + bid1[1] + "," + ask1[1]);
                     	}
 
                     }
@@ -248,7 +248,6 @@ public class HTICDT_limit_order{
                             		if(bid_volume_dif > 0){
                             			pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
                             			//pw.println("bid," + Index + "," + bid_volume_dif);
-
                             		}
                     			}
 

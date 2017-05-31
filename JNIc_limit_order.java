@@ -11,7 +11,7 @@ public class JNIc_limit_order{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist1.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -242,7 +242,7 @@ public class JNIc_limit_order{
                     	}
 
                     	if(bid1[1] != trade_price1 && ask1[1] != trade_price1 && bid1[1] != 0 && ask1[1] != 0){
-                    		System.out.println(Index + "+++" + bid1[1] + "," + ask1[1]);
+                    		//System.out.println(Index + "+++" + bid1[1] + "," + ask1[1]);
                     	}
                     }
                     if((bid1[0] != ask1[0] && ask1[0] != 0 && bid1[0] != 0 && count13 == 0) || bid_ask_initialization == 1){//寄り付き、板の移動(bid_ask_initialization)などが終了したときの初期値の設定
@@ -315,6 +315,7 @@ public class JNIc_limit_order{
                         		//ask_price_before = ask1[1];//1つ前の最良売気配の値段の代入
 
 
+
                         		if(ask_volume_dif > 0){
                         			pw.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
 
@@ -323,6 +324,7 @@ public class JNIc_limit_order{
                         			pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
 
                         		}
+
 
 
                         	}
