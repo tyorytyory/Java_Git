@@ -31,15 +31,15 @@ public class HTICDT_sourse_extraction_2011{
 
 
 
-        	FileReader fr = new FileReader("G:/日経平均先物/201501/" + txtFileName);
+        	FileReader fr = new FileReader("E:/日経平均先物/2010/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
             String[] filename = txtFileName.split("\\.");
 
-         	File file = new File(filename[1] +
-         			"_" + filename[2] + //.が2つある場合
-         			"_limit_gcheck.txt");
+         	File file = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2010/" + filename[1] +
+         			//"_" + filename[2] + //.が2つある場合
+         			"_market_limit_gcheck.txt");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"E:\\201510\\" +
          	file)));
