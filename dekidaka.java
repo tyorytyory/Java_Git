@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-//同じ時間の注文を一つの注文にするためにプログラム(親注文)同一注文の抽出
+//同じ時間の注文を一つの注文にするためにプログラム(親注文)同一注文の抽出(JNIcデータ)
 import java.math.BigDecimal;
 public class dekidaka{
 

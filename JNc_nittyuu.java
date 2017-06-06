@@ -10,7 +10,7 @@ public class JNc_nittyuu{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist1.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -114,12 +114,15 @@ public class JNc_nittyuu{
                 hour = hour*60*60;//時間を秒に換算
             	minute = minute*60;//時間を分に換算
             	k_all_time = hour + minute + second;//その取引を秒で換算
-            	if((day < 20110214) &&
+            	/*if((day < 20110214) &&
             			((k_all_time >= 32400 && k_all_time<=39600) || (k_all_time >= 45000 && k_all_time <= 56700))){//56700にする理由は15時15分以降の微妙のタイムラグも取得したいからである。
             		pw.println(Index);
-            	}
-            	else if((day >= 20110214) &&
-            			(k_all_time >= 32400 && k_all_time <= 56700)){
+            	}*/
+            	/*else if((day >= 20110214) &&
+            			//(k_all_time >= 32400 && k_all_time <= 56700)){//56700にする理由は15時15分以降の微妙のタイムラグも取得したいからである。
+            		pw.println(Index);
+            	}*/
+            	if(k_all_time >= 32400 && k_all_time <= 56700){//56700にする理由は15時15分以降の微妙のタイムラグも取得したいからである。
             		pw.println(Index);
             	}
 

@@ -1,8 +1,13 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-//日経ニーズデータとコンマ秒データとの対応を、出来高から判定するプログラム
-//指値注文にも対応させる
+//日経ニーズデータとコンマ秒データとの対応を、出来高から判定するプログラム(このプログラムはデータそのものの対応をチェックする)
+import java.io.PrintWriter;
+import java.util.Arrays;
+
 public class HTICDT_JNc_comb2{
 
     public static void main(String[] args) throws IOException{
@@ -11,55 +16,41 @@ public class HTICDT_JNc_comb2{
     	int i1 = 0;
 
 
-    	int number1 = 0;
-    	int number2 = 0;
-    	int number3 = 0;
-    	int number4 = 0;
+    	int number_JNIc = 0;
+    	int number_HTICDT = 0;
+
 
 
 
     	int count = 1;
-    	int i2 = 0;
-    	int i3 = 0;
 
-
-    	String nikkei_HTICDT[] = new String[9000000];//NIKKEI NEEDS
-
-    	String nikkei_JNc[] = new String[9000000];//コンマ秒(JNc)
-
-    	int volume = 0;
 
 
     	String marketvolume_JNc [] = new String [9000000];//コンマデータの出来高
-    	String limitvolume_JNc [] = new String [9000000];//コンマデータの指値
+
     	String marketvolume_HTICDT[] = new String[9000000];//NIKKEI NEEDS(出来高)
-    	String limitvolume_HTICDT[] = new String[9000000];//NIKKEI NEEDS(指値)
-    	int sum_volume = 0;//出来高の総計(コンマデータ)
 
-    	int count_konma = 0;//コンマデータの行の確認。
-    	int length_konma = 0;//コンマデータの長さの確認
 
-    	String time_HTICDT;//取引時間
-    	String time_JNc;//取引時間
+
 
     	String marketprice_HTICDT []  = new String [9000000];////NIKKEI NEEDS(価格)
+    	String limit_HTICDT []  = new String [9000000];////NIKKEI NEEDS(価格)
     	String marketprice_JNc [] = new String [9000000];////JNc(価格)
-    	String limitprice_JNc [] = new String [9000000];////JNc(価格)
+    	String limit_JNc [] = new String [9000000];////JNc(価格)
 
-    	String bid_or_ask_HTICDT [] =  new String[9000000];//NIKKEI NEEDS(bid or ask)
-    	String bid_or_ask_JNc [] =  new String[9000000];//JNc(bid or ask)
+    	String JNIc_data [] = new String[900000];
+    	String HTICDT_data [] = new String[900000];
+    	Arrays.fill(HTICDT_data, null);
 
 
-    	String a = null;
-    	String db1 = null;
-    	String db2 = null;
-    	String db3 = null;
-    	String db4 = null;
+    	String JNIc_line [] = new String[900000];
+    	String HTICDT_line [] = new String[900000];
 
 
 
+    	boolean open_session = false;//HTICDTで寄付きが起きたかどうか示す変数
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist4.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_comb2.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -73,45 +64,127 @@ public class HTICDT_JNc_comb2{
             String line ="";
 
 
-
-
-
             while ((line = brtxt.readLine()) != null) {
-            	if(1 == count%2){
-            		//Index = line;
-            		//System.out.println(line);//JNcの読み込み
-            		String[] run = line.split(",", 0);
+            	if(1 == count%2){//JNcの読み込み
 
-                	if(run[4].equals("Trade")){
-                		marketvolume_JNc[number1] = run[6];
-                		marketprice_JNc[number1] = run[5];
-                		number1++;
-                	}
-                	else if(run[4].equals("Quote")){
-                		limitvolume_JNc[number2] = run[6];
-                		limitprice_JNc[number2] = run[8] + run[9] + run[10] + run[11];
-                		System.out.println(limitprice_JNc[number1]);
-                		number2++;
-                	}
+            		String[] JNIc_split = line.split(",", 0);
+
+            		//System.out.println(line);
+
+            		if((JNIc_split.length == 13 && (JNIc_split[12].equals("Open|High|Low[USER]") || JNIc_split[4].equals(" [TRADE_TONE]")))){
+            			open_session = true;
+            		}
+            		else if(open_session == true){
+            			if(JNIc_split[4].equals("Settlement Price")){
+            				open_session = false;
+            				do{
+            					if((JNIc_data[number_JNIc - 1].substring(0,5)).equals("Quote")){
+            						number_JNIc--;
+            					}
+            				}while((JNIc_data[number_JNIc].substring(0,5)).equals("Trade"));
+            			}
+                    	else{
+                    		if(JNIc_split[4].equals("Trade")){
+                    			JNIc_data[number_JNIc] = JNIc_split[4] + JNIc_split[5] + JNIc_split[6];
+                    		}
+                    		else if(JNIc_split[4].equals("Quote")){
+                    			JNIc_data[number_JNIc] = JNIc_split[4] + JNIc_split[8] + JNIc_split[9] + JNIc_split[10] + JNIc_split[11];
+                    		}
+                    		JNIc_line[number_JNIc] = line;
+
+                    		number_JNIc++;
+                    	}
+            		}
             	}
-            	else if(0 == count%2){//寄り付き反映
-            		if(line.substring(34,36).equals(" 0")){//最良売り気配(  0)or最良買い気配(128)or寄り付き（  1)){
-            			marketvolume_HTICDT[number3] = line.substring(56,66);
-            			marketprice_HTICDT[number3]  = line.substring(41,47);
-            		}
-            		else if(line.substring(34,36).equals("33") && line.substring(49,52).equals("  0")){
+            	else if(0 == count%2){//HTICDTの読み込み
 
-            		}
-            		else if(line.substring(34,36).equals("33") && line.substring(49,52).equals("128")){
+            		 //System.out.println(line);
 
+            		String[] HTICDT_split = line.split(",", 0);
+
+            		if(HTICDT_split[4].equals("Trade")){
+            			HTICDT_data[number_HTICDT] = HTICDT_split[4] + HTICDT_split[5] + HTICDT_split[6];
             		}
-            		//HTICDTの読み込み
+            		else if(HTICDT_split[4].equals("Quote")){
+            			HTICDT_data[number_HTICDT] = HTICDT_split[4] + HTICDT_split[8] + HTICDT_split[9] + HTICDT_split[10] + HTICDT_split[11];
+            		}
+            		//System.out.println(HTICDT_data[number_HTICDT]);
+            		HTICDT_line[number_HTICDT] = line;
+
+            		number_HTICDT++;
 
             	}
             }
+
             if(0 == count%2){
+            	String[] filename = txtFileName.split("\\.");
+         		File file = new File(filename[0] +	"_comb2222.csv");
+              	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+              	File file1 = new File(filename[0] +	"_delete.csv");
+              	PrintWriter pw1 = new PrintWriter(new BufferedWriter(new FileWriter(file1)));
 
+
+                number_JNIc = 0;//初期化
+              	number_HTICDT = 0;//初期化
+
+              	int JNIc_delete = 1;
+
+
+              	do{
+              		if(HTICDT_data[number_HTICDT].equals(JNIc_data[number_JNIc])){
+              			//System.out.println("OK");
+              			pw.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc]);
+              			number_JNIc++;
+              			number_HTICDT++;
+              			//System.out.println(HTICDT_data[number_HTICDT]);
+                      	//System.out.println(JNIc_data[number_JNIc]);
+              		}
+              		else{
+              			 while(!(HTICDT_data[number_HTICDT].equals(JNIc_data[number_JNIc + JNIc_delete]))){
+              				//System.out.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc]);
+              				 JNIc_delete++;
+              				 if(JNIc_delete == 10000){
+              					JNIc_delete = 1;
+              					pw1.println(HTICDT_line[number_HTICDT]);
+              					number_HTICDT++;
+              					//System.out.println("1231");
+              				 }
+              			}
+              			pw.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc + JNIc_delete]);
+              			for(int i = 0;i < JNIc_delete;i++){
+              				pw1.println(JNIc_line[number_JNIc + i]);
+              			}
+              			number_JNIc = number_JNIc + JNIc_delete + 1;
+              			number_HTICDT++;
+              			//System.out.println("");
+              			JNIc_delete = 1;
+              		}
+              		//System.out.println(HTICDT_line[number_HTICDT]);
+              	}while(HTICDT_data[number_HTICDT] != null);
+                pw.close();
+                pw1.close();
             }
+
+            count++;
+
+
+
+
+            brtxt.close();
+            fr.close();
+
+
+
+
+
         }
+
+
+
+
+
+
+
+
     }
 }
