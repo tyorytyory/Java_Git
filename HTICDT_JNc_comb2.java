@@ -52,7 +52,7 @@ public class HTICDT_JNc_comb2{
             			JNIc_before_day = JNIc_split[2];
             			//do{
 
-            				for(int i = 1;i<=10;i++){
+            				for(int i = 1;i<=10000;i++){//最終約定のまえの取引の削除
         						if((JNIc_data[number_JNIc - i].substring(0,5)).equals("Trade")){
         							number_JNIc = number_JNIc - i + 1;
         							break;
@@ -69,10 +69,10 @@ public class HTICDT_JNc_comb2{
             			JNIc_before_day = JNIc_split[2];
             		}
             		else if(open_session == true){
-            			if(JNIc_split[4].equals("Settlement Price") && JNIc_split[3].substring(0,2).equals("15")){//引け
+            			if(JNIc_split[4].equals("Settlement Price") && JNIc_split[3].substring(0,2).equals("15")){//引け(Settlement Priceは昼休み終了時にもあるので注意
             				open_session = false;
             				//do{
-            					for(int i = 1;i<=10000;i++){
+            					for(int i = 1;i<=10000;i++){//最終約定のまえの取引の削除
             						if((JNIc_data[number_JNIc - i].substring(0,5)).equals("Trade")){
             							number_JNIc = number_JNIc - i + 1;
             							break;
@@ -81,9 +81,7 @@ public class HTICDT_JNc_comb2{
             				//}while((JNIc_data[number_JNIc].substring(0,5)).equals("Trade"));//引けからその前の約定の間のQuoteは削除
             			}
                     	else{
-                    		if(line.equals("JNIc1,JNIZ7,20070921,09:00:33.783330,Quote,,,,16240,53,16250,387,")){
-                    			//System.out.println("happy");
-                    		}
+                   
 
                     		if(JNIc_split[4].equals("Trade")){//約定
                     			JNIc_data[number_JNIc] = JNIc_split[4] + JNIc_split[5] + JNIc_split[6];
@@ -92,9 +90,7 @@ public class HTICDT_JNc_comb2{
                     			JNIc_data[number_JNIc] = JNIc_split[4] + JNIc_split[8] + JNIc_split[9] + JNIc_split[10] + JNIc_split[11];
                     		}
                     		else{
-                    			//System.out.println(line);
-                    			//System.out.println(JNIc_split[3]);
-                    			JNIc_data[number_JNIc] = JNIc_split[3];
+                    			JNIc_data[number_JNIc] = JNIc_split[3];//その他のデータ
                     		}
                     		JNIc_line[number_JNIc] = line;
                     		number_JNIc++;
@@ -117,11 +113,11 @@ public class HTICDT_JNc_comb2{
             	}
             }
 
-            //System.out.println(number_JNIc);
+
 
             if(0 == count%2){//データの書き込み
             	String[] filename = txtFileName.split("_");
-         		File file = new File(filename[0] +	"_quote_comb.csv");//結語データ
+         		File file = new File(filename[0] +	"_quote_comb.csv");//結合データ
               	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
               	File file1 = new File(filename[0] +	"_delete.csv");//削除したデータ
               	PrintWriter pw1 = new PrintWriter(new BufferedWriter(new FileWriter(file1)));
@@ -148,8 +144,8 @@ public class HTICDT_JNc_comb2{
 
               					JNIc_delete++;
               					//System.out.println(JNIc_line[number_JNIc]);
-                 				 if(JNIc_delete == 100){//ここの数字のよって結果が異なる。
-                 					JNIc_delete = 0;
+                 				 if(JNIc_delete == 100){//ここの数字のよって結果が異なる。探索する行の数
+                 					JNIc_delete = 0;//初期化
                  					JNIc_split = JNIc_line[number_JNIc].split(",", 0);
              						HTICDT_split = HTICDT_line[number_HTICDT].split(",", 0);
                  					if(JNIc_split[2].equals(HTICDT_split[2])){//日付が同じとき
@@ -157,15 +153,14 @@ public class HTICDT_JNc_comb2{
                      					number_HTICDT++;
                  					}
                  					else if(!(JNIc_split[2].equals(HTICDT_split[2]))){//日付が異なるとき
-                 						if(Integer.parseInt(HTICDT_split[2]) < Integer.parseInt(JNIc_split[2])){
+                 						if(Integer.parseInt(HTICDT_split[2]) < Integer.parseInt(JNIc_split[2])){//JNIcの方にデータが不足している。
                  							while(!(HTICDT_split[2].equals(JNIc_split[2]))){
                  								pw1.println(HTICDT_line[number_HTICDT]);//削除したデータの書き込み(HTICDT)
                      							number_HTICDT++;
                  								HTICDT_split = HTICDT_line[number_HTICDT].split(",", 0);
-                     							//System.out.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc]);
                      						}
                  						}
-                 						else if(Integer.parseInt(HTICDT_split[2]) > Integer.parseInt(JNIc_split[2])){
+                 						else if(Integer.parseInt(HTICDT_split[2]) > Integer.parseInt(JNIc_split[2])){//HTICDTの方にデータが不足している。
                  							while(!(HTICDT_split[2].equals(JNIc_split[2]))){
                  								pw1.println(JNIc_line[number_JNIc]);//削除したデータの書き込み(JNIc)
                  								number_JNIc++;
@@ -177,7 +172,6 @@ public class HTICDT_JNc_comb2{
               			 }
 
               			pw.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc + JNIc_delete]);
-              			//System.out.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc + JNIc_delete]);
               			for(int i = 0;i < JNIc_delete;i++){
               				pw1.println(JNIc_line[number_JNIc + i]);//削除したデータの書き込み(JNIc)
               			}

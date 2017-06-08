@@ -59,7 +59,7 @@ public class HTICDT_change_JNIc{
 
             	HTICDT_time_sum = (Integer.parseInt(HTICDT_time_hour)*3600) + (Integer.parseInt(HTICDT_time_minute)*60) + (Integer.parseInt(HTICDT_time_second));//ある時点の時間を秒換算
 
-            	if(line.substring(49,52).equals("  1") && Integer.parseInt(HTICDT_time_hour) <= 15){//寄り付き
+            	if(line.substring(49,52).equals("  1") && Integer.parseInt(HTICDT_time_hour) <= 15){//寄り付き(HTICDT_time_hourの制約があるのは、読み込んだデータにナイトセッションのデータがありから
         			open_session = true;
         			HTICDT_before_day = HTICDT_day;
         			if(HTICDT_time_hour.equals("12")){
