@@ -26,7 +26,7 @@ public class HTICDT_change_JNIc{
 
     	int HTICDT_time_sum = 0;//秒換算のある時点での時刻
     	int HTICDT_before_time_sum = 0;//ひとつ前の取引の秒換算のある時点での時刻
-
+    	String HTICDT_before_day = "";//そのデータの一つ前のデータの日付
     	boolean open_session = false;//true→ザラバ、false→not ザラバ
 
 
@@ -39,7 +39,7 @@ public class HTICDT_change_JNIc{
 
 
 
-        	FileReader fr = new FileReader("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2006/" + txtFileName);
+        	FileReader fr = new FileReader("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2008/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
@@ -59,30 +59,31 @@ public class HTICDT_change_JNIc{
 
             	HTICDT_time_sum = (Integer.parseInt(HTICDT_time_hour)*3600) + (Integer.parseInt(HTICDT_time_minute)*60) + (Integer.parseInt(HTICDT_time_second));//ある時点の時間を秒換算
 
-
-
-
-
-
-            	if(line.substring(49,52).equals("  1")){//寄り付き
+            	if(line.substring(49,52).equals("  1") && Integer.parseInt(HTICDT_time_hour) <= 15){//寄り付き
         			open_session = true;
+        			HTICDT_before_day = HTICDT_day;
         			if(HTICDT_time_hour.equals("12")){
         				pw.println("HTICDT,NIKKEI," + HTICDT_day + "," + HTICDT_time_hour  + ":" + HTICDT_time_minute + ":" + HTICDT_time_second
         						+ ".000000,Trade," + line.substring(42,47) + "," + Integer.parseInt(line.substring(56,66)) + ",,,,,,");
         			}
         		}
+            	else if(!(HTICDT_before_day.equals(HTICDT_day)) && !(HTICDT_before_day.equals(""))){
+            		open_session = false;
+            		HTICDT_before_day = HTICDT_day;
+            	}
         		else if(open_session == true){
+        			HTICDT_before_day = HTICDT_day;
         			if(HTICDT_record.equals(" 0")){//約定
         				pw.println("HTICDT,NIKKEI," + HTICDT_day + "," + HTICDT_time_hour  + ":" + HTICDT_time_minute + ":" + HTICDT_time_second
-        						+ ".000000,Trade," + line.substring(42,47) + "," + Integer.parseInt(line.substring(56,66)) + ",,,,,,");
+        						+ ".000000,Trade," + Integer.parseInt(line.substring(42,47)) + "," + Integer.parseInt(line.substring(56,66)) + ",,,,,,");
             		}
             		else if(line.substring(34,36).equals("33") && line.substring(49,52).equals("  0")){//最良売気配
-            			HTICDT_sell_information = line.substring(42,47) + "," + Integer.parseInt(line.substring(56,66)) + ",";
+            			HTICDT_sell_information =Integer.parseInt(line.substring(42,47)) + "," + Integer.parseInt(line.substring(56,66)) + ",";
             		}
             		else if(line.substring(34,36).equals("33") && line.substring(49,52).equals("128")){//最良買気配
 
             			HTICDT_quotes_information = "HTICDT,NIKKEI," + HTICDT_day + "," + HTICDT_time_hour  + ":" + HTICDT_time_minute + ":" + HTICDT_time_second
-        						+ ".000000,Quote,,,," + line.substring(42,47) + "," + Integer.parseInt(line.substring(56,66)) + "," + HTICDT_sell_information;
+        						+ ".000000,Quote,,,," + Integer.parseInt(line.substring(42,47)) + "," + Integer.parseInt(line.substring(56,66)) + "," + HTICDT_sell_information;
 
             			HTICDT_price_volume_info = line.substring(42,47) + "," + Integer.parseInt(line.substring(56,66)) + "," + HTICDT_sell_information;
 
@@ -111,7 +112,6 @@ public class HTICDT_change_JNIc{
             		}
         			if((line.substring(52,55).equals("128") || line.substring(52,55).equals("160")) && Integer.parseInt(HTICDT_time_hour) >= 15){//終了約定コード(128,160)かつ日中のザラバ取引が終了する時間（15時代)
                 		open_session = false;
-                		//System.out.println(line);
                 	}
 
         		}

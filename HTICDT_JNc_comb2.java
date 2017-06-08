@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-//HTICDT_change_JNIc.javaで作成したchangeファイル(HTICDT)とJNIcデータを合体させ、どのデータが対応しているか否かをチェックする。出力されるファイルは２つ。
 import java.io.PrintWriter;
 import java.util.Arrays;
 
+//HTICDT_change_JNIc.javaで作成したchangeファイル(HTICDT)とJNIcデータを合体させ、どのデータが対応しているか否かをチェックする。出力されるファイルは２つ。
 public class HTICDT_JNc_comb2{
 
     public static void main(String[] args) throws IOException{
@@ -19,13 +19,13 @@ public class HTICDT_JNc_comb2{
 
     	int count = 1;
 
-    	String JNIc_data [] = new String[900000];//比較するデータ
-    	String HTICDT_data [] = new String[900000];//比較するデータ
+    	String JNIc_data [] = new String[9000000];//比較するデータ
+    	String HTICDT_data [] = new String[9000000];//比較するデータ
     	Arrays.fill(HTICDT_data, null);//初期化
-    	String JNIc_line [] = new String[900000];//読み込んだデータの挿入(JNIc)
-    	String HTICDT_line [] = new String[900000];//読み込んだデータの挿入(HTICDT)
+    	String JNIc_line [] = new String[9000000];//読み込んだデータの挿入(JNIc)
+    	String HTICDT_line [] = new String[9000000];//読み込んだデータの挿入(HTICDT)
 
-    	String JNIc_before_day = null;//そのデータの一つ前のデータの日付
+    	String JNIc_before_day = "";//そのデータの一つ前のデータの日付
 
 
 
@@ -47,30 +47,54 @@ public class HTICDT_JNc_comb2{
 
             		String[] JNIc_split = line.split(",", 0);
 
-            		if(!(JNIc_split[2].equals(JNIc_before_day))){//Settlementが無いデータに対する対応。これによりopne_sessionを初期化
+            		if(open_session == true && !(JNIc_split[2].equals(JNIc_before_day)) && !(JNIc_before_day.equals(""))){//Settlementが無いデータに対する対応。これによりopne_sessionを初期化
             			open_session = false;
-            			//System.out.println(JNIc_split[2]);
             			JNIc_before_day = JNIc_split[2];
+            			//do{
+
+            				for(int i = 1;i<=10;i++){
+        						if((JNIc_data[number_JNIc - i].substring(0,5)).equals("Trade")){
+        							number_JNIc = number_JNIc - i + 1;
+        							break;
+        						}
+        					}
+        				//}while((JNIc_data[number_JNIc].substring(0,5)).equals("Trade"));
             		}
 
-            		if(JNIc_split.length == 13 && (JNIc_split[12].equals("Open|High|Low[USER]") || JNIc_split[12].equals("Open|High|Low|Open 1st[USER]"))){//寄り付き
+            		if(open_session == false && JNIc_split.length == 13 && (JNIc_split[12].equals("Open|High|Low[USER]") || JNIc_split[12].equals("Open|High|Low|Open 1st[USER]")
+            				|| JNIc_split[12].equals("\" [TRADE_TONE]\"") || JNIc_split[12].equals("\" [TRADE_TONE];High[USER]\"") || JNIc_split[12].equals("\" [TRADE_TONE];Low[USER]\"")
+            				)){//寄り付き
+
             			open_session = true;
+            			JNIc_before_day = JNIc_split[2];
             		}
             		else if(open_session == true){
-            			if(JNIc_split[4].equals("Settlement Price")){//引け
+            			if(JNIc_split[4].equals("Settlement Price") && JNIc_split[3].substring(0,2).equals("15")){//引け
             				open_session = false;
-            				do{
-            					if((JNIc_data[number_JNIc - 1].substring(0,5)).equals("Quote")){
-            						number_JNIc--;
+            				//do{
+            					for(int i = 1;i<=10000;i++){
+            						if((JNIc_data[number_JNIc - i].substring(0,5)).equals("Trade")){
+            							number_JNIc = number_JNIc - i + 1;
+            							break;
+            						}
             					}
-            				}while((JNIc_data[number_JNIc].substring(0,5)).equals("Trade"));//引けからその前の約定の間のQuoteは削除
+            				//}while((JNIc_data[number_JNIc].substring(0,5)).equals("Trade"));//引けからその前の約定の間のQuoteは削除
             			}
                     	else{
+                    		if(line.equals("JNIc1,JNIZ7,20070921,09:00:33.783330,Quote,,,,16240,53,16250,387,")){
+                    			//System.out.println("happy");
+                    		}
+
                     		if(JNIc_split[4].equals("Trade")){//約定
                     			JNIc_data[number_JNIc] = JNIc_split[4] + JNIc_split[5] + JNIc_split[6];
                     		}
                     		else if(JNIc_split[4].equals("Quote")){//最良気配
                     			JNIc_data[number_JNIc] = JNIc_split[4] + JNIc_split[8] + JNIc_split[9] + JNIc_split[10] + JNIc_split[11];
+                    		}
+                    		else{
+                    			//System.out.println(line);
+                    			//System.out.println(JNIc_split[3]);
+                    			JNIc_data[number_JNIc] = JNIc_split[3];
                     		}
                     		JNIc_line[number_JNIc] = line;
                     		number_JNIc++;
@@ -117,18 +141,18 @@ public class HTICDT_JNc_comb2{
               		}
               		else{
               			 while(!(HTICDT_data[number_HTICDT].equals(JNIc_data[number_JNIc + JNIc_delete]))){//データの捜索・削除
-              				//System.out.println(HTICDT_line[number_HTICDT]);
+
               				String[] JNIc_split = JNIc_line[number_JNIc + JNIc_delete].split(",", 0);
               				String[] HTICDT_split = HTICDT_line[number_HTICDT].split(",", 0);
-              				//System.out.println(JNIc_split[2]);
+
+
               					JNIc_delete++;
               					//System.out.println(JNIc_line[number_JNIc]);
-                 				 if(JNIc_delete == 10000){
+                 				 if(JNIc_delete == 100){//ここの数字のよって結果が異なる。
                  					JNIc_delete = 0;
                  					JNIc_split = JNIc_line[number_JNIc].split(",", 0);
              						HTICDT_split = HTICDT_line[number_HTICDT].split(",", 0);
                  					if(JNIc_split[2].equals(HTICDT_split[2])){//日付が同じとき
-
                      					pw1.println(HTICDT_line[number_HTICDT]);//削除したデータの書き込み(HTICDT)
                      					number_HTICDT++;
                  					}
@@ -138,7 +162,7 @@ public class HTICDT_JNc_comb2{
                  								pw1.println(HTICDT_line[number_HTICDT]);//削除したデータの書き込み(HTICDT)
                      							number_HTICDT++;
                  								HTICDT_split = HTICDT_line[number_HTICDT].split(",", 0);
-                     							System.out.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc]);
+                     							//System.out.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc]);
                      						}
                  						}
                  						else if(Integer.parseInt(HTICDT_split[2]) > Integer.parseInt(JNIc_split[2])){
@@ -150,7 +174,8 @@ public class HTICDT_JNc_comb2{
                  						}
                  					}
                  				 }
-              			}
+              			 }
+
               			pw.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc + JNIc_delete]);
               			//System.out.println(HTICDT_line[number_HTICDT] + "," + JNIc_line[number_JNIc + JNIc_delete]);
               			for(int i = 0;i < JNIc_delete;i++){
@@ -158,7 +183,7 @@ public class HTICDT_JNc_comb2{
               			}
               			number_JNIc = number_JNIc + JNIc_delete + 1;
               			number_HTICDT++;
-              			JNIc_delete = 1;//初期化
+              			JNIc_delete = 0;//初期化
               		}
 
               	}while(HTICDT_data[number_HTICDT] != null);
@@ -172,6 +197,7 @@ public class HTICDT_JNc_comb2{
                 Arrays.fill(HTICDT_data, null);//初期化
                 Arrays.fill(JNIc_line, null);//初期化
                 Arrays.fill(HTICDT_line, null);//初期化
+                JNIc_before_day = "";//初期化
             }
 
             count++;
