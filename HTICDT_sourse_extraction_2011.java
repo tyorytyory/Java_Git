@@ -31,14 +31,14 @@ public class HTICDT_sourse_extraction_2011{
 
 
 
-        	FileReader fr = new FileReader("E:/日経平均先物/2011/" + txtFileName);
+        	FileReader fr = new FileReader("D:/日経平均先物/2014/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
             String[] filename = txtFileName.split("\\.");
 
-         	File file = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011/" + filename[1] +
-         			//"_" + filename[2] + //.が2つある場合
+         	File file = new File("D:/日経平均先物/2014hashimoto/" + filename[1] +
+         			"_" + filename[2] + //.が2つある場合
          			"_market_limit_gcheck.txt");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"E:\\201510\\" +
@@ -88,7 +88,7 @@ public class HTICDT_sourse_extraction_2011{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
             	}//2010年バージョン(2010/7/20から)*/
 
-            	if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
+            	/*if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("603") && day < 300 && day >= 0){
             		pw.println(Index);
             	}
@@ -110,26 +110,26 @@ public class HTICDT_sourse_extraction_2011{
             	}
             	else{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
-            	}//2011年バージョン
+            	}//2011年バージョン*/
 
 
-            	/*if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	/*if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("703") && day < 300 && day >= 0){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("706") && day < 600 && day >= 300){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("709") && day < 900 && day >= 600){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("712") && day < 1200 && day >= 900){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("803") && day < 1240 && day >= 1200){
             		pw.println(Index);
             	}
@@ -137,23 +137,23 @@ public class HTICDT_sourse_extraction_2011{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
             	}//2012年バージョン*/
 
-            	/*if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	/*if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("803") && day < 300 && day >= 0){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("806") && day < 600 && day >= 300){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("809") && day < 900 && day >= 600){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("812") && day < 1200 && day >= 900){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("903") && day < 1240 && day >= 1200){
             		pw.println(Index);
             	}
@@ -161,29 +161,29 @@ public class HTICDT_sourse_extraction_2011{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
             	}//2013年バージョン*/
 
-            	/*if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("903") && day < 300 && day >= 0){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("906") && day < 600 && day >= 300){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("909") && day < 900 && day >= 600){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("912") && day < 1200 && day >= 900){
             		pw.println(Index);
             	}
-            	else if((db.equals("31") && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018") && record2.equals(" 0"))
+            	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
             			&& code2.equals("003") && day < 1240 && day >= 1200){
             		pw.println(Index);
             	}
             	else{
             		//System.out.println(record1+" "+security+" "+code1+" "+code2+" "+code3);
-            	}//2014年バージョン*/
+            	}//2014年バージョン
 
 
 
