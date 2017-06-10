@@ -39,7 +39,7 @@ public class HTICDT_change_JNIc{
 
 
 
-        	FileReader fr = new FileReader("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2008/" + txtFileName);
+        	FileReader fr = new FileReader("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
