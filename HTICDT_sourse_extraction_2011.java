@@ -37,7 +37,7 @@ public class HTICDT_sourse_extraction_2011{
 
             String[] filename = txtFileName.split("\\.");
 
-         	File file = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2015/" + filename[1] +
+         	File file = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2016/" + filename[1] +
          			"_" + filename[2] + //.が2つある場合
          			"_market_limit_gcheck.txt");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
@@ -190,7 +190,7 @@ public class HTICDT_sourse_extraction_2011{
 
 
 
-            	if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
+            	/*if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
         			&& code2.equals("003") && day < 300 && day >= 0){
             		pw.println(Index);
             	}
@@ -214,7 +214,34 @@ public class HTICDT_sourse_extraction_2011{
             	}
             	else{
             		//System.out.println(db + " " + record1+" "+security+" "+code1+" "+code2+" "+code3);
-            	}//2015年バージョン
+            	}//2015年バージョン*/
+
+            	if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
+            			&& code2.equals("103") && day < 300 && day >= 0){
+                		pw.println(Index);
+                	}
+                	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
+                			&& code2.equals("106") && day < 600 && day >= 300){
+                		pw.println(Index);
+                	}
+                	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
+                			&& code2.equals("109") && day < 900 && day >= 600){
+                		pw.println(Index);
+                	}
+                	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
+                			&& code2.equals("112") && day < 1200 && day >= 900){
+                		pw.println(Index);
+                		//System.out.println(db + " " + record1+" "+security+" "+code1+" "+code2+" "+code3);
+                	}
+                	else if(((db.equals("31") || db.equals("32")) && record1.equals("21") && security.equals("20") && code1.equals("16") && code3.equals("0018")&& (record2.equals(" 0") ||(record2.equals("33") && (record3.equals("  0") || record3.equals("128")))))
+                			&& code2.equals("203") && day < 1240 && day >= 1200){
+                		pw.println(Index);
+
+                	}
+                	else{
+                		//System.out.println(db + " " + record1+" "+security+" "+code1+" "+code2+" "+code3);
+                	}//2016年バージョン
+
 
             	//ここまで成行注文を抽出するプログラム
 
