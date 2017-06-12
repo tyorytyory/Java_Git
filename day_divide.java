@@ -14,8 +14,8 @@ public class day_divide{
 
 
     	String data_day_before = "";
-    	int data_number = 0;
-    	String data_insert[] = new String [1000000];
+    	int data_number = 0;//data_insertの配列にナンバリングする変数
+    	String data_insert[] = new String [1000000];//書き込みをする際に使用する変数
 
 
         BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
@@ -53,11 +53,11 @@ public class day_divide{
 
             		String[] filename = txtFileName.split("\\.");
             		filename = txtFileName.split("_");
-             		//File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//JNIc用
-             		File file = new File(data_day_before + "_" + filename[0] + "_JNc.csv");
+             		//File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//HDTCDT用
+             		File file = new File(data_day_before + "_" + filename[0] + "_JNIc.csv");//JNIc用
                   	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011day/" + file)));
 
-                  	for(int i = 0;i<data_number;i++){
+                  	for(int i = 0;i<data_number;i++){//書き込み
                   		pw.println(data_insert[i]);
                   	}
                     pw.close();
@@ -74,11 +74,11 @@ public class day_divide{
 
             String[] filename = txtFileName.split("\\.");
     		filename = txtFileName.split("_");
-     		//File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");
-     		File file = new File(data_day_before + "_" + filename[0] + "_JNc.csv");//JNIc用
+     		//File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//HTICDT用
+     		File file = new File(data_day_before + "_" + filename[0] + "_JNIc.csv");//JNIc用
           	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011day/" + file)));
 
-          	for(int i = 0;i<data_number;i++){
+          	for(int i = 0;i<data_number;i++){//書き込み
           		pw.println(data_insert[i]);
           	}
             pw.close();

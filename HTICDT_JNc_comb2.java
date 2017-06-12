@@ -136,9 +136,9 @@ public class HTICDT_JNc_comb2{
             	String[] filename = txtFileName.split("_");
          		File file = new File(filename[0] +	"_quote_comb.csv");//結合データ
               	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-              	File file1 = new File(filename[0] +	"_delete.csv");//削除したデータ
+              	File file1 = new File(filename[0] +	"_JNIc_delete.csv");//JNIcで削除したデータ
               	PrintWriter pw1 = new PrintWriter(new BufferedWriter(new FileWriter(file1)));
-              	File file2 = new File(filename[0] +	"_delete2.csv");//削除したデータ
+              	File file2 = new File(filename[0] +	"_HTICDT_delete2.csv");//HTICDTで削除したデータ
               	PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
 
 
@@ -204,7 +204,7 @@ public class HTICDT_JNc_comb2{
               			while(!(HTICDT_data[number_HTICDT + JNIc_delete].equals(JNIc_data[number_JNIc]))){//データの捜索・削除(JNIcバージョン)
 
               				//System.out.println(JNIc_line[number_JNIc]);
-              				if(JNIc_data[number_JNIc] == null){
+              				if(JNIc_data[number_JNIc] == null){//JNIcがnullのためwhile文から抜ける。
                   				break;
               				}
 
@@ -256,7 +256,7 @@ public class HTICDT_JNc_comb2{
 
 
 
-              			if(JNIc_data[number_JNIc] == null){
+              			if(JNIc_data[number_JNIc] == null){//JNIcが空になったとき
               				while(HTICDT_data[number_HTICDT] != null){
                   				pw2.println(HTICDT_line[number_HTICDT]);//削除したデータの書き込み(JNIc)
                   				System.out.println(HTICDT_line[number_HTICDT]);
