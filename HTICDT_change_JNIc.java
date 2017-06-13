@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 //日経NEEDSデータ(HTICDT)をロイター通信社(JNIc)のデータフォーマットに変換するプログラム
 //寄り付きから引けまでの取引を抽出　昼休みの有無は関係なく、9時から取引終了まですべてのデータを抽出している。
-import java.io.PrintWriter;
 
 public class HTICDT_change_JNIc{
 
@@ -64,7 +65,7 @@ public class HTICDT_change_JNIc{
         			HTICDT_before_day = HTICDT_day;
         			if(HTICDT_time_hour.equals("12")){
         				pw.println("HTICDT,NIKKEI," + HTICDT_day + "," + HTICDT_time_hour  + ":" + HTICDT_time_minute + ":" + HTICDT_time_second
-        						+ ".000000,Trade," + line.substring(42,47) + "," + Integer.parseInt(line.substring(56,66)) + ",,,,,,");
+        						+ ".000000,Trade," + Integer.parseInt(line.substring(42,47)) + "," + Integer.parseInt(line.substring(56,66)) + ",,,,,,");
         			}
         		}
             	else if(!(HTICDT_before_day.equals(HTICDT_day)) && !(HTICDT_before_day.equals(""))){
@@ -85,7 +86,7 @@ public class HTICDT_change_JNIc{
             			HTICDT_quotes_information = "HTICDT,NIKKEI," + HTICDT_day + "," + HTICDT_time_hour  + ":" + HTICDT_time_minute + ":" + HTICDT_time_second
         						+ ".000000,Quote,,,," + Integer.parseInt(line.substring(42,47)) + "," + Integer.parseInt(line.substring(56,66)) + "," + HTICDT_sell_information;
 
-            			HTICDT_price_volume_info = line.substring(42,47) + "," + Integer.parseInt(line.substring(56,66)) + "," + HTICDT_sell_information;
+            			HTICDT_price_volume_info = Integer.parseInt(line.substring(42,47)) + "," + Integer.parseInt(line.substring(56,66)) + "," + HTICDT_sell_information;
 
 
 
