@@ -55,7 +55,7 @@ public class day_divide{
             		filename = txtFileName.split("_");
              		File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//HDTCDT用
              		//File file = new File(data_day_before  + "_" + filename[0] + ".csv");//JNIc用
-                  	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011day/" + file)));
+                  	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2017day/" + file)));
 
                   	for(int i = 0;i<data_number;i++){//書き込み
                   		pw.println(data_insert[i]);
@@ -76,7 +76,7 @@ public class day_divide{
     		filename = txtFileName.split("_");
      		File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//HTICDT用
      		//File file = new File(data_day_before + "_" + filename[0] + ".csv");//JNIc用
-          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011day/" + file)));
+          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2017day/" + file)));
 
           	for(int i = 0;i<data_number;i++){//書き込み
           		pw.println(data_insert[i]);
@@ -84,6 +84,7 @@ public class day_divide{
 
           	Arrays.fill(data_insert, null);//初期化
           	data_day_before = "";//初期化
+          	data_number = 0;//初期化
 
             pw.close();
 

@@ -43,7 +43,7 @@ public class HTICDT_JNc_comb2{
 
         while((txtFileName = br.readLine()) != null) {
 
-        	FileReader fr = new FileReader("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011day/" + txtFileName);
+        	FileReader fr = new FileReader(txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
@@ -117,6 +117,8 @@ public class HTICDT_JNc_comb2{
 
             		String[] HTICDT_split = line.split(",", 0);
 
+            		//System.out.println(line);
+
             		if(HTICDT_split[4].equals("Trade")){//約定
             			HTICDT_data[number_HTICDT] = HTICDT_split[4] + HTICDT_split[5] + HTICDT_split[6];
             		}
@@ -132,12 +134,12 @@ public class HTICDT_JNc_comb2{
 
 
             if(0 == count%2){//データの書き込み
-            	String[] filename = txtFileName.split("_");
-         		File file = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011comb2/" + filename[0] +	"_quote_comb.csv");//結合データ
+            	String[] filename = txtFileName.split("/");
+         		File file = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/" +  filename[8].substring(0,4) +	"comb2/" + filename[8].substring(0,8) + "_quote_comb.csv");//結合データ
               	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-              	File file1 = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011comb2/" +filename[0] +	"_JNIc_delete.csv");//JNIcで削除したデータ
+              	File file1 = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/" +  filename[8].substring(0,4) + "comb2/" + filename[8].substring(0,8) + "_JNIc_delete.csv");//JNIcで削除したデータ
               	PrintWriter pw1 = new PrintWriter(new BufferedWriter(new FileWriter(file1)));
-              	File file2 = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011comb2/" +filename[0] +	"_HTICDT_delete.csv");//HTICDTで削除したデータ
+              	File file2 = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/" +  filename[8].substring(0,4) + "comb2/" + filename[8].substring(0,8) + "_HTICDT_delete.csv");//HTICDTで削除したデータ
               	PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
 
 

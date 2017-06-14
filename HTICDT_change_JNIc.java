@@ -31,7 +31,7 @@ public class HTICDT_change_JNIc{
     	boolean open_session = false;//true→ザラバ、false→not ザラバ
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist4.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -40,7 +40,7 @@ public class HTICDT_change_JNIc{
 
 
 
-        	FileReader fr = new FileReader("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2011/" + txtFileName);
+        	FileReader fr = new FileReader("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2017/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
