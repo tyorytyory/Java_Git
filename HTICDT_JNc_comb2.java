@@ -71,6 +71,7 @@ public class HTICDT_JNc_comb2{
 
             		if(open_session == false && JNIc_split.length == 13 && (JNIc_split[12].equals("Open|High|Low[USER]") || JNIc_split[12].equals("Open|High|Low|Open 1st[USER]")
             				|| JNIc_split[12].equals("\" [TRADE_TONE]\"") || JNIc_split[12].equals("\" [TRADE_TONE];High[USER]\"") || JNIc_split[12].equals("\" [TRADE_TONE];Low[USER]\"")
+            				|| JNIc_split[12].equals("\"   [PRC_QL_CD]; [TRADE_TONE]\"")
             				//|| JNIc_split[12].equals("\"   [PRC_QL_CD]\"")
             				)){//寄り付き
             			if(JNIc_split[12].equals("\"   [PRC_QL_CD]\"")){
@@ -233,6 +234,7 @@ public class HTICDT_JNc_comb2{
                   				break;
               				}
 
+
               				String[] JNIc_split = JNIc_line[number_JNIc].split(",", 0);
               				String[] HTICDT_split = HTICDT_line[number_HTICDT + HTICDT_delete].split(",", 0);
 
@@ -245,7 +247,7 @@ public class HTICDT_JNc_comb2{
               				else if(HTICDT_data[number_HTICDT + HTICDT_delete + 1] == null){
               					for_delete_end = true;
               				}
-                 				 if(HTICDT_delete == 3000 || for_delete_end == true){//ここの数字のよって結果が異なる。探索する行の数
+                 				 if(HTICDT_delete == 1000 || for_delete_end == true){//ここの数字のよって結果が異なる。探索する行の数
                  					//System.out.println("yeah");
                  					//System.out.println(HTICDT_line[number_HTICDT + JNIc_delete]);
                  					for_delete_end = false;
@@ -253,6 +255,7 @@ public class HTICDT_JNc_comb2{
                  					JNIc_split = JNIc_line[number_JNIc].split(",", 0);
              						HTICDT_split = HTICDT_line[number_HTICDT].split(",", 0);
                  					if(JNIc_split[2].equals(HTICDT_split[2])){//日付が同じとき
+
                      					pw1.println(JNIc_line[number_JNIc]);//削除したデータの書き込み(JNIc)
                      					number_JNIc++;
                  					}

@@ -112,13 +112,13 @@ public class JNc_gcheck{
 
 
 
-            /*if(day >= day_contract){//限月処理　その２　JNc1のとき
+            if(day >= day_contract){//限月処理　その２　JNc1のとき
             	pw.println(Index);
-            }*/
-
-            if(day < day_contract){//限月処理　その１　JNc2のとき
-        	pw.println(Index);
             }
+
+            /*if(day < day_contract){//限月処理　その１　JNc2のとき
+        	pw.println(Index);
+            }*/
 
 
         }

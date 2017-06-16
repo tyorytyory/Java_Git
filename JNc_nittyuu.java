@@ -10,7 +10,7 @@ public class JNc_nittyuu{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist1.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -122,7 +122,7 @@ public class JNc_nittyuu{
             			//(k_all_time >= 32400 && k_all_time <= 56700)){//56700にする理由は15時15分以降の微妙のタイムラグも取得したいからである。
             		pw.println(Index);
             	}*/
-            	if(k_all_time >= 32400 && k_all_time <= 56700){//56700にする理由は15時15分以降の微妙のタイムラグも取得したいからである。
+            	if(k_all_time >= 31500 && k_all_time <= 56700){//56700にする理由は15時15分以降の微妙のタイムラグも取得したいからである。31500にする理由は2016年7月19日からザラバが変更になったため(8:45)
             		pw.println(Index);
             	}
 
