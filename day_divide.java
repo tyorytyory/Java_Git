@@ -18,7 +18,7 @@ public class day_divide{
     	String data_insert[] = new String [1000000];//書き込みをする際に使用する変数
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_JNIc.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("../data/filelist4.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -28,7 +28,7 @@ public class day_divide{
 
 
 
-        	FileReader fr = new FileReader(txtFileName);
+        	FileReader fr = new FileReader("../data/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
@@ -55,7 +55,7 @@ public class day_divide{
             		filename = txtFileName.split("_");
              		//File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//HDTCDT用
              		File file = new File(data_day_before  + "_" + filename[0] + ".csv");//JNIc用
-                  	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2016day/" + file)));
+                  	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("../data/" + file)));
 
                   	for(int i = 0;i<data_number;i++){//書き込み
                   		pw.println(data_insert[i]);
@@ -76,7 +76,7 @@ public class day_divide{
     		filename = txtFileName.split("_");
      		//File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//HTICDT用
      		File file = new File(data_day_before + "_" + filename[0] + ".csv");//JNIc用
-          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2017day/" + file)));
+          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("../data/" + file)));
 
           	for(int i = 0;i<data_number;i++){//書き込み
           		pw.println(data_insert[i]);
