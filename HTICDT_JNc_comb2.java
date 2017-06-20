@@ -17,6 +17,7 @@ public class HTICDT_JNc_comb2{
 
 
     	int number_JNIc = 0;
+    	int number_JNIc_end = 0;
     	int number_HTICDT = 0;
 
     	int count = 1;
@@ -39,12 +40,12 @@ public class HTICDT_JNc_comb2{
     	boolean open_session = false;//HTICDTで寄付きが起きたかどうか示す変数
 
         BufferedReader br = new BufferedReader(new FileReader("../data/" +
-        		"filelist_comb2.txt"));//読み取りたいファイル名の記入
+        		"filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
 
-        	FileReader fr = new FileReader("../data/2016day/" +
+        	FileReader fr = new FileReader("../data/day_data/" +
         			txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
@@ -65,11 +66,15 @@ public class HTICDT_JNc_comb2{
         							number_JNIc = number_JNIc - i + 1;
         							break;
         						}
+        						else{
+        							JNIc_data[number_JNIc - i] = null;
+        						}
         					}
         				//}while((JNIc_data[number_JNIc].substring(0,5)).equals("Trade"));
 
 
             		}
+            		System.out.println(line);
 
             		if(open_session == false && JNIc_split.length == 13 && (JNIc_split[12].equals("Open|High|Low[USER]") || JNIc_split[12].equals("Open|High|Low|Open 1st[USER]")
             				|| JNIc_split[12].equals("\" [TRADE_TONE]\"") || JNIc_split[12].equals("\" [TRADE_TONE];High[USER]\"") || JNIc_split[12].equals("\" [TRADE_TONE];Low[USER]\"")
@@ -83,7 +88,7 @@ public class HTICDT_JNc_comb2{
 
             		}
             		else if(open_session == false && (JNIc_split[2].equals("20071016")
-            				|| (JNIc_split[2].equals("20160714") && JNIc_split[12].equals("Low[USER]")))){//2007年10月16日だけJNIcのデータがちょん切れてる
+            				|| (JNIc_split[2].equals("20160714") && JNIc_split[4].equals("Trade") && JNIc_split[12].equals("Low[USER]")))){//2007年10月16日だけJNIcのデータがちょん切れてる
             			open_session = true;
             			JNIc_before_day = JNIc_split[2];
             		}
@@ -96,6 +101,9 @@ public class HTICDT_JNc_comb2{
             						if((JNIc_data[number_JNIc - i].substring(0,5)).equals("Trade")){
             							number_JNIc = number_JNIc - i + 1;
             							break;
+            						}
+            						else{
+            							JNIc_data[number_JNIc - i] = null;
             						}
             					}
             				//}while((JNIc_data[number_JNIc].substring(0,5)).equals("Trade"));//引けからその前の約定の間のQuoteは削除
@@ -144,11 +152,11 @@ public class HTICDT_JNc_comb2{
 
 
 				String[] filename = txtFileName.split("_");
-         		File file = new File("../data/2016comb2/"  + filename[0]+ "_quote_comb.csv");//結合データ
+         		File file = new File("../data/day_data/2011_2016_comb2/"  + "quote_comb_" + filename[0].substring(8,16)+ ".csv");//結合データ
               	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-              	File file1 = new File("../data/2016comb2/" + filename[0]+  "_JNIc_delete.csv");//JNIcで削除したデータ
+              	File file1 = new File("../data/day_data/2011_2016_comb2/" + "JNIc_delete_" + filename[0].substring(8,16)+  ".csv");//JNIcで削除したデータ
               	PrintWriter pw1 = new PrintWriter(new BufferedWriter(new FileWriter(file1)));
-              	File file2 = new File("../data/2016comb2/" + filename[0]+  "_HTICDT_delete.csv");//HTICDTで削除したデータ
+              	File file2 = new File("../data/day_data/2011_2016_comb2/" + "HTICDT_delete" + filename[0].substring(8,16)+  ".csv");//HTICDTで削除したデータ
               	PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
 
             	/*String[] filename = txtFileName.split("/");
@@ -165,8 +173,12 @@ public class HTICDT_JNc_comb2{
               	boolean for_delete_end;
               	for_delete_end = false;
 
+              	number_JNIc_end = number_JNIc;
+
                 number_JNIc = 0;//初期化
               	number_HTICDT = 0;//初期化
+
+
 
               	int JNIc_delete = 0;//JNIcのデータの削除を行うための変数
               	int HTICDT_delete = 0;//HTICDTのデータの削除を行うための変数
@@ -328,6 +340,7 @@ public class HTICDT_JNc_comb2{
                 pw2.close();
                 number_HTICDT = 0;//初期化
                 number_JNIc = 0;//初期化
+                number_JNIc_end = 0;//初期化
                 for_delete_end = false;//初期化
                 open_session = false;//初期化
                 Arrays.fill(JNIc_data, null);//初期化
