@@ -13,7 +13,7 @@ public class dekidaka{
 
     	String Index = null;
 
-    	BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+    	BufferedReader br = new BufferedReader(new FileReader("../data/filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -77,13 +77,13 @@ public class dekidaka{
         	String time_before2 = null;
 
 
-            FileReader fr = new FileReader(txtFileName);
+            FileReader fr = new FileReader("../data/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
             String[] filename = txtFileName.split("\\.");
 
-         	File file = new File(filename[0] + "_oyaorder_micro.txt");//時間差に0を含むときは0を記入
+         	File file = new File("../data/" + filename[0] + "_oyaorder_micro.txt");//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
