@@ -10,7 +10,7 @@ public class time_lag{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("../data/filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -38,13 +38,13 @@ public class time_lag{
         	double average = 0;
 
 
-        	FileReader fr = new FileReader(txtFileName);
+        	FileReader fr = new FileReader("../data/" + txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
             String[] filename = txtFileName.split("\\.");
 
-         	File file = new File(filename[0] +	"_var.txt");
+         	File file = new File("../data/" + filename[0] +	"_var.txt");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
             while ((line = brtxt.readLine()) != null) {
