@@ -74,7 +74,7 @@ public class HTICDT_JNc_comb2{
 
 
             		}
-            		System.out.println(line);
+            		//System.out.println(line);
 
             		if(open_session == false && JNIc_split.length == 13 && (JNIc_split[12].equals("Open|High|Low[USER]") || JNIc_split[12].equals("Open|High|Low|Open 1st[USER]")
             				|| JNIc_split[12].equals("\" [TRADE_TONE]\"") || JNIc_split[12].equals("\" [TRADE_TONE];High[USER]\"") || JNIc_split[12].equals("\" [TRADE_TONE];Low[USER]\"")
@@ -97,13 +97,13 @@ public class HTICDT_JNc_comb2{
             				open_session = false;
             				//System.out.println(line);
             				//do{
-            					for(int i = 1;i<=10000;i++){//最終約定のまえの取引の削除
+            					for(int i = 1;i<=10000;i++){//最終約定のまえの取引(Quoteなど)の削除
             						if((JNIc_data[number_JNIc - i].substring(0,5)).equals("Trade")){
             							number_JNIc = number_JNIc - i + 1;
             							break;
             						}
             						else{
-            							JNIc_data[number_JNIc - i] = null;
+            							JNIc_data[number_JNIc - i] = null;//
             						}
             					}
             				//}while((JNIc_data[number_JNIc].substring(0,5)).equals("Trade"));//引けからその前の約定の間のQuoteは削除
@@ -152,11 +152,11 @@ public class HTICDT_JNc_comb2{
 
 
 				String[] filename = txtFileName.split("_");
-         		File file = new File("../data/day_data/2011_2016_comb2/"  + "quote_comb_" + filename[0].substring(8,16)+ ".csv");//結合データ
+         		File file = new File("../data/day_data/new2016/"  + "quote_comb_" + filename[0].substring(8,16)+ ".csv");//結合データ
               	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-              	File file1 = new File("../data/day_data/2011_2016_comb2/" + "JNIc_delete_" + filename[0].substring(8,16)+  ".csv");//JNIcで削除したデータ
+              	File file1 = new File("../data/day_data/new2016/" + "JNIc_delete_" + filename[0].substring(8,16)+  ".csv");//JNIcで削除したデータ
               	PrintWriter pw1 = new PrintWriter(new BufferedWriter(new FileWriter(file1)));
-              	File file2 = new File("../data/day_data/2011_2016_comb2/" + "HTICDT_delete" + filename[0].substring(8,16)+  ".csv");//HTICDTで削除したデータ
+              	File file2 = new File("../data/day_data/new2016/" + "HTICDT_delete" + filename[0].substring(8,16)+  ".csv");//HTICDTで削除したデータ
               	PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
 
             	/*String[] filename = txtFileName.split("/");
@@ -275,7 +275,7 @@ public class HTICDT_JNc_comb2{
               				else if(HTICDT_data[number_HTICDT + HTICDT_delete + 1] == null){
               					for_delete_end = true;
               				}
-                 				 if(HTICDT_delete == 2000 || for_delete_end == true){//ここの数字のよって結果が異なる。探索する行の数
+                 				 if(HTICDT_delete == 1000 || for_delete_end == true){//ここの数字のよって結果が異なる。探索する行の数
                  					//System.out.println("yeah");
                  					//System.out.println(HTICDT_line[number_HTICDT + JNIc_delete]);
                  					for_delete_end = false;
