@@ -101,14 +101,23 @@ public class time_lag{
             	k_all_time = hour2*60*60 + minute2*60 + second2;
 
 
-            	sum_difference += k_all_time - n_all_time;//時間差を加算
 
-            	difference =  k_all_time - n_all_time;
 
-            	pw.println(day + " " + time + " " +difference);
+            	//if(k_all_time > 31500 && k_all_time < 54000){//8:45-15:00の時間差を出力
 
-            	number++;
-            	count++;
+            		sum_difference += k_all_time - n_all_time;//時間差を加算
+
+                	difference =  k_all_time - n_all_time;
+
+
+                	pw.println(day + " " + time + " " +difference);
+                	number++;
+                	count++;
+            	//}
+
+
+
+
 
 
 

@@ -13,7 +13,7 @@ public class dekidaka{
 
     	String Index = null;
 
-    	BufferedReader br = new BufferedReader(new FileReader("../data/filelist.txt"));//読み取りたいファイル名の記入
+    	BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -77,13 +77,13 @@ public class dekidaka{
         	String time_before2 = null;
 
 
-            FileReader fr = new FileReader("../data/" + txtFileName);
+            FileReader fr = new FileReader(txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
             String[] filename = txtFileName.split("\\.");
 
-         	File file = new File("../data/" + filename[0] + "_oyaorder_micro.txt");//時間差に0を含むときは0を記入
+         	File file = new File(filename[0] + "_oyaorder_milli.txt");//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
@@ -132,9 +132,10 @@ public class dekidaka{
                     	String d1 = Index.substring(21,23);//2016年取得ロイター通信社データ　ここから
                     	String d2 = Index.substring(24,26);
                     	String d3 = Index.substring(27,29);
-                    	String d4 = Index.substring(30,36);
-                    	time = Index.substring(21,36);//マイクロ秒
-                    	//String d4 = Index.substring(30,33);//ミリ秒
+                    	time = Index.substring(21,36);
+                    	//String d4 = Index.substring(30,36);//マイクロ秒
+                    	String d4 = Index.substring(30,33);//ミリ秒
+
 
 
 
@@ -146,11 +147,11 @@ public class dekidaka{
                     	time4 = Double.parseDouble(d4);
 
 
-                    	time_total =time1*3600 + time2*60 + time3 + time4/1000000;//マイクロ秒
-                    	//time_total =time1*3600 + time2*60 + time3 + time4/1000;//ミリ秒
+                    	//time_total =time1*3600 + time2*60 + time3 + time4/1000000;//マイクロ秒
+                    	time_total =time1*3600 + time2*60 + time3 + time4/1000;//ミリ秒
 
                     	BigDecimal x1 = new BigDecimal(time_total);
-                    	time_total = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();//ミリ秒(3)かマイクロ秒(6)どちらかで変更
+                    	time_total = x1.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();//ミリ秒(3)かマイクロ秒(6)どちらかで変更
 
 
                     	//System.out.println(x1);
@@ -280,7 +281,7 @@ public class dekidaka{
 
 
                     		BigDecimal x2 = new BigDecimal(time_dif);//日経平均先物　普通バージョン
-                    		time_dif = x2.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();//2016年取得ロイター通信社」
+                    		time_dif = x2.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();//2016年取得ロイター通信社」
                     		//ミリ秒(3)かマイクロ秒(6)どちらかで変更
 
 
