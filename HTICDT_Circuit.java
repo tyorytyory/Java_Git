@@ -7,7 +7,7 @@ public class HTICDT_Circuit{
     public static void main(String[] args) throws IOException{
 
 
-        BufferedReader br = new BufferedReader(new FileReader("../data/filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -17,7 +17,7 @@ public class HTICDT_Circuit{
 
 
 
-        	FileReader fr = new FileReader("../data/2013/" + txtFileName);
+        	FileReader fr = new FileReader(txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 

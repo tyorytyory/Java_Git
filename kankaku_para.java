@@ -32,8 +32,8 @@ public class kankaku_para{
             String[] filename = txtFileName.split("\\.");
 
          	File file = new File(
-         			filename[0] + "_para.txt");
-         			//filename[0] +"_"+ filename[1] + "_" + filename[2] + "_" + filename[3] + "para_0.txt");
+         			//filename[0] + "_para.txt");
+         			filename[0] +"."+ filename[1] + "." + filename[2]  + "_para.txt");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
             while ((line = brtxt.readLine()) != null) {

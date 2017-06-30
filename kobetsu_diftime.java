@@ -84,7 +84,7 @@ public class kobetsu_diftime{
 
             String[] filename = txtFileName.split("\\_");
 
-         	File file = new File("dif0_" + filename[0] + "_" + filename[1] + "_" + filename[4]);//時間差に0を含むときは0を記入
+         	File file = new File("dif_" + filename[0] + "_" + filename[1] + "_" + filename[4]);//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
@@ -218,7 +218,7 @@ public class kobetsu_diftime{
             		time_dif = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
             		//time_dif = x1.setScale(3, BigDecimal.ROUND_DOWN).doubleValue();//ミリ秒
 
-            		if(time_dif >= 0){//時間差に0を含むか含まないか　これは非常に重要
+            		if(time_dif > 0){//時間差に0を含むか含まないか　これは非常に重要
             			pw.println(day + " " + time_dif);
             		}
                 	time_sum1 = time_sum;
