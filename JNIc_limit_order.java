@@ -11,7 +11,7 @@ public class JNIc_limit_order{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist1.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -85,13 +85,13 @@ public class JNIc_limit_order{
 
         	//FileReader fr = new FileReader("/Volumes/HASHIMOTO3/data/2016/約定・指値データ/昼間のデータ(900-1510)/月毎/" + txtFileName);//Macの場合
             //FileReader fr = new FileReader("/Volumes/HASHIMOTO3/data/2016/約定・指値データ/昼間のデータ(900-1510)/月毎(限月調整3,6,9,12)/結合データ/" + txtFileName);//Macの場合
-        	FileReader fr = new FileReader("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2006/" + txtFileName);//Windowsの場合
+        	FileReader fr = new FileReader(txtFileName);//Windowsの場合
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
             String[] filename = txtFileName.split("\\_");
 
-            File file = new File("C:/Users/Hashimoto/Documents/pleiades/workspace/Git/2006/" + filename[1].substring(0,6) + "_limit_order.csv");//Windows
+            File file = new File(filename[1].substring(0,6) + "_limit_order.csv");//Windows
          	//File file = new File("/Volumes/HASHIMOTO3/data/2016/指値データ/ロイター通信社指値注文/月毎(900-1510)/JNIc_" + filename[1].substring(0,6) + "_limit_order.csv");//Mac
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
@@ -139,8 +139,30 @@ public class JNIc_limit_order{
                 		count13 = 0;//初期化
                 	}
 
+                	String JNIc_split[] = line.split(",", 0);
 
-                    for(i1=0;i1<i2;i1++){//文字の抽出
+                	if(JNIc_split[4].equals("Trade")){
+                		trade_price = JNIc_split[5];//Tradeの約定価格
+                    	trade_price1 =Integer.parseInt(trade_price);
+                    	trade_volume = JNIc_split[6];//Tradeの出来高
+                    	trade_volume1 =Integer.parseInt(trade_volume);
+                	}
+                	else if(JNIc_split[4].equals("Quote")){
+                		bid = JNIc_split[8];//最良買気配の値段
+                		if(!(bid.equals(""))){//JNIcにはこのデータがnullのものがある。
+                        	bid1[number1] = Integer.parseInt(bid);
+                		}
+                    	bid_volume = JNIc_split[9];//最良売気配の累積枚数
+                    	bid_volume1 =Integer.parseInt(bid_volume);
+                    	ask = JNIc_split[10];//最良売気配の値段
+                    	if(!(ask.equals(""))){//JNIcにはこのデータがnullのものがある。
+                    		ask1[number1] = Integer.parseInt(ask);
+                    	}
+                        ask_volume = JNIc_split[11];//最良売気配の累積枚数
+                    	ask_volume1 =Integer.parseInt(ask_volume);
+                	}
+
+                    /*for(i1=0;i1<i2;i1++){//文字の抽出
                         a = Index.substring(i1,i1+1);
                         if(count == 5 && !(a.equals(",")) && count1 == 0){
 
@@ -174,12 +196,9 @@ public class JNIc_limit_order{
                             count6++;
                             i4 = i1-1;
                             bid=Index.substring(i3,i4);//最良買気配の値段
-                            /*if(bid.equals(",")){
-                                bid1[number1] = 0;
-                            }
-                            else{*/
+
                                 bid1[number1] = Integer.parseInt(bid);
-                            //}
+
                         }
                         if(count == 9 && !(a.equals(",")) && count7 == 0){
                         	count7++;
@@ -218,7 +237,7 @@ public class JNIc_limit_order{
                         if(a.equals(",")){
                             count++;
                         }
-                    }
+                    }*/
                     if(bid1[1]>ask1[1] && bid1[1] != 0 && ask1[1] != 0){//意味の分からないことが起きていないか確認(買値＞売値)
 
                     	System.out.println(day + " " + time + " " + bid1[1] + " " + ask1[1]);
