@@ -1,4 +1,4 @@
-//JNIcから抽出したG:\data\2016_2017\約定データ\2016年入手マイクロデータ\出来高\マイクロ間隔にある「data_oyaoyaprder」からmathematicaでパラメータ推定する際に必要なデータを抽出する。
+//JNIcから抽出したG:\data\2016_2017\約定データ\2016年入手マイクロデータ\出来高\マイクロ間隔にある「data_oyaoorder」からmathematicaでパラメータ推定する際に必要なデータを抽出する。
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

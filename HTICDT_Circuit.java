@@ -32,6 +32,7 @@ public class HTICDT_Circuit{
             	System_print1.Circuit(line);
             	//System_print1.Print(line);
 
+
             }
 
 
@@ -58,4 +59,5 @@ class System_print//class
 	{
     	System.out.println(a);
 	}
+
 }
