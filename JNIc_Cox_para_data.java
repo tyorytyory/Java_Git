@@ -28,10 +28,10 @@ public class JNIc_Cox_para_data{
             BufferedReader brtxt = new BufferedReader(fr);
             String line = "";
 
-            String[] filename = txtFileName.split("_");
-    		File file = new File(filename[0] + "_" + filename[1] + "_oyaordercheck.csv");//同一注文の数を確認
+            String[] filename = txtFileName.split("\\.");
+    		File file = new File(filename[0]  + "_check.csv");//同一注文の数を確認
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-         	File file2 = new File(filename[0] + "_" + filename[1] + "_oyaordermath.csv");
+         	File file2 = new File(filename[0] + "_para.csv");
          	PrintWriter pw2 = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
 
             while ((line = brtxt.readLine()) != null) {
@@ -83,6 +83,10 @@ public class JNIc_Cox_para_data{
     		pw.println();
     		pw2.println();
 
+    		count_math_order = 1;//初期化
+    		Arrays.fill(order, 0);//初期化
+    		day_before = 0;//初期化
+
 
 
     		pw.close();
@@ -90,9 +94,7 @@ public class JNIc_Cox_para_data{
             brtxt.close();
             fr.close();
 
-            /*for(int i = 1;i<=30;i++){
-         	   System.out.println(order[i]);
-            }*/
+
 
 
 

@@ -43,7 +43,7 @@ public class Kolmo_cat{
         	else if(Index.length()>30){
         		Kolmo_natural = "-1";
         	}
-        	if(filename[0].equals("2008")){//サーキットブレイカー等が原因で取引がとまったところ
+        	/*if(filename[0].equals("2008")){//サーキットブレイカー等が原因で取引がとまったところ
         		if((filename[1].equals("01") && number == 192)
         				|| (filename[1].equals("02") && (number ==192 || number == 193 || number == 195))){
         			Kolmo_natural = "-1";
@@ -76,7 +76,7 @@ public class Kolmo_cat{
         		if((filename[1].equals("01") && number == 132)){
         							Kolmo_natural = "-1";
         		}
-        	}
+        	}*/
 
     		Kolmo[Integer.parseInt(filename[1])][number] = Kolmo_natural;
     		number++;
@@ -89,7 +89,8 @@ public class Kolmo_cat{
 
         if(Integer.parseInt(filename[1]) % 24 == 0){
 
-			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  + ".txt");
+			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3]// + "_" + filename[4]  +".txt"
+					);
 	     	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 	     	for(int i = 1;i<=271;i++){
