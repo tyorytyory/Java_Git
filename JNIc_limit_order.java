@@ -272,11 +272,17 @@ public class JNIc_limit_order{
                     		else if(bid_price_before >= bid1[1] && ask_price_before == ask1[1] && bid_price_same == 0 && ask_price_same == 1){
                     			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only bid not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
                     		}
-                    		else if(bid_price_before <= bid1[1] && ask_price_before <= ask1[1] && bid_price_same == 0 && ask_price_same == 0){
+                    		else if(bid_price_before <= bid1[1] && ask_price_before <= ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] == 10){//板の上昇（取り消しが移動の一因となる移動）
                     			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
                     		}
-                    		else if(bid_price_before >= bid1[1] && ask_price_before >= ask1[1] && bid_price_same == 0 && ask_price_same == 0){
+                    		else if(bid_price_before <= bid1[1] && ask_price_before <= ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] != 10){//板の上昇（取り消しが移動の一因となる移動）。ただし価格差が20円以上
+                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up not Trade not 10," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		}
+                    		else if(bid_price_before >= bid1[1] && ask_price_before >= ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] == 10){//板の下落（取り消しが移動の一因となる移動）
                     			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		}
+                    		else if(bid_price_before >= bid1[1] && ask_price_before >= ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] != 10){//板の下落（取り消しが移動の一因となる移動）。ただし価格差が20円以上
+                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down not Trade not 10," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
                     		}
                     		else{
                     			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",move," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
