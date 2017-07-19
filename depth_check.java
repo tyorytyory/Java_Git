@@ -9,23 +9,53 @@ public class depth_check{
         BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
-        int up_count = 0;
-        int up_only_bid_count = 0;
-        int up_only_ask_count = 0;
-        int up_price_same_count = 0;
-        int up_not10_count = 0;
-        int up_else_count = 0;
+        int up_count = 0;//板がともに上昇したもの（価格差が10円）
+        int up_only_bid_count = 0;//買板のみ上に移動した数を数える
+        int up_only_ask_count = 0;//売板のみ上に移動した数を数える
+        int up_price_same_count = 0;//板がともに上昇したものの価格が変わらなかったもの（約定の後だけ）を数える
+        int up_not10_count = 0;//板がともに上昇した（価格差は20円以上）を数える
+        int up_else_count = 0;//その他の上昇を数える
 
-        int down_count = 0;
-        int down_only_bid_count = 0;
-        int down_only_ask_count = 0;
-        int down_price_same_count = 0;
-        int down_not10_count = 0;
-        int down_else_count = 0;
+        int down_count = 0;//板がともに下降したもの（価格差が10円）を数える
+        int down_only_bid_count = 0;//買板のみ下に移動した数を数える
+        int down_only_ask_count = 0;//売板のみ下に移動した数を数える
+        int down_price_same_count = 0;//板がともに下降したものの価格が変わらなかったもの（約定の後だけ）を数える
+        int down_not10_count = 0;//板がともに下降した（価格差は20円以上）を数える
+        int down_else_count = 0;//その他の下降を数える
 
-        int move_count = 0;
+        int up_only_ask = 0;//売板のみ上昇したことを示す変数（移動した→１、移動しなかった→０）
+        int down_only_bid = 0;//買板のみ下降したことを示す変数（移動した→１、移動しなかった→０）
+
+        int ask_up_bid_up_count = 0;//売板のみ上昇して、その後、買板のみ上昇したものを数える変数
+        int ask_up_ask_down_count = 0;//売板のみ上昇して、その後、売板のみ下降したものを数える変数
+        int ask_up_else_count = 0;//売板のみ上昇して、その後、上記に該当しない動きをしたものを数える変数
+
+        int bid_down_ask_down_count = 0;//買板のみ下降して、その後、売板のみ下降したものを数える変数
+        int bid_down_bid_up_count = 0;//買板のみ下降して、その後、買板のみ上昇したものを数える変数
+        int bid_down_else_count = 0;
 
 
+        int move_count = 0;//その他、わけのわからない移動をしたものを数える変数
+
+        double hour = 0;//時間
+        double minute = 0;//分
+        double second = 0;//秒
+        double time_total = 0;//時間を秒換算
+
+        double only_ask_up_time = 0;//売板だけ上昇したときの時間
+        double only_bid_down_time = 0;//買板だけ下降したときの時間
+
+        double ask_up_bid_up_time_sum = 0;
+        double ask_up_ask_down_time_sum = 0;
+        double ask_up_else_time_sum = 0;
+        double bid_down_ask_down_time_sum = 0;
+        double bid_down_bid_up_time_sum = 0;
+        double bid_down_else_time_sum = 0;
+
+
+
+
+        String day = "";
 
         while((txtFileName = br.readLine()) != null) {
 
@@ -51,6 +81,54 @@ public class depth_check{
 
             	String JNIc_split[] = line.split(",", 0);
 
+            	hour = Double.parseDouble(JNIc_split[1].substring(0, 2));
+            	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));
+            	second = Double.parseDouble(JNIc_split[1].substring(6));
+            	time_total = hour*3600 + minute*60 + second;
+
+
+            	if(day == ""){
+            		day = JNIc_split[0];
+            	}
+            	else if(!(day.equals(JNIc_split[0]))){
+            		day = JNIc_split[0];
+            		up_only_ask = 0;
+            		down_only_bid = 0;
+            	}
+
+            	if(up_only_ask == 1){
+            		if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
+            			ask_up_ask_down_count++;
+            			ask_up_ask_down_time_sum += time_total - only_ask_up_time;
+
+            		}
+            		else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
+            			ask_up_bid_up_count++;
+            			ask_up_bid_up_time_sum += time_total - only_ask_up_time;
+            		}
+            		else{
+            			ask_up_else_count++;
+            			ask_up_else_time_sum += time_total - only_ask_up_time;
+            			System.out.println(Index);
+            		}
+            		up_only_ask = 0;
+            	}
+            	if(down_only_bid == 1){
+            		if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
+            			bid_down_ask_down_count++;
+            			bid_down_ask_down_time_sum += time_total - only_bid_down_time;
+            		}
+            		else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
+            			bid_down_bid_up_count++;
+            			bid_down_bid_up_time_sum += time_total - only_bid_down_time;
+            		}
+            		else{
+            			bid_down_else_count++;
+            			bid_down_else_time_sum += time_total - only_bid_down_time;
+            		}
+            		down_only_bid = 0;
+            	}
+
             	if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){
             		down_count++;
             	}
@@ -62,6 +140,8 @@ public class depth_check{
             	}
             	else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){
             		down_only_bid_count++;
+            		down_only_bid = 1;
+            		only_bid_down_time = time_total;
             	}
             	else if(JNIc_split[2].equals("down price same")){
             		down_price_same_count++;
@@ -77,6 +157,8 @@ public class depth_check{
             	}
             	else if(JNIc_split[2].equals("up only ask") || JNIc_split[2].equals("up only ask not Trade")){
             		up_only_ask_count++;
+            		up_only_ask = 1;
+            		only_ask_up_time = time_total;
             	}
             	else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
             		up_only_bid_count++;
@@ -99,6 +181,8 @@ public class depth_check{
 
 
 
+
+
             System.out.println(txtFileName);
             System.out.println("up," + up_count);
             System.out.println("up only bid," + up_only_bid_count);
@@ -113,6 +197,21 @@ public class depth_check{
             System.out.println("down price not 10," + down_not10_count);
             System.out.println("down else," + down_else_count);
             System.out.println("move," + move_count);
+            System.out.println("ask up bid up," + ask_up_bid_up_count);
+            System.out.println("ask up ask down," + ask_up_ask_down_count);
+            System.out.println("ask up else," + ask_up_else_count);
+            System.out.println("bid down bid up," + bid_down_bid_up_count);
+            System.out.println("bid down ask down," + bid_down_ask_down_count);
+            System.out.println("bid down else," + bid_down_else_count);
+
+            System.out.println("ask_up_bid_up_time_sum," + ask_up_bid_up_time_sum);
+            System.out.println("ask_up_ask_down_time_sum," + ask_up_ask_down_time_sum);
+            System.out.println("ask_up_else_time_sum," + ask_up_else_time_sum);
+
+            System.out.println("bid_down_ask_down_time_sum," + bid_down_ask_down_time_sum);
+            System.out.println("bid_down_bid_up_time_sum," + bid_down_bid_up_time_sum);
+            System.out.println("bid_down_else_time_sum," + bid_down_else_time_sum);
+
 
 
 
@@ -131,6 +230,22 @@ public class depth_check{
             down_else_count = 0;
 
             move_count = 0;
+
+            ask_up_bid_up_count = 0;
+            ask_up_ask_down_count = 0;
+            ask_up_else_count = 0;
+            bid_down_bid_up_count = 0;
+            bid_down_ask_down_count = 0;
+            bid_down_else_count = 0;
+            down_only_bid = 0;
+            up_only_ask = 0;
+
+            ask_up_bid_up_time_sum = 0;
+            ask_up_ask_down_time_sum = 0;
+            ask_up_else_time_sum = 0;
+            bid_down_ask_down_time_sum = 0;
+            bid_down_bid_up_time_sum = 0;
+            bid_down_else_time_sum = 0;
 
 
 
