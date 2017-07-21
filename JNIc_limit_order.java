@@ -190,6 +190,7 @@ public class JNIc_limit_order{
                     if(bid1[1]>ask1[1] && bid1[1] != 0 && ask1[1] != 0){//意味の分からないことが起きていないか確認(買値＞売値)
 
                     	System.out.println(day + " " + time + " " + bid1[1] + " " + ask1[1]);
+
                     }
                     if(transaction.equals("Trade")){
                     	trade_time = time_total1;
@@ -209,9 +210,29 @@ public class JNIc_limit_order{
                     		}
                     	}
 
-                    	if(bid1[1] != trade_price1 && ask1[1] != trade_price1 && bid1[1] != 0 && ask1[1] != 0){
-                    		//System.out.println(Index + "+++" + bid1[1] + "," + ask1[1]);
+                    	if(count13 != 0){
+                    		if(bid1[1] != trade_price1 && ask1[1] != trade_price1 && bid1[1] != 0 && ask1[1] != 0){
+                        		//System.out.println(Index + "+++" + bid1[1] + "," + ask1[1]);
+                        	}
+
+                    		if(trade_price1 == bid1[1]){
+                    			pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",ask,,,,,");
+                    		}
+                    		else if(trade_price1 == ask1[1]){
+                    			pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",bid,,,,,");
+                    		}
+                    		else{
+                    			pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error2,,,,,");
+                    		}
                     	}
+                    	else if(count13 == 0){
+                    		pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error1,,,,,");
+                    	}
+                    	else{
+                    		System.out.println("error");
+                    	}
+
+
                     }
                     if((bid1[0] != ask1[0] && ask1[0] != 0 && bid1[0] != 0 && count13 == 0 && transaction.equals("Quote")) ||
                     		(bid1[0] != ask1[0] && ask1[0] != 0 && bid1[0] != 0 && (transaction.equals("Quote") && (bid_ask_initialization != 0 || ask_price_same == 0 || bid_price_same == 0)))){//寄り付き、板の移動(bid_ask_initialization)などが終了したときの初期値の設定
@@ -390,14 +411,7 @@ public class JNIc_limit_order{
                     			ita_change = 0;
                     			//System.out.println(Index);
                     		}
-                    		if(transaction.equals("Trade")){
-                    			if(trade_price1 == bid1[1]){
-                    				pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",ask,,,,,");
-                    			}
-                    			else if(trade_price1 == ask1[1]){
-                    				pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",bid,,,,,");
-                    			}
-                    		}
+
 
                     }
 
