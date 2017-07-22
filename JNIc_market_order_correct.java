@@ -62,7 +62,7 @@ public class JNIc_market_order_correct{
 
             	//-----------------------(初期J-GATE以外ここから)--------------------------------------
 
-            	/*JNIc_split = line.split(",", 0);
+            	JNIc_split = line.split(",", 0);
 
 
 
@@ -97,7 +97,7 @@ public class JNIc_market_order_correct{
             			file_input_number++;
             		}
 
-            	}*/
+            	}
 
             	//-----------------------(初期J-GATE以外ここまで)--------------------------------------
 
@@ -105,7 +105,7 @@ public class JNIc_market_order_correct{
 
             	//-----------------------(初期J-GATEここから)--------------------------------------
 
-            	if(filename[0].substring(0, 3).equals("JNI")){
+            	/*if(filename[0].substring(0, 3).equals("JNI")){
 
 
             		if(!(line.substring(0,1).equals("-")) && day_comb == 0){
@@ -183,16 +183,37 @@ public class JNIc_market_order_correct{
 
             		}
 
-            	}
+            	}*/
 
             	//-----------------------(初期J-GATEここまで)--------------------------------------
 
 
             }
 
+
+
+            //-----------------------(初期J-GATE以外ここから)--------------------------------------
+
+              for(int i = 0;i < file_input_number;i++){
+      			if(i == file_input_number - 1){
+      				String file_write_final_trade_split[] = file_input[i].split(",", 0);
+      				pw.println(file_write_final_trade_split[0] + "," + file_write_final_trade_split[1] + "," + file_write_final_trade_split[2] + "," + file_write_final_trade_split[3] +
+      						"," + file_write_final_trade_split[4] + ",final trade,,,");
+      			}
+      			else{
+      				pw.println(file_input[i]);
+      			}
+      		}
+      		Arrays.fill(file_input, null);//初期化
+      		file_input_number = 0;
+      		day_market = 0;
+
+      		//-----------------------(初期J-GATE以外ここまで)--------------------------------------
+
+
           //-----------------------(初期J-GATEここから)--------------------------------------
 
-           if(filename[1].equals("market")){
+           /*if(filename[1].equals("market")){
 
         		   for(int i = 0;i < file_input_number;i++){
               			if(file_input_number - delete_comb[day_market][2] <= i){
@@ -210,27 +231,9 @@ public class JNIc_market_order_correct{
           		day_market = 0;
 
 
-           }
+           }*/
 
          //-----------------------(初期J-GATEここまで)--------------------------------------
-
-          //-----------------------(初期J-GATE以外ここから)--------------------------------------
-
-            /*for(int i = 0;i < file_input_number;i++){
-    			if(i == file_input_number - 1){
-    				String file_write_final_trade_split[] = file_input[i].split(",", 0);
-    				pw.println(file_write_final_trade_split[0] + "," + file_write_final_trade_split[1] + "," + file_write_final_trade_split[2] + "," + file_write_final_trade_split[3] +
-    						"," + file_write_final_trade_split[4] + ",final trade,,,");
-    			}
-    			else{
-    				pw.println(file_input[i]);
-    			}
-    		}
-    		Arrays.fill(file_input, null);//初期化
-    		file_input_number = 0;
-    		day_market = 0;*/
-
-    		//-----------------------(初期J-GATE以外ここまで)--------------------------------------
 
 
             brtxt.close();

@@ -95,17 +95,17 @@ public class JNIc_limit_order{
             String[] filename = txtFileName.split("\\_");
 
             //指値注文の出力プログラム
-            //File file = new File(filename[1].substring(0,6) + "_limit_order.csv");//Windows
+            File file = new File(filename[1].substring(0,6) + "_limit_order.csv");//Windows
          	//File file = new File("/Volumes/HASHIMOTO3/data/2016/指値データ/ロイター通信社指値注文/月毎(900-1510)/JNIc_" + filename[1].substring(0,6) + "_limit_order.csv");//Mac
-         	//PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+         	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
          	//板が移動した直後の板の厚さを出力するプログラム
          	//File file_depth = new File(filename[1].substring(0,6) + "_frist_depth.csv");
           	//PrintWriter pw_depth = new PrintWriter(new BufferedWriter(new FileWriter(file_depth)));
 
          	//約定の取引を出力するプログラム
-         	File file = new File(filename[1].substring(0,6) + "_market_order.csv");
-          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+         	//File file = new File(filename[1].substring(0,6) + "_market_order.csv");
+          	//PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
             while ((line = brtxt.readLine()) != null) {
@@ -215,7 +215,7 @@ public class JNIc_limit_order{
                         		//System.out.println(Index + "+++" + bid1[1] + "," + ask1[1]);
                         	}
 
-                    		if(trade_price1 == bid1[1]){
+                    		/*if(trade_price1 == bid1[1]){//約定プログラム（ここから）
                     			pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",ask,,,,,");
                     		}
                     		else if(trade_price1 == ask1[1]){
@@ -223,10 +223,10 @@ public class JNIc_limit_order{
                     		}
                     		else{
                     			pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error2,,,,,");
-                    		}
+                    		}*///約定プログラム（ここまで）
                     	}
                     	else if(count13 == 0){
-                    		pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error1,,,,,");
+                    		//pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error1,,,,,");//約定プログラム
                     	}
                     	else{
                     		System.out.println("error");
@@ -394,12 +394,12 @@ public class JNIc_limit_order{
 
 
 
-                        		if(ask_volume_dif > 0){
-                        			//pw.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
+                        		if(ask_volume_dif != 0){
+                        			pw.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
 
                         		}
-                        		if(bid_volume_dif > 0){
-                        			//pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
+                        		if(bid_volume_dif != 0){
+                        			pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
 
                         		}
 
