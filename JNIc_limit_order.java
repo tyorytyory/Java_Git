@@ -339,9 +339,16 @@ public class JNIc_limit_order{
                             				bid_volume_dif = bid_volume1 - bid_volume2;
                             				//System.out.println(Index + " " + bid_volume_dif);
                             			}
-                            			else{//注文の取り消しとか
+                            			else if(bid_volume2 == bid_volume1){//注文の取り消しとか
                             				bid_volume_dif = 0;
                             			}
+                            			else if(bid_volume2 > bid_volume1){
+                            				bid_volume_dif = bid_volume1 - bid_volume2;
+                            			}
+                            			else{
+                            				System.out.println(line);
+                            			}
+
                             			count_trade_before++;
                             			ita_change = 0;
                         			}
@@ -364,6 +371,7 @@ public class JNIc_limit_order{
                         			if(trade_price1 == ask1[1]){
                         				if(ask_volume2 < ask_volume1){
                             				ask_volume_dif = ask_volume1 - ask_volume2;
+
                             				//System.out.println(Index + " " + ask_volume_dif);
                             				/*if(day.equals("20060105")){
                             					System.out.println(trade_volume1 + " " + ask_volume2 + " " + ask_volume1);
@@ -371,9 +379,17 @@ public class JNIc_limit_order{
                             				}*/
 
                             			}
-                            			else{//注文の取り消しとか
-                            				ask_volume_dif = 0;
+                        				else if(ask_volume2 == ask_volume1){//ただの約定
+                        					//System.out.println(line);
+                        					ask_volume_dif = 0;
+                        				}
+                        				else if(ask_volume2 > ask_volume1){//注文の取り消し
+                        					//System.out.println(line);
+                        					ask_volume_dif = ask_volume1 - ask_volume2;
                             			}
+                        				else{
+
+                        				}
                             			count_trade_before++;
                             			ita_change = 0;
                         			}
@@ -405,7 +421,7 @@ public class JNIc_limit_order{
 
 
 
-                        	}
+                    		}
                     		if(ita_change != 0){
                     			bid_ask_initialization = ita_change;
                     			ita_change = 0;

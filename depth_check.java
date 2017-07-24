@@ -7,7 +7,7 @@ public class depth_check{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_depth.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         int up_count = 0;//板がともに上昇したもの（価格差が10円）
@@ -85,125 +85,131 @@ public class depth_check{
             	//System.out.println(hour + "," + minute + "," + second);
             	time_total = hour*3600 + minute*60 + second;
             	//System.out.println(time_total);
+            	if((Integer.parseInt(JNIc_split[0]) < 20110214) && (time_total <= 39600 || (45000 <= time_total && time_total <= 54600)) ||
+            			(20110214 <= Integer.parseInt(JNIc_split[0]) && 31500 <= time_total && time_total <= 54600)){
+            		//System.out.println(line);
+            		if(day == ""){
+                		day = JNIc_split[0];
+                	}
+                	else if(!(day.equals(JNIc_split[0]))){
+                		day = JNIc_split[0];
+                		up_only_ask = 0;
+                		down_only_bid = 0;
+                	}
 
-            	if(day == ""){
-            		day = JNIc_split[0];
-            	}
-            	else if(!(day.equals(JNIc_split[0]))){
-            		day = JNIc_split[0];
-            		up_only_ask = 0;
-            		down_only_bid = 0;
-            	}
+                	if(up_only_ask == 1){
+                		if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
+                			ask_up_bid_up_count++;
+                			ask_up_bid_up_time_sum += time_total - only_ask_up_time;
 
-            	if(up_only_ask == 1){
-            		if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
-            			ask_up_bid_up_count++;
-            			ask_up_bid_up_time_sum += time_total - only_ask_up_time;
-
-            			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-            				if(i/10 <= time_total - only_ask_up_time && time_total - only_ask_up_time < i/10 + 0.1){//iの条件により範囲を指定
-            					ask_up_bid_up_dis[(int)(i)]++;
+                			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
+                				if(i <= time_total - only_ask_up_time && time_total - only_ask_up_time < i + 1){//iの条件により範囲を指定
+                					ask_up_bid_up_dis[(int)(i)]++;
+                				}
+                			}
+                			if(10 <= time_total - only_ask_up_time){//条件により範囲を指定
+            					ask_up_bid_up_dis[10]++;
             				}
-            			}
-            			if(1 <= time_total - only_ask_up_time){//条件により範囲を指定
-        					ask_up_bid_up_dis[10]++;
-        				}
-            		}
-            		else if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
-            			ask_up_ask_down_count++;
-            			ask_up_ask_down_time_sum += time_total - only_ask_up_time;
+                		}
+                		else if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
+                			ask_up_ask_down_count++;
+                			ask_up_ask_down_time_sum += time_total - only_ask_up_time;
 
-            			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-            				if(i/10 <= time_total - only_ask_up_time && time_total - only_ask_up_time < i/10 + 0.1){//iの条件により範囲を指定
-            					ask_up_ask_down_dis[(int)(i)]++;
+                			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
+                				if(i <= time_total - only_ask_up_time && time_total - only_ask_up_time < i + 1){//iの条件により範囲を指定
+                					ask_up_ask_down_dis[(int)(i)]++;
+                				}
+                			}
+                			if(10 <= time_total - only_ask_up_time){//条件により範囲を指定
+            					ask_up_ask_down_dis[10]++;
             				}
-            			}
-            			if(1 <= time_total - only_ask_up_time){//条件により範囲を指定
-        					ask_up_ask_down_dis[10]++;
-        				}
-            		}
-            		else{
-            			ask_up_else_count++;
-            			ask_up_else_time_sum += time_total - only_ask_up_time;
-            			//System.out.println(Index);
-            		}
-            		up_only_ask = 0;
-            	}
-            	if(down_only_bid == 1){
-            		if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
-            			bid_down_ask_down_count++;
-            			bid_down_ask_down_time_sum += time_total - only_bid_down_time;
-            			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-            				if(i/10 <= time_total - only_bid_down_time && time_total - only_bid_down_time < i/10 + 0.1){//iの条件により範囲を指定
-            					bid_down_ask_down_dis[(int)(i)]++;
+                		}
+                		else{
+                			ask_up_else_count++;
+                			ask_up_else_time_sum += time_total - only_ask_up_time;
+                			//System.out.println(Index);
+                		}
+                		up_only_ask = 0;
+                	}
+                	if(down_only_bid == 1){
+                		if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
+                			bid_down_ask_down_count++;
+                			bid_down_ask_down_time_sum += time_total - only_bid_down_time;
+                			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
+                				if(i <= time_total - only_bid_down_time && time_total - only_bid_down_time < i + 1){//iの条件により範囲を指定
+                					bid_down_ask_down_dis[(int)(i)]++;
+                				}
+                			}
+                			if(10 <= time_total - only_bid_down_time){//条件により範囲を指定
+            					bid_down_ask_down_dis[10]++;
             				}
-            			}
-            			if(1 <= time_total - only_bid_down_time){//条件により範囲を指定
-        					bid_down_ask_down_dis[10]++;
-        				}
-            		}
-            		else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
-            			bid_down_bid_up_count++;
-            			bid_down_bid_up_time_sum += time_total - only_bid_down_time;
-            			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-            				if(i/10 <= time_total - only_bid_down_time && time_total - only_bid_down_time < i/10 + 0.1){//iの条件により範囲を指定
-            					bid_down_bid_up_dis[(int)(i)]++;
+                		}
+                		else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
+                			bid_down_bid_up_count++;
+                			bid_down_bid_up_time_sum += time_total - only_bid_down_time;
+                			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
+                				if(i <= time_total - only_bid_down_time && time_total - only_bid_down_time < i + 1){//iの条件により範囲を指定
+                					bid_down_bid_up_dis[(int)(i)]++;
+                				}
+                			}
+                			if(10 <= time_total - only_bid_down_time){//条件により範囲を指定
+            					bid_down_bid_up_dis[10]++;
             				}
-            			}
-            			if(1 <= time_total - only_bid_down_time){//条件により範囲を指定
-        					bid_down_bid_up_dis[10]++;
-        				}
-            		}
-            		else{
-            			bid_down_else_count++;
-            			bid_down_else_time_sum += time_total - only_bid_down_time;
-            		}
-            		down_only_bid = 0;
+                		}
+                		else{
+                			bid_down_else_count++;
+                			bid_down_else_time_sum += time_total - only_bid_down_time;
+                		}
+                		down_only_bid = 0;
+                	}
+
+                	if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){
+                		down_count++;
+                	}
+                	else if(JNIc_split[2].equals("down price dif not 10") || JNIc_split[2].equals("down not Trade not 10") ){
+                		down_not10_count++;
+                	}
+                	else if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
+                		down_only_ask_count++;
+                	}
+                	else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){
+                		down_only_bid_count++;
+                		down_only_bid = 1;
+                		only_bid_down_time = time_total;
+                	}
+                	else if(JNIc_split[2].equals("down price same")){
+                		down_price_same_count++;
+                	}
+                	else if(JNIc_split[2].equals("down else")){
+                		down_else_count++;
+                	}
+                	else if(JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade")){
+                		up_count++;
+                	}
+                	else if(JNIc_split[2].equals("up price dif not 10") || JNIc_split[2].equals("up not Trade not 10") ){
+                		up_not10_count++;
+                	}
+                	else if(JNIc_split[2].equals("up only ask") || JNIc_split[2].equals("up only ask not Trade")){
+                		up_only_ask_count++;
+                		up_only_ask = 1;
+                		only_ask_up_time = time_total;
+                	}
+                	else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
+                		up_only_bid_count++;
+                	}
+                	else if(JNIc_split[2].equals("up price same")){
+                		up_price_same_count++;
+                	}
+                	else if(JNIc_split[2].equals("up else")){
+                		up_else_count++;
+                	}
+                	else if(JNIc_split[2].equals("move")){
+                		move_count++;
+                	}
+
             	}
 
-            	if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){
-            		down_count++;
-            	}
-            	else if(JNIc_split[2].equals("down price dif not 10") || JNIc_split[2].equals("down not Trade not 10") ){
-            		down_not10_count++;
-            	}
-            	else if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
-            		down_only_ask_count++;
-            	}
-            	else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){
-            		down_only_bid_count++;
-            		down_only_bid = 1;
-            		only_bid_down_time = time_total;
-            	}
-            	else if(JNIc_split[2].equals("down price same")){
-            		down_price_same_count++;
-            	}
-            	else if(JNIc_split[2].equals("down else")){
-            		down_else_count++;
-            	}
-            	else if(JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade")){
-            		up_count++;
-            	}
-            	else if(JNIc_split[2].equals("up price dif not 10") || JNIc_split[2].equals("up not Trade not 10") ){
-            		up_not10_count++;
-            	}
-            	else if(JNIc_split[2].equals("up only ask") || JNIc_split[2].equals("up only ask not Trade")){
-            		up_only_ask_count++;
-            		up_only_ask = 1;
-            		only_ask_up_time = time_total;
-            	}
-            	else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
-            		up_only_bid_count++;
-            	}
-            	else if(JNIc_split[2].equals("up price same")){
-            		up_price_same_count++;
-            	}
-            	else if(JNIc_split[2].equals("up else")){
-            		up_else_count++;
-            	}
-            	else if(JNIc_split[2].equals("move")){
-            		move_count++;
-            	}
+
 
             }
 
@@ -238,6 +244,7 @@ public class depth_check{
 
 
             System.out.println("down only bid," + down_only_bid_count);
+            System.out.println("down only ask," + down_only_ask_count);
             System.out.println("bid down ask down," + bid_down_ask_down_count);
             System.out.println("bid down bid up," + bid_down_bid_up_count);
             System.out.println("bid down else," + bid_down_else_count);
@@ -247,7 +254,7 @@ public class depth_check{
 
 
 
-            System.out.println("down only ask," + down_only_ask_count);
+
             System.out.println("down price same," + down_price_same_count);
             System.out.println("down else," + down_else_count);
 
