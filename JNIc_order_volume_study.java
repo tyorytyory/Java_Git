@@ -183,8 +183,7 @@ public class JNIc_order_volume_study{
 
 
 
-            	if(JNIc_split[4].equals("bid")){
-
+            	if(JNIc_split[4].equals("bid") || (JNIc_split[4].equals("bid") && JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))){
 
 
 
@@ -199,7 +198,7 @@ public class JNIc_order_volume_study{
 
 
 
-            		if(Integer.parseInt(day) < 20110214 && time_total <= 39600 && Integer.parseInt(JNIc_split[2]) > 0){//昼休みがあるときの前場。買い注文
+            		if(Integer.parseInt(day) < 20110214 && time_total <= 40500 && Integer.parseInt(JNIc_split[2]) > 0){//昼休みがあるときの前場。買い注文
             			bid_arrival_freq_morning += Integer.parseInt(JNIc_split[2]);
             			//bid_volume_sum_morning += Integer.parseInt(JNIc_split[2]);
             			bid_trade_number_morning_subtotal++;
@@ -209,7 +208,7 @@ public class JNIc_order_volume_study{
             			//bid_volume_sum_afternoon += Integer.parseInt(JNIc_split[2]);
             			bid_trade_number_afternoon_subtotal++;
             		}
-            		else if(Integer.parseInt(day) < 20110214 && time_total <= 39600 && Integer.parseInt(JNIc_split[2]) < 0){//昼休みがあるときの前場。買い指値注文のキャンセル
+            		else if(Integer.parseInt(day) < 20110214 && time_total <= 40500 && Integer.parseInt(JNIc_split[2]) < 0){//昼休みがあるときの前場。買い指値注文のキャンセル
             			bid_cancel_sum_morning += (-1*Integer.parseInt(JNIc_split[2]));
             			bid_cancel_number_morning_subtotal++;
             		}
@@ -217,12 +216,12 @@ public class JNIc_order_volume_study{
             			bid_cancel_sum_afternoon += (-1*Integer.parseInt(JNIc_split[2]));
             			bid_cancel_number_afternoon_subtotal++;
             		}
-            		else if(Integer.parseInt(day) >= 20110214 && time_total <= 54600 && Integer.parseInt(JNIc_split[2]) > 0){//昼休みが廃止後。買い注文
+            		else if(Integer.parseInt(day) >= 20110214 && time_total <= 54900 && Integer.parseInt(JNIc_split[2]) > 0){//昼休みが廃止後。買い注文
             			bid_arrival_freq += Integer.parseInt(JNIc_split[2]);
             			//bid_volume_sum += Integer.parseInt(JNIc_split[2]);
             			bid_trade_number_subtotal++;
             		}
-            		else if(Integer.parseInt(day) >= 20110214 && time_total <= 54600 && Integer.parseInt(JNIc_split[2]) < 0){//昼休みが廃止後。買い指値注文のキャンセル
+            		else if(Integer.parseInt(day) >= 20110214 && time_total <= 54900 && Integer.parseInt(JNIc_split[2]) < 0){//昼休みが廃止後。買い指値注文のキャンセル
             			bid_cancel_sum += (-1*Integer.parseInt(JNIc_split[2]));
             			bid_cancel_number++;
             		}
@@ -232,7 +231,7 @@ public class JNIc_order_volume_study{
 
 
             	}
-            	else if(JNIc_split[4].equals("ask")){
+            	else if(JNIc_split[4].equals("ask") || (JNIc_split[4].equals("ask") && JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))){
 
 
 
@@ -244,7 +243,7 @@ public class JNIc_order_volume_study{
             		}
 
 
-            		if(Integer.parseInt(day) < 20110214 && time_total <= 39600 && Integer.parseInt(JNIc_split[2]) > 0){//昼休みがあるときの前場。売り注文
+            		if(Integer.parseInt(day) < 20110214 && time_total <= 40500 && Integer.parseInt(JNIc_split[2]) > 0){//昼休みがあるときの前場。売り注文
             			ask_arrival_freq_morning += Integer.parseInt(JNIc_split[2]);
             			//ask_volume_sum_morning += Integer.parseInt(JNIc_split[2]);
             			ask_trade_number_morning_subtotal++;
@@ -254,7 +253,7 @@ public class JNIc_order_volume_study{
             			//ask_volume_sum_afternoon += Integer.parseInt(JNIc_split[2]);
             			ask_trade_number_afternoon_subtotal++;
             		}
-            		else if(Integer.parseInt(day) < 20110214 && time_total <= 39600 && Integer.parseInt(JNIc_split[2]) < 0){//昼休みがあるときの前場。売り指値注文のキャンセル
+            		else if(Integer.parseInt(day) < 20110214 && time_total <= 40500 && Integer.parseInt(JNIc_split[2]) < 0){//昼休みがあるときの前場。売り指値注文のキャンセル
             			ask_cancel_sum_morning += (-1*Integer.parseInt(JNIc_split[2]));
             			ask_cancel_number_morning_subtotal++;
             		}
@@ -262,12 +261,12 @@ public class JNIc_order_volume_study{
             			ask_cancel_sum_afternoon += (-1*Integer.parseInt(JNIc_split[2]));
             			ask_cancel_number_afternoon_subtotal++;
             		}
-            		else if(Integer.parseInt(day) >= 20110214 && Integer.parseInt(JNIc_split[2]) > 0){//昼休みがあるときの後場。売り注文
+            		else if(Integer.parseInt(day) >= 20110214  && time_total <= 54900 && Integer.parseInt(JNIc_split[2]) > 0){//昼休みがあるときの後場。売り注文
             			ask_arrival_freq += Integer.parseInt(JNIc_split[2]);
             			//ask_volume_sum += Integer.parseInt(JNIc_split[2]);
             			ask_trade_number_subtotal++;
             		}
-            		else if(Integer.parseInt(day) >= 20110214 && time_total <= 54600 && Integer.parseInt(JNIc_split[2]) < 0){//昼休みが廃止後。売り指値注文のキャンセル
+            		else if(Integer.parseInt(day) >= 20110214 && time_total <= 54900 && Integer.parseInt(JNIc_split[2]) < 0){//昼休みが廃止後。売り指値注文のキャンセル
             			ask_cancel_sum += (-1*Integer.parseInt(JNIc_split[2]));
             			ask_cancel_number++;
             		}

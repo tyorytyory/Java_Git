@@ -140,7 +140,8 @@ public class JNIc_limit_order{
                     	count13 = 0;//初期化
                 	}
 
-                	if(time_total1 > 45000.0 && count_hiruma1 == 0 && day_number < 20110214){//2011/2/14までは昼休みがあるのでそこに関して調整する箇所
+                	//ここを変えた！！！！
+                	if(bid1[1] == ask1[1] && time_total1 > 39600.0 && count_hiruma1 == 0 && day_number < 20110214){//2011/2/14までは昼休みがあるのでそこに関して調整する箇所
                 		number1 = 0;//初期化
                 		bid_volume1 = 0;//初期化
                 		ask_volume1 = 0;//初期化
@@ -151,6 +152,7 @@ public class JNIc_limit_order{
                 		count_hiruma1++;//このfor文を回避するためのもの
                 		count13 = 0;//初期化
                 	}
+                	//ここを変えた！！！！
 
                 	String JNIc_split[] = line.split(",", 0);
 
