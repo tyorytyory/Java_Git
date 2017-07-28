@@ -85,8 +85,7 @@ public class depth_check{
             	//System.out.println(hour + "," + minute + "," + second);
             	time_total = hour*3600 + minute*60 + second;
             	//System.out.println(time_total);
-            	if((Integer.parseInt(JNIc_split[0]) < 20110214) && (time_total <= 39600 || (45000 <= time_total && time_total <= 54600)) ||
-            			(20110214 <= Integer.parseInt(JNIc_split[0]) && 31500 <= time_total && time_total <= 54600)){
+
             		//System.out.println(line);
             		if(day == ""){
                 		day = JNIc_split[0];
@@ -103,11 +102,11 @@ public class depth_check{
                 			ask_up_bid_up_time_sum += time_total - only_ask_up_time;
 
                 			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-                				if(i <= time_total - only_ask_up_time && time_total - only_ask_up_time < i + 1){//iの条件により範囲を指定
+                				if(i/10 <= time_total - only_ask_up_time && time_total - only_ask_up_time < i/10 + 0.1){//iの条件により範囲を指定
                 					ask_up_bid_up_dis[(int)(i)]++;
                 				}
                 			}
-                			if(10 <= time_total - only_ask_up_time){//条件により範囲を指定
+                			if(1 <= time_total - only_ask_up_time){//条件により範囲を指定
             					ask_up_bid_up_dis[10]++;
             				}
                 		}
@@ -116,11 +115,11 @@ public class depth_check{
                 			ask_up_ask_down_time_sum += time_total - only_ask_up_time;
 
                 			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-                				if(i <= time_total - only_ask_up_time && time_total - only_ask_up_time < i + 1){//iの条件により範囲を指定
+                				if(i/10 <= time_total - only_ask_up_time && time_total - only_ask_up_time < i/10 + 0.1){//iの条件により範囲を指定
                 					ask_up_ask_down_dis[(int)(i)]++;
                 				}
                 			}
-                			if(10 <= time_total - only_ask_up_time){//条件により範囲を指定
+                			if(1 <= time_total - only_ask_up_time){//条件により範囲を指定
             					ask_up_ask_down_dis[10]++;
             				}
                 		}
@@ -136,11 +135,11 @@ public class depth_check{
                 			bid_down_ask_down_count++;
                 			bid_down_ask_down_time_sum += time_total - only_bid_down_time;
                 			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-                				if(i <= time_total - only_bid_down_time && time_total - only_bid_down_time < i + 1){//iの条件により範囲を指定
+                				if(i/10 <= time_total - only_bid_down_time && time_total - only_bid_down_time < i/10 + 0.1){//iの条件により範囲を指定
                 					bid_down_ask_down_dis[(int)(i)]++;
                 				}
                 			}
-                			if(10 <= time_total - only_bid_down_time){//条件により範囲を指定
+                			if(1 <= time_total - only_bid_down_time){//条件により範囲を指定
             					bid_down_ask_down_dis[10]++;
             				}
                 		}
@@ -148,11 +147,11 @@ public class depth_check{
                 			bid_down_bid_up_count++;
                 			bid_down_bid_up_time_sum += time_total - only_bid_down_time;
                 			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-                				if(i <= time_total - only_bid_down_time && time_total - only_bid_down_time < i + 1){//iの条件により範囲を指定
+                				if(i/10 <= time_total - only_bid_down_time && time_total - only_bid_down_time < i/10 + 0.1){//iの条件により範囲を指定
                 					bid_down_bid_up_dis[(int)(i)]++;
                 				}
                 			}
-                			if(10 <= time_total - only_bid_down_time){//条件により範囲を指定
+                			if(1 <= time_total - only_bid_down_time){//条件により範囲を指定
             					bid_down_bid_up_dis[10]++;
             				}
                 		}
@@ -207,7 +206,7 @@ public class depth_check{
                 		move_count++;
                 	}
 
-            	}
+
 
 
 

@@ -127,11 +127,11 @@ public class depth_count{
             	second = Double.parseDouble(JNIc_split[1].substring(6));
             	time_total = hour*3600 + minute*60 + second;
 
-            	if(Integer.parseInt(JNIc_split[0]) < 20110214 && (time_total <= 39600 || (45000 <= time_total && time_total <= 54600)) ||
-            			(20110214 <= Integer.parseInt(JNIc_split[0]) && time_total <= 54600)){//昼休みを含まず、9:00-15:10の間のデータを取り除く
+            	if(Integer.parseInt(JNIc_split[0]) < 20110214 && (time_total <= 40500 || 45000 <= time_total) ||
+            			(20110214 <= Integer.parseInt(JNIc_split[0]))){//昼休みを含まず、9:00-15:10の間のデータを取り除く
 
                 	if(JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade")){//買板・売板の上昇
-                		if(Integer.parseInt(JNIc_split[0]) < 20110214 && time_total <= 39600){//前場
+                		if(Integer.parseInt(JNIc_split[0]) < 20110214 && time_total <= 40500){//前場
                 			up_count_morning++;
                     		up_bid_depth_count_morning += Integer.parseInt(JNIc_split[4]);
                     		up_ask_depth_count_morning += Integer.parseInt(JNIc_split[6]);
@@ -148,7 +148,7 @@ public class depth_count{
                 		}
                 	}
                 	else if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){//買板・売板の下落
-                		if(Integer.parseInt(JNIc_split[0]) < 20110214 && time_total <= 39600){//前場
+                		if(Integer.parseInt(JNIc_split[0]) < 20110214 && time_total <= 40500){//前場
                 			down_count_morning++;
                     		down_bid_depth_count_morning += Integer.parseInt(JNIc_split[4]);
                     		down_ask_depth_count_morning += Integer.parseInt(JNIc_split[6]);
@@ -166,6 +166,9 @@ public class depth_count{
                 	}
 
 
+            	}
+            	else{
+            		System.out.println(line);
             	}
 
             }
