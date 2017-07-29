@@ -57,8 +57,8 @@ public class depth_count{
          	File file_down = new File(filename[0] + "_down_count.csv");
          	PrintWriter pw_down = new PrintWriter(new BufferedWriter(new FileWriter(file_down)));
 
-         	pw_up.println("day,divide,up_count_morning,up_bid_depth_count_morning,up_ask_depth_count_morning,,,,,,");//ラベルの書き込み
-         	pw_down.println("day,divide,down_count_morning,down_bid_depth_count_morning,down_ask_depth_count_morning,,,,,,");//ラベルの書き込み
+         	pw_up.println("day,divide,up or down,up_count,up_bid_depth_count,up_ask_depth_count,,,,,,");//ラベルの書き込み
+         	pw_down.println("day,divide,up or down,down_count,down_bid_depth_count,down_ask_depth_count,,,,,,");//ラベルの書き込み
 
 
          	String  JNIc_split[] = null;
@@ -75,12 +75,16 @@ public class depth_count{
             		day = JNIc_split[0];
             	}
             	else if(!(day.equals(JNIc_split[0]))){
-            		if(Integer.parseInt(JNIc_split[0]) < 20110214){
+            		if(Integer.parseInt(day) < 20110214){
+
+
+
             			if(up_count_morning != 0){//前場データの書き込み
                 			pw_up.println(day + ",morning,up," + up_count_morning + "," + up_bid_depth_count_morning + "," + up_ask_depth_count_morning + ",,,,,");
                     		pw_down.println(day + ",morning,down," + down_count_morning + "," + down_bid_depth_count_morning + "," + down_ask_depth_count_morning + ",,,,,");
                 		}
                 		else if(up_count_morning == 0){//前場データがない場合
+
                 			pw_up.println(day + ",morning,up,NaN,NaN,NaN,,,,,,");
                     		pw_down.println(day + ",morning,down,NaN,NaN,NaN,,,,,,");
                 		}
@@ -94,7 +98,7 @@ public class depth_count{
                     		pw_down.println(day + ",afternoon,down,NaN,NaN,NaN,,,,,,");
                 		}
             		}
-            		else if(20110214 <= Integer.parseInt(JNIc_split[0])){//2011/2/14以降
+            		else if(20110214 <= Integer.parseInt(day)){//2011/2/14以降
             			pw_up.println(day + ",no noon recess,up," + up_count + "," + up_bid_depth_count + "," + up_ask_depth_count + ",,,,,");
                 		pw_down.println(day + ",no noon recess,down," + down_count + "," + down_bid_depth_count + "," + down_ask_depth_count + ",,,,,");
             		}
@@ -127,7 +131,7 @@ public class depth_count{
             	second = Double.parseDouble(JNIc_split[1].substring(6));
             	time_total = hour*3600 + minute*60 + second;
 
-            	if(Integer.parseInt(JNIc_split[0]) < 20110214 && (time_total <= 40500 || 45000 <= time_total) ||
+            	if((Integer.parseInt(JNIc_split[0]) < 20110214 && (time_total <= 40500 || 45000 <= time_total)) ||
             			(20110214 <= Integer.parseInt(JNIc_split[0]))){//昼休みを含まず、9:00-15:10の間のデータを取り除く
 
                 	if(JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade")){//買板・売板の上昇
@@ -174,7 +178,7 @@ public class depth_count{
             }
 
             //------------------------------------最後の書き込み-----------------------------------------------
-            if(Integer.parseInt(JNIc_split[0]) < 20110214){
+            if(Integer.parseInt(day) < 20110214){
     			if(up_count_morning != 0){//前場データの書き込み
         			pw_up.println(day + ",morning,up," + up_count_morning + "," + up_bid_depth_count_morning + "," + up_ask_depth_count_morning + ",,,,,");
             		pw_down.println(day + ",morning,down," + down_count_morning + "," + down_bid_depth_count_morning + "," + down_ask_depth_count_morning + ",,,,,");
@@ -193,7 +197,7 @@ public class depth_count{
             		pw_down.println(day + ",afternoon,down,NaN,NaN,NaN,,,,,,");
         		}
     		}
-    		else if(20110214 <= Integer.parseInt(JNIc_split[0])){//2011/2/14以降
+    		else if(20110214 <= Integer.parseInt(day)){//2011/2/14以降
     			pw_up.println(day + ",no noon recess,up," + up_count + "," + up_bid_depth_count + "," + up_ask_depth_count + ",,,,,");
         		pw_down.println(day + ",no noon recess,down," + down_count + "," + down_bid_depth_count + "," + down_ask_depth_count + ",,,,,");
     		}
