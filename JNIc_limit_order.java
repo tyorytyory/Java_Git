@@ -97,17 +97,17 @@ public class JNIc_limit_order{
             String[] filename = txtFileName.split("\\_");
 
             //指値注文の出力プログラム
-            //File file = new File(filename[1].substring(0,6) + "_limit_order.csv");//Windows
+            File file = new File(filename[1].substring(0,6) + "_limit_order.csv");//Windows
          	//File file = new File("/Volumes/HASHIMOTO3/data/2016/指値データ/ロイター通信社指値注文/月毎(900-1510)/JNIc_" + filename[1].substring(0,6) + "_limit_order.csv");//Mac
-         	//PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+         	PrintWriter pw_limit = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
          	//板が移動した直後の板の厚さを出力するプログラム
-         	File file_depth = new File(filename[1].substring(0,6) + "_frist_depth.csv");
-          	PrintWriter pw_depth = new PrintWriter(new BufferedWriter(new FileWriter(file_depth)));
+         	//File file_depth = new File(filename[1].substring(0,6) + "_frist_depth.csv");
+          	//PrintWriter pw_depth = new PrintWriter(new BufferedWriter(new FileWriter(file_depth)));
 
          	//約定の取引を出力するプログラム
          	//File file = new File(filename[1].substring(0,6) + "_market_order.csv");
-          	//PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+          	//PrintWriter pw_market = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
             while ((line = brtxt.readLine()) != null) {
@@ -180,6 +180,7 @@ public class JNIc_limit_order{
                 	}
 
 
+
                 	if(transaction.equals("Trade") && 39600.0 < time_total1 && time_total1 < 45000 && 20060104 < day_number && day_number < 20061229){
                 		//System.out.println(line);
                 	}
@@ -207,6 +208,13 @@ public class JNIc_limit_order{
 
                 		zaraba = true;//ザラバである。
                 	}
+
+                	//変えた！！
+                	if(bid1[number1] == 0 || ask1[number1] == 0){
+                		count13 = 0;
+
+                	}
+                	//変えた！！
 
 
 
@@ -240,13 +248,13 @@ public class JNIc_limit_order{
                         	}
 
                     		/*if(trade_price1 == bid1[1]){//約定プログラム（ここから）
-                    			pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",ask,,,,,");
+                    			pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",ask,,,,,");
                     		}
                     		else if(trade_price1 == ask1[1]){
-                    			pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",bid,,,,,");
+                    			pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",bid,,,,,");
                     		}
                     		else{
-                    			pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error2,,,,,");
+                    			pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error2,,,,,");
                     		}*///約定プログラム（ここまで）
                     	}
                     	else if(count13 == 0){
@@ -265,79 +273,172 @@ public class JNIc_limit_order{
                     		bid1[1] = bid1[0];
                         	ask1[1] = ask1[0];
                     	}
-                    	bid_volume2 = bid_volume1;
-                    	ask_volume2 = ask_volume1;
+
 
 
                     	if(bid_ask_initialization == 1 && bid1[1] != 0 && ask1[1] != 0){//板が移動した直後の板の厚さ(価格差の制約をつけると厳しくなる模様）
                     		if(bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] == 10){//板が追随して下落（価格差10円）
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			/*if((ask_volume1 - (bid_volume2*-1)) != 0){//最初の板の枚数
+                    				pw_limit.println(day + "," + time + "," + (ask_volume1 - (bid_volume2*-1)) + "," + ask1[1] + ",ask,down,,,");//ok
+                    			}
+                    			if(bid_volume2 < 0){
+
+                    			}*/
                     		}
                     		else if(bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] != 10){//板が追随して下落(価格差は20円以上）
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down price dif not 10," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down price dif not 10," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     		}
                     		else if(bid_price_same == 1 && ask_price_same == 0){//売板のみ下落
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only ask," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only ask," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			//if(ask1[1] - bid1[1] == 10){
+                    				pw_limit.println(day + "," + time + "," + ask_volume1 + "," + ask1[1] + ",ask,down only ask,,,");//ok。というかほとんどない
+                    			//}
                     		}
                     		else if(bid_price_same == 0 && ask_price_same == 1){//買板のみ下落
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only bid," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only bid," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+
+                    			if(bid_volume2 != 0){//ほとんどない
+                    				pw_limit.println(day + "," + time + "," + (-1*bid_volume2) + "," + bid_price_before + ",bid,only bid down,,,,");
+                    				//System.out.println(line);
+                    			}
+                    			else if(bid_volume2 > 0){
+                    				System.out.println(line);//ない
+                    			}
                     		}
                     		else if(bid_price_same == 1 && ask_price_same == 1){//板が追随して下落したと思いきや、価格は変わらないもの
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down price same," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down price same," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     		}
                     		else{//その他
-                    			System.out.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down else," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			System.out.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down else," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     		}
                     	}
                     	else if(bid_ask_initialization == 2 && bid1[1] != 0 && ask1[1] != 0){//板が移動した直後の板の厚さ
                     		if( bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] == 10){
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			/*if(bid_volume1 - (ask_volume2*-1) != 0){//最初の板の枚数
+                    				pw_limit.println(day + "," + time + "," + (bid_volume1 - (ask_volume2*-1)) + "," + bid1[1] + ",bid1,,,,,");//ok
+                    			}
+                    			if(ask_volume2 < 0){
+                    				//System.out.println(line);
+                    			}*/
                     		}
                     		else if(bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] != 10){
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up price dif not 10," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up price dif not 10," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+
                     		}
                     		else if(bid_price_same == 1 && ask_price_same == 0){
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only ask," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only ask," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			if(ask_volume2 != 0){//ほとんどない
+                    				pw_limit.println(day + "," + time + "," + (-1*ask_volume2) + "," + ask_price_before + ",ask,only ask up,,,,");
+                    			}
+                    			else if(ask_volume2 > 0){
+                    				//System.out.println(line);//ない
+                    			}
                     		}
                     		else if(bid_price_same == 0 && ask_price_same == 1){
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only bid," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only bid," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+
+                    			//if(ask1[1] - bid1[1] == 10){
+                    				pw_limit.println(day + "," + time + "," + bid_volume1 + "," + bid1[1] + ",bid,up only bid,,,");//ok。というかほとんどない
+
+                    			//}
+
                     		}
                     		else if(bid_price_same == 1 && ask_price_same == 1){
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up price same," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up price same," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     		}
                     		else{
-                    			System.out.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up else," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			System.out.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up else," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     		}
                     	}
                     	else if(bid_ask_initialization == 0 && count13 != 0 && bid1[1] != 0 && ask1[1] != 0){//注文の取り消しやなにかしらの理由による板の移動
-                    		if(bid_price_before == bid1[1] && ask_price_before <= ask1[1] && bid_price_same == 1 && ask_price_same == 0){//売板のみの上昇
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only ask not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		if(bid_price_before == bid1[1] && ask_price_before < ask1[1] && bid_price_same == 1 && ask_price_same == 0){//売板のみの上昇
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only ask not Trade," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			pw_limit.println(day + "," + time + "," + (-1*ask_volume2) + "," + ask_price_before + ",ask,up only ask not Trade,,,,");
                     		}
-                    		else if(bid_price_before == bid1[1] && ask_price_before >= ask1[1] && bid_price_same == 1 && ask_price_same == 0){//売板のみの下落
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only ask not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		else if(bid_price_before == bid1[1] && ask_price_before > ask1[1] && bid_price_same == 1 && ask_price_same == 0){//売板のみの下落
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only ask not Trade," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			//if(ask1[1] - bid1[1] == 10){
+                    				pw_limit.println(day + "," + time + "," + ask_volume1 + "," + ask1[1] + ",ask,down only ask not Trade,,,");
+                    			//}
+
                     		}
-                    		else if(bid_price_before <= bid1[1] && ask_price_before == ask1[1] && bid_price_same == 0 && ask_price_same == 1){//買板のみの上昇
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only bid not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		else if(bid_price_before < bid1[1] && ask_price_before == ask1[1] && bid_price_same == 0 && ask_price_same == 1){//買板のみの上昇
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only bid not Trade," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			//if(ask1[1] - bid1[1] == 10){
+                    				pw_limit.println(day + "," + time + "," + bid_volume1 + "," + bid1[1] + ",bid,up only bid not Trade,,,");
+                    			//}
                     		}
-                    		else if(bid_price_before >= bid1[1] && ask_price_before == ask1[1] && bid_price_same == 0 && ask_price_same == 1){//買板のみの下落
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only bid not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		else if(bid_price_before > bid1[1] && ask_price_before == ask1[1] && bid_price_same == 0 && ask_price_same == 1){//買板のみの下落
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only bid not Trade," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			pw_limit.println(day + "," + time + "," + (-1*bid_volume2) + "," + bid_price_before + ",bid,down only bid not Trade,,,,");
                     		}
-                    		else if(bid_price_before <= bid1[1] && ask_price_before <= ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] == 10){//板の上昇（取り消しが移動の一因となる移動）
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		else if(bid_price_before < bid1[1] && ask_price_before < ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] == 10){//板の上昇（取り消しが移動の一因となる移動）
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up not Trade," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			if(ask_volume1 > 0){
+                    				pw_limit.println(day + "," + time + "," + (-1*ask_volume2) + "," + ask_price_before + ",ask,up not Trade,,,,");
+                    			}
+                    			//pw_limit.println(day + "," + time + "," + bid_volume1 + "," + bid1[1] + ",bid3,,,,");//最初の板の枚数
                     		}
-                    		else if(bid_price_before <= bid1[1] && ask_price_before <= ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] != 10){//板の上昇（取り消しが移動の一因となる移動）。ただし価格差が20円以上
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up not Trade not 10," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		else if(bid_price_before < bid1[1] && ask_price_before < ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] != 10){//板の上昇（取り消しが移動の一因となる移動）。ただし価格差が20円以上
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up not Trade not 10," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     		}
-                    		else if(bid_price_before >= bid1[1] && ask_price_before >= ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] == 10){//板の下落（取り消しが移動の一因となる移動）
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down not Trade," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		else if(bid_price_before > bid1[1] && ask_price_before > ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] == 10){//板の下落（取り消しが移動の一因となる移動）
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down not Trade," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
+                    			if(bid_volume1 > 0){
+                    				pw_limit.println(day + "," + time + "," + (-1*bid_volume2) + "," + bid_price_before + ",bid,down not Trade,,,,");
+                    			}
+                    			//pw_limit.println(day + "," + time + "," + ask_volume1 + "," + ask1[1] + ",ask4,,,,");//最初の板の枚数
                     		}
-                    		else if(bid_price_before >= bid1[1] && ask_price_before >= ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] != 10){//板の下落（取り消しが移動の一因となる移動）。ただし価格差が20円以上
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down not Trade not 10," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    		else if(bid_price_before > bid1[1] && ask_price_before > ask1[1] && bid_price_same == 0 && ask_price_same == 0 && ask1[1] - bid1[1] != 10){//板の下落（取り消しが移動の一因となる移動）。ただし価格差が20円以上
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down not Trade not 10," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     		}
                     		else{
-                    			pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",move," + bid1[1] + "," + bid_volume2 + "," + ask1[1] + "," + ask_volume2);
+                    			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",move," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     		}
                     	}
+
+
+
+                    	/*if(bid_ask_initialization == 1 && ask_price_same == 0 && bid_price_same == 0 && (ask_volume1 - (bid_volume2*-1)) != 0){//買板が消滅して移動し、結果的に板が増減する場合
+
+                    	}
+                    	else if(bid_ask_initialization == 2 && bid_price_same == 0 && ask_price_same == 0 && (bid_volume1 - (ask_volume2*-1)) != 0){//売板が消滅して移動し、結果的に板が増減する場合
+
+                    	}
+                    	else if(bid_ask_initialization == 0 && count13 != 0 && bid1[1] != 0 && ask1[1] != 0){//注文の取り消しやなにかしらの理由による板の移動)
+                    		if(bid_price_before < bid1[1] && ask_price_before < ask1[1]){
+                    			pw_limit.println(day + "," + time + "," + (-1*ask_volume2) + "," + ask1[1] + ",ask!!,,,,,");//指値売注文のキャンセル
+                    		}
+                    		else if(bid_price_before > bid1[1] && ask_price_before > ask1[1]){
+                    			pw_limit.println(day + "," + time + "," + (-1*bid_volume2) + "," + bid1[1] + ",bid!!,,,,,");//指値買注文のキャンセル
+                    		}
+                    	}
+
+                    	else if(bid_price_before < bid1[1] && ask_price_before == ask1[1] && count13 != 0){
+                    		pw_limit.println(day + "," + time + "," + bid_volume1 + "," + bid1[1] + ",bid1,,,,,");
+                    	}
+                    	else if(bid_price_before > bid1[1] && ask_price_before == ask1[1] && count13 != 0 && bid_volume2 != 0){
+                    		pw_limit.println(day + "," + time + "," + (-1*bid_volume1) + "," + bid_price_before + ",bidcancel,,,,,");
+                    	}
+                    	else if(bid_price_before == bid1[1] && ask_price_before < ask1[1] && count13 != 0 && ask_volume2 != 0){
+                    		pw_limit.println(day + "," + time + "," + (-1*ask_volume2) + "," + ask_price_before + ",askcancel,,,,,");
+                    	}
+                    	else if(bid_price_before == bid1[1] && ask_price_before > ask1[1] && count13 != 0){
+                    		pw_limit.println(day + "," + time + "," + ask_volume1 + "," + ask1[1] + ",ask3,,,,,");
+                    	}
+
+                    	else if(ask_volume1 == 0 || bid_volume1 == 0){
+
+                    	}
+                    	else{
+                    		System.out.println(line);
+                    	}*/
+
+                    	//System.out.println(line);
+                    	bid_volume2 = bid_volume1;
+                    	ask_volume2 = ask_volume1;
 
 
                     	number1 = 1;
@@ -370,7 +471,7 @@ public class JNIc_limit_order{
                             				bid_volume_dif = bid_volume1 - bid_volume2;
                             			}
                             			else{
-                            				System.out.println(line);
+                            				//System.out.println(line);
                             			}
 
                             			count_trade_before++;
@@ -423,7 +524,7 @@ public class JNIc_limit_order{
                         			ita_change = 0;
                         		}
                         		else if(ask_price_same == 0){
-                        			bid_volume_dif = 0;
+                        			ask_volume_dif = 0;
                         			ita_change = 0;
                         		}
                         		else{
@@ -435,11 +536,11 @@ public class JNIc_limit_order{
 
 
                         		if(ask_volume_dif != 0){
-                        			//pw.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
+                        			pw_limit.println(day + "," + time + "," + ask_volume_dif + "," + ask1[1] + ",ask,,,,,");//指値売注文の書き込み
 
                         		}
                         		if(bid_volume_dif != 0){
-                        			//pw.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
+                        			pw_limit.println(day + "," + time + "," + bid_volume_dif + "," + bid1[1] + ",bid,,,,,");//指値買注文の書き込み
 
                         		}
 
@@ -486,8 +587,8 @@ public class JNIc_limit_order{
 
             brtxt.close();
             fr.close();
-            //pw.close();
-            pw_depth.close();
+            pw_limit.close();
+            //pw_depth.close();
 
 
         }
