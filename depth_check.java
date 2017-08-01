@@ -97,29 +97,29 @@ public class depth_check{
                 	}
 
                 	if(up_only_ask == 1){
-                		if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
+                		if(JNIc_split[2].equals("up only bid not Trade")){
                 			ask_up_bid_up_count++;
                 			ask_up_bid_up_time_sum += time_total - only_ask_up_time;
 
                 			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-                				if(i/10 <= time_total - only_ask_up_time && time_total - only_ask_up_time < i/10 + 0.1){//iの条件により範囲を指定
+                				if(i <= time_total - only_ask_up_time && time_total - only_ask_up_time < i + 1){//iの条件により範囲を指定
                 					ask_up_bid_up_dis[(int)(i)]++;
                 				}
                 			}
-                			if(1 <= time_total - only_ask_up_time){//条件により範囲を指定
+                			if(10 <= time_total - only_ask_up_time){//条件により範囲を指定
             					ask_up_bid_up_dis[10]++;
             				}
                 		}
-                		else if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
+                		else if(JNIc_split[2].equals("down only ask not Trade")){
                 			ask_up_ask_down_count++;
                 			ask_up_ask_down_time_sum += time_total - only_ask_up_time;
 
                 			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-                				if(i/10 <= time_total - only_ask_up_time && time_total - only_ask_up_time < i/10 + 0.1){//iの条件により範囲を指定
+                				if(i <= time_total - only_ask_up_time && time_total - only_ask_up_time < i + 1){//iの条件により範囲を指定
                 					ask_up_ask_down_dis[(int)(i)]++;
                 				}
                 			}
-                			if(1 <= time_total - only_ask_up_time){//条件により範囲を指定
+                			if(10 <= time_total - only_ask_up_time){//条件により範囲を指定
             					ask_up_ask_down_dis[10]++;
             				}
                 		}
@@ -131,27 +131,27 @@ public class depth_check{
                 		up_only_ask = 0;
                 	}
                 	if(down_only_bid == 1){
-                		if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
+                		if(JNIc_split[2].equals("down only ask not Trade")){
                 			bid_down_ask_down_count++;
                 			bid_down_ask_down_time_sum += time_total - only_bid_down_time;
                 			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-                				if(i/10 <= time_total - only_bid_down_time && time_total - only_bid_down_time < i/10 + 0.1){//iの条件により範囲を指定
+                				if(i <= time_total - only_bid_down_time && time_total - only_bid_down_time < i + 1){//iの条件により範囲を指定
                 					bid_down_ask_down_dis[(int)(i)]++;
                 				}
                 			}
-                			if(1 <= time_total - only_bid_down_time){//条件により範囲を指定
+                			if(10 <= time_total - only_bid_down_time){//条件により範囲を指定
             					bid_down_ask_down_dis[10]++;
             				}
                 		}
-                		else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
+                		else if( JNIc_split[2].equals("up only bid not Trade")){
                 			bid_down_bid_up_count++;
                 			bid_down_bid_up_time_sum += time_total - only_bid_down_time;
                 			for(double i = 0;i<=9;i++){//板の移動の分布を格納するfor文
-                				if(i/10 <= time_total - only_bid_down_time && time_total - only_bid_down_time < i/10 + 0.1){//iの条件により範囲を指定
+                				if(i <= time_total - only_bid_down_time && time_total - only_bid_down_time < i + 1){//iの条件により範囲を指定
                 					bid_down_bid_up_dis[(int)(i)]++;
                 				}
                 			}
-                			if(1 <= time_total - only_bid_down_time){//条件により範囲を指定
+                			if(10 <= time_total - only_bid_down_time){//条件により範囲を指定
             					bid_down_bid_up_dis[10]++;
             				}
                 		}
@@ -168,7 +168,7 @@ public class depth_check{
                 	else if(JNIc_split[2].equals("down price dif not 10") || JNIc_split[2].equals("down not Trade not 10") ){
                 		down_not10_count++;
                 	}
-                	else if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){
+                	else if(JNIc_split[2].equals("down only ask not Trade")){
                 		down_only_ask_count++;
                 	}
                 	else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){
@@ -193,7 +193,7 @@ public class depth_check{
                 		up_only_ask = 1;
                 		only_ask_up_time = time_total;
                 	}
-                	else if(JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){
+                	else if(JNIc_split[2].equals("up only bid not Trade")){
                 		up_only_bid_count++;
                 	}
                 	else if(JNIc_split[2].equals("up price same")){
