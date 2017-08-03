@@ -39,7 +39,7 @@ public class depth_matrix{
             File file = new File(filename[0] + "_matrix.csv");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
-         	pw.println(day + ",morning,count_up_up,count_up_down,count_down_up,count_down_down,,,,");
+         	pw.println("day,morning,count_up_up,count_up_down,count_down_up,count_down_down,,,,");
 
          	String  JNIc_split[] = null;
 
@@ -78,7 +78,7 @@ public class depth_matrix{
             		else if(morning_or_afternoon == true && Integer.parseInt(day) < 20110214){//後場の書き込み
             			pw.println(day + ",afternoon," + count_up_up + "," + count_up_down + "," + count_down_up + "," + count_down_down + ",,,,,,,");
             			morning_or_afternoon = false;
-            			System.out.println(line);
+
             		}
             		else if(20110214 <= Integer.parseInt(day)){//昼休みが廃止されたとき
             			pw.println(day + ",no noon recess," + count_up_up + "," + count_up_down + "," + count_down_up + "," + count_down_down + ",,,,,,,");
@@ -117,6 +117,10 @@ public class depth_matrix{
             	else if(before_move_condition == 2 && (JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade"))){//板が下落した後の、板の下落
             		count_down_down++;
             		before_move_condition = 2;
+            	}
+            	else{
+            		before_move_condition = 0;
+            		System.out.println(line);
             	}
 
 
