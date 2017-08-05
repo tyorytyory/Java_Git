@@ -29,9 +29,12 @@ public class HTICDT_Circuit{
 
             while ((line = brtxt.readLine()) != null) {
 
-            	System_print1.Circuit(line);
+            	//System_print1.Circuit(line);
             	//System_print1.Print(line);
 
+            	if(Integer.parseInt(line.substring(56,66))==0){
+            		System.out.println(line);
+            	}
 
             }
 
