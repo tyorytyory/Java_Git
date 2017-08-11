@@ -273,8 +273,9 @@ public class JNIc_limit_order{
                         		//System.out.println(Index + "+++" + bid1[1] + "," + ask1[1]);
                         	}
 
+                    		//約定プログラム（ここから）
                     		if(ita_change == 0){//板が移動しないとき
-                    			if(trade_price1 == bid1[1]){//約定プログラム（ここから）
+                    			if(trade_price1 == bid1[1]){
                         			pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",ask,,,,,");
                         		}
                         		else if(trade_price1 == ask1[1]){
@@ -293,7 +294,6 @@ public class JNIc_limit_order{
                         		}
                         		else{
                         			pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error2,,,,,");//存在しない
-
                         		}
                     		}
                     		else{
