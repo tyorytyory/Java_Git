@@ -102,9 +102,9 @@ public class JNIc_limit_order{
             String[] filename = txtFileName.split("\\_");
 
             //指値注文の出力プログラム
-            //File file = new File(filename[1].substring(0,6) + "_limit_order.csv");//Windows
+            File file = new File(filename[1].substring(0,6) + "_limit_order.csv");//Windows
          	//File file = new File("/Volumes/HASHIMOTO3/data/2016/指値データ/ロイター通信社指値注文/月毎(900-1510)/JNIc_" + filename[1].substring(0,6) + "_limit_order.csv");//Mac
-         	//PrintWriter pw_limit = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+         	PrintWriter pw_limit = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
          	//板が移動した直後の板の厚さを出力するプログラム
          	//File file_depth = new File(filename[1].substring(0,6) + "_frist_depth.csv");
@@ -112,8 +112,8 @@ public class JNIc_limit_order{
 
 
          	//約定の取引を出力するプログラム
-         	File file = new File(filename[1].substring(0,6) + "_market_order.csv");
-          	PrintWriter pw_market = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+         	//File file = new File(filename[1].substring(0,6) + "_market_order.csv");
+          	//PrintWriter pw_market = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
             while ((line = brtxt.readLine()) != null) {
@@ -274,7 +274,7 @@ public class JNIc_limit_order{
                         	}
 
                     		//約定プログラム（ここから）
-                    		if(ita_change == 0){//板が移動しないとき
+                    		/*if(ita_change == 0){//板が移動しないとき
                     			if(trade_price1 == bid1[1]){
                         			pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",ask,,,,,");
                         		}
@@ -298,7 +298,7 @@ public class JNIc_limit_order{
                     		}
                     		else{
                     			System.out.println(line);
-                    		}
+                    		}*/
                     		//約定プログラム（ここまで）
                     	}
                     	else if(count13 == 0){
@@ -356,7 +356,7 @@ public class JNIc_limit_order{
                     			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",down only bid," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
 
                     			if(bid_volume2 != 0){//最初の板の枚数（直前の売約定枚数と最良買気配値の枚数が一致しない。約定値が大きい。そして、価格差20円以上なので板の枚数は残らない）。ちなみにほとんどない
-                    				//pw_limit.println(day + "," + time + "," + (-1*bid_volume2) + "," + bid_price_before + ",bid,only bid down,,,,");
+                    				//pw_limit.println(day + "," + time + "," + (-1*bid_volume2) + "," + bid_price_before + ",bid,only bid down,,,,");//これは考えなくて良いのでは？
                     				//System.out.println(line);
                     			}
                     			else if(bid_volume2 > 0){
@@ -401,7 +401,7 @@ public class JNIc_limit_order{
                     		else if(bid_price_same == 1 && ask_price_same == 0){//売板だけ上昇
                     			//pw_depth.println(JNIc_split[2]+ "," + JNIc_split[3] + ",up only ask," + bid1[1] + "," + bid_volume1 + "," + ask1[1] + "," + ask_volume1);
                     			if(ask_volume2 != 0){//最初の板の枚数（直前の買約定枚数と最良売気配値の枚数が一致しない。約定値が大きい。そして、価格差20円以上なので板の枚数は残らない）。ちなみにほとんどない
-                    				//pw_limit.println(day + "," + time + "," + (-1*ask_volume2) + "," + ask_price_before + ",ask,only ask up,,,,");
+                    				//pw_limit.println(day + "," + time + "," + (-1*ask_volume2) + "," + ask_price_before + ",ask,only ask up,,,,");//これは考えなくて良いのでは？
                     				//System.out.println(line);
                     			}
                     			else if(ask_volume2 > 0){
@@ -645,8 +645,8 @@ public class JNIc_limit_order{
 
             brtxt.close();
             fr.close();
-            pw_market.close();
-            //pw_limit.close();
+            //pw_market.close();
+            pw_limit.close();
             //pw_depth.close();
 
 
