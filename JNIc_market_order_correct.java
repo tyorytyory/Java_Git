@@ -13,7 +13,7 @@ public class JNIc_market_order_correct{
 //初期J-GATEのデータを扱う際は、最初にcombファイル、その次にmarket_orderファイルを読み込ませる
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist1.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_market2.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
 
@@ -63,13 +63,15 @@ public class JNIc_market_order_correct{
 
 
 
-            File file = new File(filename[0] + "_" + filename[1]  + "_" + filename[2].substring(0, 5) + "_donation.csv");
+            File file = new File(filename[0] + "_" + filename[1]  + "_order1_donation.csv");
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
 
 
             while ((line = brtxt.readLine()) != null) {
+
+
 
 
             	//-----------------------(初期J-GATE以外ここから)--------------------------------------
@@ -87,12 +89,12 @@ public class JNIc_market_order_correct{
             	}
             	else if(day_market != Integer.parseInt(JNIc_split[0])){
             		for(int i = 0;i < file_input_number;i++){
-            			if(day_market < 20110214 && morning_finai_trade_count - 1  == i){//前場の最終約定の書き出し
+            			if(day_market < 20110214 && morning_finai_trade_count - 1  == i && day_market != 20081222){//前場の最終約定の書き出し
             				String file_write_mornig_final_trade_split[] = file_input[i].split(",", 0);
             				pw.println(file_write_mornig_final_trade_split[0] + "," + file_write_mornig_final_trade_split[1] + "," + file_write_mornig_final_trade_split[2] + "," + file_write_mornig_final_trade_split[3] +
             						"," + file_write_mornig_final_trade_split[4] + ",final trade,,,");
             			}
-            			else if(i == file_input_number - 1){//後場の最終約定の書き出し
+            			else if(i == file_input_number - 1 && day_market != 20061227){//後場の最終約定の書き出し
             				String file_write_afternoon_final_trade_split[] = file_input[i].split(",", 0);
             				pw.println(file_write_afternoon_final_trade_split[0] + "," + file_write_afternoon_final_trade_split[1] + "," + file_write_afternoon_final_trade_split[2] + "," + file_write_afternoon_final_trade_split[3] +
             						"," + file_write_afternoon_final_trade_split[4] + ",final trade,,,");
@@ -110,7 +112,7 @@ public class JNIc_market_order_correct{
             	}
 
             	if(day_market < 20110214 || 20160715 < day_market){//初期J-GATE以外のデータの読み込み
-            		if(file_input_number == 0){//前場の寄付きの書き込み
+            		if(file_input_number == 0 && day_market != 20071016 && day_market != 20081222){//前場の寄付きの書き込み
             			file_input[file_input_number] = JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + ",donation,,,,";
             			file_input_number++;
             		}
@@ -128,6 +130,7 @@ public class JNIc_market_order_correct{
             	}
 
 
+
             	//-----------------------(初期J-GATE以外ここまで)--------------------------------------
 
 
@@ -135,7 +138,7 @@ public class JNIc_market_order_correct{
 
             	//-----------------------(初期J-GATEここから)--------------------------------------
 
-            	/*if(filename[0].substring(0, 3).equals("JNI")){//combデータの読み込み
+            	/*if(filename[0].substring(0, 3).equals("JNI") || filename[0].substring(0, 3).equals("JNc")){//combデータの読み込み
 
 
             		if(!(line.substring(0,1).equals("-")) && day_comb == 0){//初期データの読み込み
@@ -150,6 +153,7 @@ public class JNIc_market_order_correct{
             			delete_comb[day_comb][2]++;//最終約定データののカウント
             			comb_donation = false;//初期化
             			comb_final_trade = false;//初期化
+
             		}
             		else if(line.substring(0,1).equals("-") && comb_donation == false){
             			delete_comb[day_comb][1]++;//寄付データの行数のカウント
@@ -176,7 +180,7 @@ public class JNIc_market_order_correct{
                 	if(day_market == 0){//日付データの読み込み
                 		day_market = Integer.parseInt(JNIc_split[0]);
                 	}
-                	else if(day_market != Integer.parseInt(JNIc_split[0])){//日付が変わった
+                	else if(day_market != Integer.parseInt(JNIc_split[0]) && day_market != 20160714){//日付が変わった
                 		for(int i = 0;i < file_input_number;i++){
                 			if(file_input_number - delete_comb[day_market][2] <= i){//最終約定の書き込み
                 				String file_write_final_trade_split[] = file_input[i].split(",", 0);
@@ -197,7 +201,12 @@ public class JNIc_market_order_correct{
 
             		if(20110214 <= day_market && day_market <= 20160715){
 
-                		if(delete_comb[day_market][1] > 0){//寄付データの格納
+                		if(day_market == 20160714){
+                			delete_comb[day_market][1]--;//初期化を意味する（値を0にしている）。
+                			file_input[file_input_number] = line;
+                			file_input_number++;
+                		}
+                		else if(delete_comb[day_market][1] > 0){//寄付データの格納
                 			file_input[file_input_number] = JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + ",donation,,,,";
                 			file_input_number++;
                 			delete_comb[day_market][1]--;//初期化を意味する（値を0にしている）。
@@ -227,6 +236,7 @@ public class JNIc_market_order_correct{
 
             //最後の書き込み
 
+
             for(int i = 0;i < file_input_number;i++){
     			if(day_market < 20110214 && morning_finai_trade_count - 1  == i){//前場の最終約定の書き出し
     				String file_write_mornig_final_trade_split[] = file_input[i].split(",", 0);
@@ -252,12 +262,15 @@ public class JNIc_market_order_correct{
 
 
 
+
+
       		//-----------------------(初期J-GATE以外ここまで)--------------------------------------
 
 
           //-----------------------(初期J-GATEここから)--------------------------------------
 
-           /*if(filename[1].equals("market")){
+
+          /* if(filename[1].equals("market")){
 
         		   for(int i = 0;i < file_input_number;i++){
               			if(file_input_number - delete_comb[day_market][2] <= i){//最終約定の書き込み
@@ -276,6 +289,7 @@ public class JNIc_market_order_correct{
 
 
            }*/
+
 
          //-----------------------(初期J-GATEここまで)--------------------------------------
 
