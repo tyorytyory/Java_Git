@@ -112,7 +112,7 @@ public class JNIc_limit_order{
 
 
          	//約定の取引を出力するプログラム
-         	File file = new File(filename[1].substring(0,6) + "_market_order1.csv");
+         	File file = new File(filename[1].substring(0,6) + "_market_order2.csv");
           	PrintWriter pw_market = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
@@ -274,7 +274,7 @@ public class JNIc_limit_order{
                         	}
 
                     		//約定プログラム（ここから）
-                    		//if(ita_change == 0){//板が移動しないとき
+                    		if(ita_change == 0){//板が移動しないとき
                     			if(trade_price1 == bid1[1]){
                         			pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",ask,,,,,");
                         		}
@@ -284,8 +284,8 @@ public class JNIc_limit_order{
                         		else{
                         			pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error2,,,,,");
                         		}
-                    		//}
-                    		/*else if(ita_change != 0){//板が約定により移動するとき
+                    		}
+                    		else if(ita_change != 0){//板が約定により移動するとき
                     			if(trade_price1 == bid1[1]){
                     				if(bid_volume2 != 0 && (trade_volume1 + bid_volume2) > 0){
                     					pw_market.println(day + "," + time + "," + (trade_volume1 + bid_volume2) + "," + trade_price1 + ",ask,cancel,,,,");//成行注文のキャンセル（指値注文の到着かも）
@@ -308,11 +308,11 @@ public class JNIc_limit_order{
                     		}
                     		else{
                     			System.out.println(line);
-                    		}*/
+                    		}
                     		//約定プログラム（ここまで）
                     	}
                     	else if(count13 == 0){
-                    		//pw.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error1,,,,,");//約定プログラム
+                    		pw_market.println(day + "," + time + "," + trade_volume1 + "," + trade_price1 + ",error1,,,,,");//約定プログラム
                     	}
                     	else{
                     		System.out.println("error");

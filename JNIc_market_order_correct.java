@@ -23,7 +23,7 @@ public class JNIc_market_order_correct{
         int input_file = 0;//使用していない？？
 
         int day_comb = 0;//delete_combで使用する変数
-        int delete_comb[][] = new int[20161200][3];//初期J-GATEのデータの読み込み（[][1]→寄付データの行数、[][2]→最終約定データの行数）
+        double delete_comb[][] = new double[20161200][3];//初期J-GATEのデータの読み込み（[][1]→寄付データの行数、[][2]→最終約定データの行数）
 
         boolean comb_donation = false;//combデータから寄付データの有無を示す変数（false→ある、true→ない）
         boolean comb_final_trade = false;//combデータから最終約定データの有無を示す変数（true→ある、false→ない）
@@ -60,10 +60,13 @@ public class JNIc_market_order_correct{
 
 
 
+        	if(filename[2].length() >= 7){
+        		filename[2] = filename[2].substring(0,6);
+        	}
 
 
 
-            File file = new File(filename[0] + "_" + filename[1]  + "_order1_donation.csv");
+            File file = new File(filename[0] + "_" + filename[1]  + "_"+ filename[2] +"_donation.csv");
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
@@ -75,6 +78,7 @@ public class JNIc_market_order_correct{
 
 
             	//-----------------------(初期J-GATE以外ここから)--------------------------------------
+
 
             	JNIc_split = line.split(",", 0);
 
@@ -138,7 +142,13 @@ public class JNIc_market_order_correct{
 
             	//-----------------------(初期J-GATEここから)--------------------------------------
 
+
             	/*if(filename[0].substring(0, 3).equals("JNI") || filename[0].substring(0, 3).equals("JNc")){//combデータの読み込み
+
+            		hour = Double.parseDouble(line.substring(91,93));//時間
+                	minute = Double.parseDouble(line.substring(94,96));//分
+                	second = Double.parseDouble(line.substring(97,106));//秒
+                	time_total = hour*3600 + minute*60 + second;//時間を秒換算
 
 
             		if(!(line.substring(0,1).equals("-")) && day_comb == 0){//初期データの読み込み
@@ -164,9 +174,8 @@ public class JNIc_market_order_correct{
 
             		if((line.substring(52,55).equals("128") || line.substring(52,55).equals("160")) && comb_final_trade == false){
             			comb_final_trade = true;//最終約定の開始
-            		}
-            		else if(comb_final_trade == true && line.substring(0,1).equals("-")){
-            			delete_comb[day_comb][2]++;//最終約定データののカウント
+            			delete_comb[day_comb][2] = time_total;
+
             		}
 
             	}
@@ -174,23 +183,32 @@ public class JNIc_market_order_correct{
 
             	if(filename[1].equals("market")){//marketデータの読み込み。ここからファイル書き込みを行う
 
-
-                	JNIc_split = line.split(",", 0);
+            		JNIc_split = line.split(",", 0);
 
                 	if(day_market == 0){//日付データの読み込み
                 		day_market = Integer.parseInt(JNIc_split[0]);
                 	}
-                	else if(day_market != Integer.parseInt(JNIc_split[0]) && day_market != 20160714){//日付が変わった
+                	else if(day_market != Integer.parseInt(JNIc_split[0])){//日付が変わった
                 		for(int i = 0;i < file_input_number;i++){
-                			if(file_input_number - delete_comb[day_market][2] <= i){//最終約定の書き込み
+
+                			String file_input_split[] = file_input[i].split(",", 0);
+                			hour = Double.parseDouble(file_input_split[1].substring(0, 2));//時間
+                        	minute = Double.parseDouble(file_input_split[1].substring(3, 5));//分
+                        	second = Double.parseDouble(file_input_split[1].substring(6));//秒
+                        	time_total = hour*3600 + minute*60 + second;//時間を秒換算
+
+
+                			if(delete_comb[day_market][2] <= time_total && day_market != 20160714){//最終約定の書き込み
                 				String file_write_final_trade_split[] = file_input[i].split(",", 0);
                 				pw.println(file_write_final_trade_split[0] + "," + file_write_final_trade_split[1] + "," + file_write_final_trade_split[2] + "," + file_write_final_trade_split[3] +
                 						"," + file_write_final_trade_split[4] + ",final trade,,,");
+                				//System.out.println(file_input[i]);
                 			}
                 			else{//寄付・約定データの書き込み
                 				pw.println(file_input[i]);
                 			}
                 		}
+
                 		Arrays.fill(file_input, null);//初期化
                 		file_input_number = 0;//初期化
                 		day_market = Integer.parseInt(JNIc_split[0]);
@@ -200,6 +218,7 @@ public class JNIc_market_order_correct{
 
 
             		if(20110214 <= day_market && day_market <= 20160715){
+            			//System.out.println(day_market);
 
                 		if(day_market == 20160714){
                 			delete_comb[day_market][1]--;//初期化を意味する（値を0にしている）。
@@ -270,18 +289,18 @@ public class JNIc_market_order_correct{
           //-----------------------(初期J-GATEここから)--------------------------------------
 
 
-          /* if(filename[1].equals("market")){
+           /*if(filename[1].equals("market")){
 
-        		   for(int i = 0;i < file_input_number;i++){
-              			if(file_input_number - delete_comb[day_market][2] <= i){//最終約定の書き込み
-              				String file_write_final_trade_split[] = file_input[i].split(",", 0);
-              				pw.println(file_write_final_trade_split[0] + "," + file_write_final_trade_split[1] + "," + file_write_final_trade_split[2] + "," + file_write_final_trade_split[3] +
-              						"," + file_write_final_trade_split[4] + ",final trade,,,");
-              			}
-              			else{//約定・最終約定データの格納
-              				pw.println(file_input[i]);
-              			}
-              		}
+        	   for(int i = 0;i < file_input_number;i++){
+       			if(delete_comb[day_market][2] <= time_total && day_market != 20160714){//最終約定の書き込み
+       				String file_write_final_trade_split[] = file_input[i].split(",", 0);
+       				pw.println(file_write_final_trade_split[0] + "," + file_write_final_trade_split[1] + "," + file_write_final_trade_split[2] + "," + file_write_final_trade_split[3] +
+       						"," + file_write_final_trade_split[4] + ",final trade,,,");
+       			}
+       			else{//寄付・約定データの書き込み
+       				pw.println(file_input[i]);
+       			}
+       		}
 
           		Arrays.fill(file_input, null);//初期化
           		file_input_number = 0;//初期化

@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 
 public class depth_matrix{
 //JNIc_limit_order.javaから作成したdepthファイルから、板の移動回数や最初の板の枚数を計算するプログラム
+////(inlcude only)は「買板だけ下落し、その後売板だけが下落する」「売板だけ上昇し、その後買板だけが上昇する(inlcude only)」を考慮したいとき、if文を挿入する。
 
     public static void main(String[] args) throws IOException{
 
@@ -49,6 +50,8 @@ public class depth_matrix{
          	int count_up_down = 0;//板が上昇し、その後は下落する回数
          	int count_down_down = 0;//板が下落し、その後も下落する回数
          	int count_down_up = 0;//板が下落し、その後は上昇する回数
+
+
          	boolean morning_or_afternoon = false;//前場(false) or 後場(true)
 
 
@@ -93,14 +96,22 @@ public class depth_matrix{
             		//------------初期化--------------
             	}
 
+
+
             	if(before_move_condition == 0){//一番最初とき
             		if(JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade")){//買板・売板の上昇
             			before_move_condition = 1;
 
                 	}
                 	else if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){//買板・売板の下落
-                		now_move_condition = 2;
+                		before_move_condition = 2;
                 	}
+                	/*else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
+                		before_move_condition = 3;
+                	}
+                	else if(JNIc_split[2].equals("up only ask") || JNIc_split[2].equals("up only ask not Trade")){//(inlcude only)
+                		before_move_condition = 4;
+                	}*/
             	}
             	else if(before_move_condition == 1 && (JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade"))){//板が上昇した後の、板の上昇
             		count_up_up++;
@@ -118,9 +129,17 @@ public class depth_matrix{
             		count_down_down++;
             		before_move_condition = 2;
             	}
+            	/*else if(before_move_condition == 3 && JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){//買板だけ下落し、その後売板だけが下落する(inlcude only)
+            		before_move_condition = 2;
+
+            	}
+            	else if(before_move_condition == 4 && JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){//売板だけ上昇し、その後買板だけが上昇する(inlcude only)
+            		before_move_condition = 1;
+
+            	}*/
             	else{
             		before_move_condition = 0;
-            		System.out.println(line);
+
             	}
 
 

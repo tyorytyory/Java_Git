@@ -11,7 +11,7 @@ public class JNIc_order_volume_study{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_order.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
 

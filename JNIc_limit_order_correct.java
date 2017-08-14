@@ -51,7 +51,7 @@ public class JNIc_limit_order_correct{
 
 
 
-            File file = new File(filename[0] + "_" + filename[1]  + "_" + filename[2].substring(0, 5) + "_final_trade.csv");
+            File file = new File(filename[0] + "_" + filename[1]  + "_" + filename[2].substring(0, 6) + "_final_trade.csv");
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
@@ -78,8 +78,8 @@ public class JNIc_limit_order_correct{
             			day_market = Integer.parseInt(JNIc_split[0]);
             		}
             	}
-            	//else if(filename[1].equals("limit")){
-            	else if(filename[1].equals("frist")){
+            	else if(filename[1].equals("limit")){//指値注文
+            	//else if(filename[1].equals("frist")){//最初の板
             		if(20061227 == Integer.parseInt(JNIc_split[0]) || 20160714 == Integer.parseInt(JNIc_split[0])){
             			pw.println(line);
             		}
