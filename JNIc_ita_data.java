@@ -37,7 +37,7 @@ public class JNIc_ita_data{
 
             String[] filename = txtFileName.split("\\.");
 
-            File file = new File(filename[0] + "_ita_move.csv");
+            File file = new File(filename[0] + "_ita_move_without_only.csv");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
@@ -83,7 +83,7 @@ public class JNIc_ita_data{
             	else if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){//板が上昇した後の、板の下落
             		pw.println(line + "," + "-1");
             	}
-            	else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
+            	/*else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
             		before_move_condition = 1;
             	}
             	else if(JNIc_split[2].equals("up only ask") || JNIc_split[2].equals("up only ask not Trade")){//(inlcude only)
@@ -99,8 +99,7 @@ public class JNIc_ita_data{
             	}
             	else{
             		before_move_condition = 0;
-
-            	}
+            	}*/
 
 
             }

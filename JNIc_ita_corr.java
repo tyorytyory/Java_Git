@@ -77,10 +77,10 @@ public class JNIc_ita_corr{
 
     			//number_of_value = number_of_value+1;//プログラム上1つ多く加算されるため-1する。
 
-        		value_ave = value_sum/(number_of_value+1);//平均値の算出
+        		value_ave = value_sum/(number_of_value);//平均値の算出
 
 
-        		for(int i=0;i<=(int)(number_of_value-1);i++){
+        		for(int i=0;i<=(int)(number_of_value-2);i++){
         			value_cova += ((value[i] - value_ave)*(value[i+1] - value_ave));//1次の共分散の算出
         			//System.out.println(((value[(int)(number_of_value)] - value_ave)*(value[(int)(number_of_value+1)] - value_ave)));
         		}
@@ -88,7 +88,7 @@ public class JNIc_ita_corr{
 
         		value_cova = value_cova/number_of_value;//1次の共分散の算出
 
-        		for(int i=0;i<=(int)(number_of_value);i++){
+        		for(int i=0;i<=(int)(number_of_value-1);i++){
         			value_va += (value[i] - value_ave)*(value[i] - value_ave);;//分散の算出
         			value[i] = 0;
         		}
@@ -129,7 +129,7 @@ public class JNIc_ita_corr{
 
 
 
-    		length_konma = Index.length();
+    		//length_konma = Index.length();
         	//System.out.println(length_konma);
 
     		/*for(i1=0;i1<length_konma;i1++){
