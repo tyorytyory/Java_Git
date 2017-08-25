@@ -67,12 +67,17 @@ public class JNIc_ita_corr{
     		String d2 = JNIc_split[0];
     		day = Integer.parseInt(d2);
 
+    		double hour = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
+        	double minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
+        	double second = Double.parseDouble(JNIc_split[1].substring(6));//秒
+        	double time_total = hour*3600 + minute*60 + second;//時間を秒換算
+
 
     		if(count_dummy == 0){
     			day_now = day;
     			count_dummy++;
     		}
-    		else if(day_now != day){
+    		else if(day_now != day || time_total > 45000){//ここから始める！！！
 
 
     			//number_of_value = number_of_value+1;//プログラム上1つ多く加算されるため-1する。
