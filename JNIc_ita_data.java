@@ -64,13 +64,27 @@ public class JNIc_ita_data{
             	if(day == null){
             		day = JNIc_split[0];
             	}
-            	else if(!(day.equals(JNIc_split[0])) || (45000 <= time_total && Integer.parseInt(day) < 20110214 && morning_or_afternoon == false)){
+            	else if(!(day.equals(JNIc_split[0])) || (((20060104 < Integer.parseInt(day) && Integer.parseInt(day) < 20061229) || (20070104 < Integer.parseInt(day) && Integer.parseInt(day) < 20071228) || (20080104 < Integer.parseInt(day) && Integer.parseInt(day) < 20081230) || (20090105 < Integer.parseInt(day) && Integer.parseInt(day) < 20110214))
+            			&& time_total > 45000 && morning_or_afternoon == false)){
 
-            		//------------初期化--------------
 
-            		before_move_condition = 0;
 
-            		//------------初期化--------------
+            		before_move_condition = 0;//初期化
+
+
+
+            		if(!(day.equals(JNIc_split[0]))){
+            			day = JNIc_split[0];
+            			morning_or_afternoon = false;
+            		}
+            		else if(Integer.parseInt(day) < 20110214){
+            			morning_or_afternoon = true;
+            			//System.out.println(line);
+            		}
+
+
+
+
             	}
 
 
@@ -78,24 +92,27 @@ public class JNIc_ita_data{
 
 
             	if(JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade")){//板が上昇した後の、板の上昇
+            		before_move_condition = 0;
             		pw.println(line + "," + "+1");
             	}
             	else if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){//板が上昇した後の、板の下落
+            		before_move_condition = 0;
             		pw.println(line + "," + "-1");
             	}
             	/*else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
             		before_move_condition = 1;
+
             	}
             	else if(JNIc_split[2].equals("up only ask") || JNIc_split[2].equals("up only ask not Trade")){//(inlcude only)
             		before_move_condition = 2;
             	}
-            	else if(before_move_condition == 1 && JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){//買板だけ下落し、その後売板だけが下落する(inlcude only)
-            		before_move_condition = 0;
+            	else if(before_move_condition == 1 && (JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade"))){//買板だけ下落し、その後売板だけが下落する(inlcude only)
             		pw.println(line + "," + "-1");
-            	}
-            	else if(before_move_condition == 2 && JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade")){//売板だけ上昇し、その後買板だけが上昇する(inlcude only)
             		before_move_condition = 0;
+            	}
+            	else if(before_move_condition == 2 && (JNIc_split[2].equals("up only bid") || JNIc_split[2].equals("up only bid not Trade"))){//売板だけ上昇し、その後買板だけが上昇する(inlcude only)
             		pw.println(line + "," + "+1");
+            		before_move_condition = 0;
             	}
             	else{
             		before_move_condition = 0;
@@ -104,7 +121,7 @@ public class JNIc_ita_data{
 
             }
 
-
+            morning_or_afternoon = false;//初期化
 
 
 

@@ -39,6 +39,11 @@ public class JNIc_ita_corr{
         	double value_va = 0.0;//valueの分散
         	double value_cor = 0.0;//valueの一次の自己相関
         	double significance  = 0.0;//95有意水準の値;
+        	boolean am_or_pm = false;//2011/2/10までの前場・後場を判断するプログラム
+        	double hour = 0;//時間
+        	double minute = 0;//分
+        	double second = 0;//秒
+        	double time_total = 0;//時間を秒換算
 
 
 
@@ -53,7 +58,7 @@ public class JNIc_ita_corr{
      	File file = new File(filename[0]  + 	"_corr_result.csv");
      	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
-     	pw.println("日付,平均値,分散,1次自己共分散,1次自己相関,±1.96√T");
+     	pw.println("日付,前場後場,平均値,分散,1次自己共分散,1次自己相関,±1.96√T");
 
 
         while ((line = brtxt.readLine()) != null) {
@@ -67,17 +72,18 @@ public class JNIc_ita_corr{
     		String d2 = JNIc_split[0];
     		day = Integer.parseInt(d2);
 
-    		double hour = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
-        	double minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
-        	double second = Double.parseDouble(JNIc_split[1].substring(6));//秒
-        	double time_total = hour*3600 + minute*60 + second;//時間を秒換算
+    		hour = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
+        	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
+        	second = Double.parseDouble(JNIc_split[1].substring(6));//秒
+        	time_total = hour*3600 + minute*60 + second;//時間を秒換算
 
 
     		if(count_dummy == 0){
     			day_now = day;
     			count_dummy++;
     		}
-    		else if(day_now != day || time_total > 45000){//ここから始める！！！
+    		else if(day_now != day ||
+    				(((20060104 < day_now && day_now < 20061229) || (20070104 < day_now && day_now < 20071228) || (20080104 < day_now && day_now < 20081230) || (20090105 < day_now && day_now < 20110214)) && time_total > 45000 && am_or_pm == false)){
 
 
     			//number_of_value = number_of_value+1;//プログラム上1つ多く加算されるため-1する。
@@ -105,7 +111,23 @@ public class JNIc_ita_corr{
 
 
 
-        		pw.print(day_now + "," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        		if(day_now == 20060104 || day_now == 20061229 || day_now == 20070104 || day_now == 20071228 || day_now == 20080104 || day_now == 20081230 || day_now == 20090105){//半日オークション
+        			pw.print(day_now + ",morning," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        		}
+        		else if(day_now < 20110214 && time_total > 45000 && am_or_pm == false){//前場
+        			pw.print(day_now + ",morning," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        			am_or_pm = true;
+        		}
+        		else if(day_now < 20110214 && day_now != day){//後場
+        			pw.print(day_now + ",afternoon," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        			am_or_pm = false;
+        		}
+        		else if(20110214 <= day_now){//2011/2/14以降（昼休みの廃止）
+        			pw.print(day_now + ",no noon recess," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        		}
+        		else{
+        			System.out.println(line);
+        		}
 
         		if(Math.abs(value_cor) > Math.abs(significance)){
         			pw.println("採択される");
@@ -188,8 +210,23 @@ public class JNIc_ita_corr{
 
 		significance = 1.96/Math.sqrt(number_of_value);//95%有意水準
 
-
-		pw.print(day + "," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+		if(day_now == 20060104 || day_now == 20061229 || day_now == 20070104 || day_now == 20071228 || day_now == 20080104 || day_now == 20081230 || day_now == 20090105){//半日オークション
+			pw.print(day_now + ",morning," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+		}
+		else if(day_now < 20110214 && time_total > 45000 && am_or_pm == false){//前場
+			pw.print(day_now + ",morning," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+			am_or_pm = true;
+		}
+		else if(day_now < 20110214 && day_now != day){//後場
+			pw.print(day_now + ",afternoon," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+			am_or_pm = false;
+		}
+		else if(20110214 <= day_now){//2011/2/14以降（昼休みの廃止）
+			pw.print(day_now + ",no noon recess," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+		}
+		else{
+			System.out.println(line);
+		}
 
 		if(Math.abs(value_cor) > Math.abs(significance)){
 			pw.println("採択される");
@@ -199,12 +236,14 @@ public class JNIc_ita_corr{
 		}
 
 
+
 		day_now = day;
 		number_of_value = 0;
 		value_va = 0;
 		value_cova = 0;
 		value_ave = 0;
 		value_sum = 0;
+		am_or_pm = false;
 
 
 
