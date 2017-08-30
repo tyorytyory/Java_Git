@@ -78,8 +78,8 @@ public class JNIc_limit_order_correct{
             			day_market = Integer.parseInt(JNIc_split[0]);
             		}
             	}
-            	else if(filename[1].equals("limit")){//指値注文
-            	//else if(filename[1].equals("frist")){//最初の板
+            	//else if(filename[1].equals("limit")){//指値注文
+            	else if(filename[1].equals("frist")){//最初の板
             		if(20061227 == Integer.parseInt(JNIc_split[0]) || 20160714 == Integer.parseInt(JNIc_split[0])){
             			pw.println(line);
             		}
