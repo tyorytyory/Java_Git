@@ -83,7 +83,7 @@ public class depth_matrix{
          	int not_Trade_count = 0;//not Tradeで遷移した個数
 
 
-         	double move_beofore_time = 0.0;
+         	double move_beofore_time = 0.0;//move_timeを求める際に使う変数
 
 
 
