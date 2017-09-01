@@ -112,7 +112,7 @@ public class JNIc_limit_order{
          	//PrintWriter pw_limit = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
          	//板が移動した直後の板の厚さを出力するプログラム
-         	File file_depth = new File(filename[1].substring(0,6) + "_frist_depth2.csv");
+         	File file_depth = new File(filename[1].substring(0,6) + "_frist_depth3.csv");
           	PrintWriter pw_depth = new PrintWriter(new BufferedWriter(new FileWriter(file_depth)));
 
 
@@ -163,6 +163,7 @@ public class JNIc_limit_order{
                     	trade_price1 =Integer.parseInt(trade_price);
                     	trade_volume = JNIc_split[6];//Tradeの出来高
                     	trade_volume1 =Integer.parseInt(trade_volume);
+
                 	}
                 	else if(JNIc_split[4].equals("Quote")){
 
@@ -283,6 +284,30 @@ public class JNIc_limit_order{
                     			ita_change = 2;
                     		}
                     	}
+
+                    	if(ita_change != 0){//pw_depth(ここから)
+                    		if(trade_price1 == bid1[1]){
+                				if(bid_volume2 != 0 && (trade_volume1 + bid_volume2) > 0){
+                					trade_volume1 = trade_volume1 + bid_volume2;//成行注文のキャンセル（指値注文の到着かも）
+
+                				}
+                				else if(bid_volume2 == 0){
+                					trade_volume1 = trade_volume1 + bid_volume2;//成行注文のキャンセル（指値注文の到着かも）
+                					System.out.println(line);
+                				}
+                    		}
+                    		else if(trade_price1 == ask1[1]){
+                    			if(ask_volume2 != 0 && (trade_volume1 + ask_volume2) > 0){
+                    				trade_volume1 = trade_volume1 + ask_volume2;//成行注文のキャンセル（指値注文の到着かも）
+                    			}
+                    			else if(ask_volume2 == 0){
+                    				trade_volume1 = trade_volume1 + ask_volume2;//成行注文のキャンセル（指値注文の到着かも）
+                    			}
+                    		}
+                    		else{
+                    			System.out.println(line);//存在しない
+                    		}
+                    	}//pw_depth(ここまで)
 
                     	if(count13 != 0){
                     		if(bid1[1] != trade_price1 && ask1[1] != trade_price1 && bid1[1] != 0 && ask1[1] != 0){
