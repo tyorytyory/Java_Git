@@ -293,15 +293,17 @@ public class JNIc_limit_order{
                 				}
                 				else if(bid_volume2 == 0){
                 					trade_volume1 = trade_volume1 + bid_volume2;//成行注文のキャンセル（指値注文の到着かも）
-                					System.out.println(line);
+
                 				}
                     		}
                     		else if(trade_price1 == ask1[1]){
                     			if(ask_volume2 != 0 && (trade_volume1 + ask_volume2) > 0){
                     				trade_volume1 = trade_volume1 + ask_volume2;//成行注文のキャンセル（指値注文の到着かも）
+
                     			}
                     			else if(ask_volume2 == 0){
                     				trade_volume1 = trade_volume1 + ask_volume2;//成行注文のキャンセル（指値注文の到着かも）
+
                     			}
                     		}
                     		else{

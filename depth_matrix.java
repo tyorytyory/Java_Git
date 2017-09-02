@@ -37,7 +37,7 @@ public class depth_matrix{
 
             String[] filename = txtFileName.split("\\.");
 
-            File file = new File(filename[0] + "_matrix.csv");
+            File file = new File(filename[0] + "_matrix_include_only.csv");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
          	pw.println("day,morning,count_up_up,count_up_down,count_down_up,count_down_down,"+
@@ -210,12 +210,12 @@ public class depth_matrix{
                 		before_move_condition = 2;
                 		move_beofore_time = time_total;
                 	}
-                	/*else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
+                	else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
                 		before_move_condition = 3;
                 	}
                 	else if(JNIc_split[2].equals("up only ask") || JNIc_split[2].equals("up only ask not Trade")){//(inlcude only)
                 		before_move_condition = 4;
-                	}*/
+                	}
             	}
             	else if(before_move_condition == 1 && (JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade"))){//板が上昇した後の、板の上昇
             		count_up_up++;
@@ -281,7 +281,7 @@ public class depth_matrix{
             		}
             		before_move_condition = 2;
             	}
-            	/*else if(before_move_condition == 3 && (JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade"))){//買板だけ下落し、その後売板だけが下落する(inlcude onlyここから)
+            	else if(before_move_condition == 3 && (JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade"))){//買板だけ下落し、その後売板だけが下落する(inlcude onlyここから)
             		before_move_condition = 2;
             		move_beofore_time = time_total;
             	}
@@ -324,7 +324,7 @@ public class depth_matrix{
             		down_down_move_time += time_total - move_beofore_time;
             		move_beofore_time = time_total;
             		count_down_down++;
-            	}//(inlcude onlyここまで)*/
+            	}//(inlcude onlyここまで)
             	else{
             		before_move_condition = 0;
             	}
