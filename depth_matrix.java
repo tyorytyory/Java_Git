@@ -37,7 +37,7 @@ public class depth_matrix{
 
             String[] filename = txtFileName.split("\\.");
 
-            File file = new File(filename[0] + "_matrix_include_only.csv");
+            File file = new File(filename[0] + "_matrix.csv");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
          	pw.println("day,morning,count_up_up,count_up_down,count_down_up,count_down_down,"+
@@ -49,7 +49,6 @@ public class depth_matrix{
          	String  JNIc_split[] = null;
 
          	int before_move_condition = 0;//直前の板の移動の情報を書き込む
-         	int now_move_condition = 0;
          	int count_up_up = 0;//板が上昇し、その後も上昇する回数
          	int count_up_down = 0;//板が上昇し、その後は下落する回数
          	int count_down_down = 0;//板が下落し、その後も下落する回数
@@ -109,25 +108,25 @@ public class depth_matrix{
             		if(count_up_up_market != 0){
             			up_up_move_before_market_order = up_up_move_before_market_order/count_up_up_market;//平均に変換
                 		up_up_move_before_bid_depth = up_up_move_before_bid_depth/count_up_up_market;//平均に変換
-                		up_up_move_before_ask_depth = up_up_move_before_bid_depth/count_up_up_market;//平均に変換
+                		up_up_move_before_ask_depth = up_up_move_before_ask_depth/count_up_up_market;//平均に変換
                 		up_up_move_time = up_up_move_time/count_up_up_market;//平均に変換
             		}
             		if(count_up_down_market != 0){
             			up_down_move_before_market_order = up_down_move_before_market_order/count_up_down_market;//平均に変換
                 		up_down_move_before_bid_depth = up_down_move_before_bid_depth/count_up_down_market;//平均に変換
-                		up_down_move_before_ask_depth = up_down_move_before_bid_depth/count_up_down_market;//平均に変換
+                		up_down_move_before_ask_depth = up_down_move_before_ask_depth/count_up_down_market;//平均に変換
                 		up_down_move_time = up_down_move_time/count_up_down_market;//平均に変換
             		}
             		if(count_down_up_market != 0){
             			down_up_move_before_market_order = down_up_move_before_market_order/count_down_up_market;//平均に変換
                 		down_up_move_before_bid_depth = down_up_move_before_bid_depth/count_down_up_market;//平均に変換
-                		down_up_move_before_ask_depth = down_up_move_before_bid_depth/count_down_up_market;//平均に変換
+                		down_up_move_before_ask_depth = down_up_move_before_ask_depth/count_down_up_market;//平均に変換
                 		down_up_move_time = down_up_move_time/count_down_up_market;//平均に変換
             		}
             		if(count_down_down_market != 0){
             			down_down_move_before_market_order = down_down_move_before_market_order/count_down_down_market;//平均に変換
                 		down_down_move_before_bid_depth = down_down_move_before_bid_depth/count_down_down_market;//平均に変換
-                		down_down_move_before_ask_depth = down_down_move_before_bid_depth/count_down_down_market;//平均に変換
+                		down_down_move_before_ask_depth = down_down_move_before_ask_depth/count_down_down_market;//平均に変換
                 		down_down_move_time = down_down_move_time/count_down_down_market;//平均に変換
             		}
 
@@ -210,12 +209,12 @@ public class depth_matrix{
                 		before_move_condition = 2;
                 		move_beofore_time = time_total;
                 	}
-                	else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
+                	/*else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
                 		before_move_condition = 3;
                 	}
                 	else if(JNIc_split[2].equals("up only ask") || JNIc_split[2].equals("up only ask not Trade")){//(inlcude only)
                 		before_move_condition = 4;
-                	}
+                	}*/
             	}
             	else if(before_move_condition == 1 && (JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade"))){//板が上昇した後の、板の上昇
             		count_up_up++;
@@ -281,7 +280,7 @@ public class depth_matrix{
             		}
             		before_move_condition = 2;
             	}
-            	else if(before_move_condition == 3 && (JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade"))){//買板だけ下落し、その後売板だけが下落する(inlcude onlyここから)
+            	/*else if(before_move_condition == 3 && (JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade"))){//買板だけ下落し、その後売板だけが下落する(inlcude onlyここから)
             		before_move_condition = 2;
             		move_beofore_time = time_total;
             	}
@@ -324,7 +323,7 @@ public class depth_matrix{
             		down_down_move_time += time_total - move_beofore_time;
             		move_beofore_time = time_total;
             		count_down_down++;
-            	}//(inlcude onlyここまで)
+            	}//(inlcude onlyここまで)*/
             	else{
             		before_move_condition = 0;
             	}
@@ -335,25 +334,25 @@ public class depth_matrix{
             if(count_up_up_market != 0){
     			up_up_move_before_market_order = up_up_move_before_market_order/count_up_up_market;//平均に変換
         		up_up_move_before_bid_depth = up_up_move_before_bid_depth/count_up_up_market;//平均に変換
-        		up_up_move_before_ask_depth = up_up_move_before_bid_depth/count_up_up_market;//平均に変換
+        		up_up_move_before_ask_depth = up_up_move_before_ask_depth/count_up_up_market;//平均に変換
         		up_up_move_time = up_up_move_time/count_up_up_market;//平均に変換
     		}
     		if(count_up_down_market != 0){
     			up_down_move_before_market_order = up_down_move_before_market_order/count_up_down_market;//平均に変換
         		up_down_move_before_bid_depth = up_down_move_before_bid_depth/count_up_down_market;//平均に変換
-        		up_down_move_before_ask_depth = up_down_move_before_bid_depth/count_up_down_market;//平均に変換
+        		up_down_move_before_ask_depth = up_down_move_before_ask_depth/count_up_down_market;//平均に変換
         		up_down_move_time = up_down_move_time/count_up_down_market;//平均に変換
     		}
     		if(count_down_up_market != 0){
     			down_up_move_before_market_order = down_up_move_before_market_order/count_down_up_market;//平均に変換
         		down_up_move_before_bid_depth = down_up_move_before_bid_depth/count_down_up_market;//平均に変換
-        		down_up_move_before_ask_depth = down_up_move_before_bid_depth/count_down_up_market;//平均に変換
+        		down_up_move_before_ask_depth = down_up_move_before_ask_depth/count_down_up_market;//平均に変換
         		down_up_move_time = down_up_move_time/count_down_up_market;//平均に変換
     		}
     		if(count_down_down_market != 0){
     			down_down_move_before_market_order = down_down_move_before_market_order/count_down_down_market;//平均に変換
         		down_down_move_before_bid_depth = down_down_move_before_bid_depth/count_down_down_market;//平均に変換
-        		down_down_move_before_ask_depth = down_down_move_before_bid_depth/count_down_down_market;//平均に変換
+        		down_down_move_before_ask_depth = down_down_move_before_ask_depth/count_down_down_market;//平均に変換
         		down_down_move_time = down_down_move_time/count_down_down_market;//平均に変換
     		}
 
