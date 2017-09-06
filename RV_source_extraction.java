@@ -71,7 +71,7 @@ public class RV_source_extraction{
                 		if(minute_null_output.length() == 1){
                 			minute_null_output = 0 + minute_null_output;
                 		}
-                		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "NaN,NaN,NaN");
+                		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "0,0,0");
                 		time_for += time_intervals;
             		}while(time_intervals <= (time_total - time_for));
             		System.out.println(line);

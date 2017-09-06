@@ -99,8 +99,10 @@ public class depth_count{
 		double move_before_time = 0.0;//move_timeを求める際に使う変数
 		double move_before_time_without_only = 0.0;//move_timeを求める際に使う変数without_only
 
-		int Trade_count = 0;//Tradeで遷移した個数
-     	int not_Trade_count = 0;//not Tradeで遷移した個数
+		int move_market_count = 0;//marketで遷移した個数
+     	int move_cancel_count = 0;//cancelで遷移した個数
+     	int move_cancel_after_market_count = 0;//cancel after marketで遷移した個数
+
 
         boolean ask_up_bid_up = false;
         boolean bid_down_ask_down = false;
@@ -131,7 +133,7 @@ public class depth_count{
 
          	pw_up.println("day,divide,up or down,up_count,up_bid_depth_count,up_ask_depth_count,up_count_dif_not_10,up_count_only_bid,up_count_only_ask,up_count_ask_up_bid_up,up_bid_depth_ask_up_bid_up,up_ask_depth_ask_up_bid_up,,,,");//ラベルの書き込み
          	pw_down.println("day,divide,up or down,down_count,down_bid_depth_count,down_ask_depth_count,down_count_dif_not_10,down_count_only_bid,down_count_only_ask,down_count_ask_down_bid_down,down_bid_depth_ask_down_bid_down,down_ask_depth_ask_down_bid_down,,");//ラベルの書き込み
-         	pw_time.println("day,divide,up_move_time,up_move_time_without_only,down_move_time,down_move_time_without_only,Trade_count,not_Trade_count");
+         	pw_time.println("day,divide,up_move_time,up_move_time_without_only,down_move_time,down_move_time_without_only,move_market_count,move_cancel_count,move_cancel_after_market_count");
 
          	String  JNIc_split[] = null;
 
@@ -255,20 +257,20 @@ public class depth_count{
             	}
             	else if(!(day.equals(JNIc_split[0])) || (45000 <= time_total && Integer.parseInt(day) < 20110214 && morning_or_afternoon == false)){
             		if(morning_or_afternoon == false && Integer.parseInt(day) < 20110214 && day.equals(JNIc_split[0])){//半日オークションの場合
-            			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + Trade_count + "," + not_Trade_count);
+            			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
             			morning_or_afternoon = true;
             		}
             		else if(morning_or_afternoon == false && Integer.parseInt(day) < 20110214 && !(day.equals(JNIc_split[0]))){//前場の書き込み
-            			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + Trade_count + "," + not_Trade_count);
+            			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
             			morning_or_afternoon = false;
             		}
             		else if(morning_or_afternoon == true && Integer.parseInt(day) < 20110214){//後場の書き込み
-            			pw_time.println(day + ",afternoon," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + Trade_count + "," + not_Trade_count);
+            			pw_time.println(day + ",afternoon," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
             			morning_or_afternoon = false;
 
             		}
             		else if(20110214 <= Integer.parseInt(day)){//昼休みが廃止されたとき
-            			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + Trade_count + "," + not_Trade_count);
+            			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
             		}
             		//------------初期化--------------
             		day = JNIc_split[0];
@@ -284,8 +286,9 @@ public class depth_count{
             		up_move_time_count_without_only = 0;
             		move_before_time_without_only = 0;
 
-            		Trade_count = 0;
-            		not_Trade_count = 0;
+            		move_market_count = 0;
+            		move_cancel_count = 0;
+            		move_cancel_after_market_count = 0;
 
             		//------------初期化--------------
             	}
@@ -333,11 +336,18 @@ public class depth_count{
                 			move_before_time_without_only = time_total;
                 		}
 
-                		if(JNIc_split[2].equals("up")){
-                			Trade_count++;
+                		//System.out.println(line);
+                		if(JNIc_split[10].equals("market")){
+                			move_market_count++;
+                		}
+                		else if(JNIc_split[10].equals("cancel")){
+                			move_cancel_count++;
+                		}
+                		else if(JNIc_split[10].equals("cancel after market")){
+                			move_cancel_after_market_count++;
                 		}
                 		else{
-                			not_Trade_count++;
+                			System.out.println(line);
                 		}
 
                 		ask_up_bid_up = false;
@@ -379,11 +389,17 @@ public class depth_count{
                 			move_before_time_without_only = time_total;
                 		}
 
-                		if(JNIc_split[2].equals("down")){
-                			Trade_count++;
+                		if(JNIc_split[10].equals("market")){
+                			move_market_count++;
+                		}
+                		else if(JNIc_split[10].equals("cancel")){
+                			move_cancel_count++;
+                		}
+                		else if(JNIc_split[10].equals("cancel after market")){
+                			move_cancel_after_market_count++;
                 		}
                 		else{
-                			not_Trade_count++;
+                			System.out.println(line);
                 		}
 
                 		ask_up_bid_up = false;
@@ -451,12 +467,7 @@ public class depth_count{
                     			move_before_time = time_total;
                     		}
 
-                			if(JNIc_split[2].equals("up only bid")){
-                    			Trade_count++;
-                    		}
-                    		else{
-                    			not_Trade_count++;
-                    		}
+
 
                 		}
                 		ask_up_bid_up = false;
@@ -473,8 +484,22 @@ public class depth_count{
                 		else if(20110214 <= Integer.parseInt(JNIc_split[0])){//昼休みが廃止された
                 			up_count_only_ask++;
                 		}
+
                 		ask_up_bid_up = true;
                 		bid_down_ask_down = false;
+
+                		if(JNIc_split[10].equals("market")){
+                			move_market_count++;
+                		}
+                		else if(JNIc_split[10].equals("cancel")){
+                			move_cancel_count++;
+                		}
+                		else if(JNIc_split[10].equals("cancel after market")){
+                			move_cancel_after_market_count++;
+                		}
+                		else{
+                			System.out.println(line);
+                		}
                 	}
                 	else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){
                 		if(Integer.parseInt(JNIc_split[0]) < 20110214 && time_total <= 40500){//前場
@@ -486,8 +511,22 @@ public class depth_count{
                 		else if(20110214 <= Integer.parseInt(JNIc_split[0])){//昼休みが廃止された
                 			down_count_only_bid++;
                 		}
+
                 		ask_up_bid_up = false;
                 		bid_down_ask_down = true;
+
+                		if(JNIc_split[10].equals("market")){
+                			move_market_count++;
+                		}
+                		else if(JNIc_split[10].equals("cancel")){
+                			move_cancel_count++;
+                		}
+                		else if(JNIc_split[10].equals("cancel after market")){
+                			move_cancel_after_market_count++;
+                		}
+                		else{
+                			System.out.println(line);
+                		}
                 	}
                 	else if(JNIc_split[2].equals("down only ask") || JNIc_split[2].equals("down only ask not Trade")){//実際のデータに「down only ask」はない。
                 		if(Integer.parseInt(JNIc_split[0]) < 20110214 && time_total <= 40500){//前場
@@ -526,12 +565,7 @@ public class depth_count{
                     			move_before_time = time_total;
                     		}
 
-                			if(JNIc_split[2].equals("down only ask")){
-                    			Trade_count++;
-                    		}
-                    		else{
-                    			not_Trade_count++;
-                    		}
+
 
                 		}
                 		ask_up_bid_up = false;
@@ -583,20 +617,20 @@ public class depth_count{
 
 
             if(morning_or_afternoon == false && Integer.parseInt(day) < 20110214 && day.equals(JNIc_split[0])){//半日オークションの場合
-    			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + Trade_count + "," + not_Trade_count);
+    			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
     			morning_or_afternoon = true;
     		}
     		else if(morning_or_afternoon == false && Integer.parseInt(day) < 20110214 && !(day.equals(JNIc_split[0]))){//前場の書き込み
-    			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + Trade_count + "," + not_Trade_count);
+    			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
     			morning_or_afternoon = false;
     		}
     		else if(morning_or_afternoon == true && Integer.parseInt(day) < 20110214){//後場の書き込み
-    			pw_time.println(day + ",afternoon," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + Trade_count + "," + not_Trade_count);
+    			pw_time.println(day + ",afternoon," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
     			morning_or_afternoon = false;
 
     		}
     		else if(20110214 <= Integer.parseInt(day)){//昼休みが廃止されたとき
-    			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + Trade_count + "," + not_Trade_count);
+    			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
     		}
     		//------------初期化--------------
     		day = JNIc_split[0];
@@ -612,8 +646,9 @@ public class depth_count{
     		up_move_time_count_without_only = 0;
     		move_before_time_without_only = 0;
 
-    		Trade_count = 0;
-    		not_Trade_count = 0;
+    		move_market_count = 0;
+    		move_cancel_count = 0;
+    		move_cancel_after_market_count = 0;
 
 
 
@@ -702,8 +737,9 @@ public class depth_count{
     		up_move_time_count_without_only = 0;
     		move_before_time_without_only = 0;
 
-    		Trade_count = 0;
-    		not_Trade_count = 0;
+    		move_market_count = 0;
+    		move_cancel_count = 0;
+    		move_cancel_after_market_count = 0;
 
 
             ask_up_bid_up = false;
