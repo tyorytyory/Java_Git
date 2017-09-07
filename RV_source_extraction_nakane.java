@@ -111,7 +111,8 @@ public class RV_source_extraction_nakane{
                     		if(minute_null_output.length() == 1){
                     			minute_null_output = 0 + minute_null_output;
                     		}
-                    		pw_rv.println(BigDecimal.valueOf(rv_data[rv_day][rv_number][0])  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,0,0,0,0");
+                    		pw_rv.println(BigDecimal.valueOf(rv_data[rv_day][rv_number][0]).toPlainString()  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,0,0,0,0");
+                    		//System.out.println(BigDecimal.valueOf(rv_data[rv_day][rv_number][0]).toPlainString());
                 			rv_number++;
                 		}
                 		else if(rv_data[rv_day][rv_number][1] <= time_total && JNIc_split[4].equals("Quote")){
