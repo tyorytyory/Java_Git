@@ -40,7 +40,7 @@ public class depth_matrix{
             File file = new File(filename[0] + "_matrix.csv");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
-         	pw.println("day,morning,count_up_up,count_up_down,count_down_up,count_down_down,"+
+         	pw.println("day,divide,count_up_up,count_up_down,count_down_up,count_down_down,"+
          			"up_up_move_before_market_order,up_up_move_before_bid_depth,up_up_move_before_ask_depth,up_up_move_time," +
             		"up_down_move_before_market_order,up_down_move_before_bid_depth,up_down_move_before_ask_depth,up_down_move_time,"+
             		"down_up_move_before_market_order,down_up_move_before_bid_depth,down_up_move_before_ask_depth,down_up_move_time,"+
@@ -130,7 +130,7 @@ public class depth_matrix{
                 		down_down_move_time = down_down_move_time/count_down_down_market;//平均に変換
             		}
 
-            		if(morning_or_afternoon == false && Integer.parseInt(day) < 20110214 && day.equals(JNIc_split[0])){//半日オークションの場合
+            		if(morning_or_afternoon == false && Integer.parseInt(day) < 20110214 && day.equals(JNIc_split[0])){//前場の書き込み
             			pw.println(day + ",morning," + count_up_up + "," + count_up_down + "," + count_down_up + "," + count_down_down + "," +
             		up_up_move_before_market_order + "," + up_up_move_before_bid_depth + "," + up_up_move_before_ask_depth + "," + up_up_move_time + "," +
             		up_down_move_before_market_order + "," + up_down_move_before_bid_depth + "," + up_down_move_before_ask_depth + "," + up_down_move_time + "," +
@@ -138,15 +138,15 @@ public class depth_matrix{
             		down_down_move_before_market_order + "," + down_down_move_before_bid_depth + "," + down_down_move_before_ask_depth + "," + down_down_move_time + "," +
             		Trade_count + "," + not_Trade_count);
             			morning_or_afternoon = true;
+
             		}
-            		else if(morning_or_afternoon == false && Integer.parseInt(day) < 20110214 && !(day.equals(JNIc_split[0]))){//前場の書き込み
+            		else if(morning_or_afternoon == false && Integer.parseInt(day) < 20110214 && !(day.equals(JNIc_split[0]))){//半日オークションの場合
             			pw.println(day + ",morning," + count_up_up + "," + count_up_down + "," + count_down_up + "," + count_down_down + "," +
                         		up_up_move_before_market_order + "," + up_up_move_before_bid_depth + "," + up_up_move_before_ask_depth + "," + up_up_move_time + "," +
                         		up_down_move_before_market_order + "," + up_down_move_before_bid_depth + "," + up_down_move_before_ask_depth + "," + up_down_move_time + "," +
                         		down_up_move_before_market_order + "," + down_up_move_before_bid_depth + "," + down_up_move_before_ask_depth + "," + down_up_move_time + "," +
                         		down_down_move_before_market_order + "," + down_down_move_before_bid_depth + "," + down_down_move_before_ask_depth + "," + down_down_move_time + "," +
                         		Trade_count + "," + not_Trade_count);
-            			morning_or_afternoon = false;
             		}
             		else if(morning_or_afternoon == true && Integer.parseInt(day) < 20110214){//後場の書き込み
             			pw.println(day + ",afternoon," + count_up_up + "," + count_up_down + "," + count_down_up + "," + count_down_down + "," +
@@ -159,7 +159,7 @@ public class depth_matrix{
 
             		}
             		else if(20110214 <= Integer.parseInt(day)){//昼休みが廃止されたとき
-            			pw.println(day + ",morning," + count_up_up + "," + count_up_down + "," + count_down_up + "," + count_down_down + "," +
+            			pw.println(day + ",no noon recess," + count_up_up + "," + count_up_down + "," + count_down_up + "," + count_down_down + "," +
                         		up_up_move_before_market_order + "," + up_up_move_before_bid_depth + "," + up_up_move_before_ask_depth + "," + up_up_move_time + "," +
                         		up_down_move_before_market_order + "," + up_down_move_before_bid_depth + "," + up_down_move_before_ask_depth + "," + up_down_move_time + "," +
                         		down_up_move_before_market_order + "," + down_up_move_before_bid_depth + "," + down_up_move_before_ask_depth + "," + down_up_move_time + "," +

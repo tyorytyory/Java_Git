@@ -270,7 +270,7 @@ public class depth_count{
 
             		}
             		else if(20110214 <= Integer.parseInt(day)){//昼休みが廃止されたとき
-            			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
+            			pw_time.println(day + ",no noon recess," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
             		}
             		//------------初期化--------------
             		day = JNIc_split[0];
@@ -630,7 +630,7 @@ public class depth_count{
 
     		}
     		else if(20110214 <= Integer.parseInt(day)){//昼休みが廃止されたとき
-    			pw_time.println(day + ",morning," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
+    			pw_time.println(day + ",no noon recess," + up_move_time/up_move_time_count + "," + up_move_time_without_only/up_move_time_count_without_only + "," + down_move_time/down_move_time_count + "," + down_move_time_without_only/down_move_time_count_without_only + "," + move_market_count + "," + move_cancel_count+ "," + move_cancel_after_market_count);
     		}
     		//------------初期化--------------
     		day = JNIc_split[0];
