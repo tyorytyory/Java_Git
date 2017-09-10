@@ -111,6 +111,7 @@ public class RV_calc{
             	else if(day == Integer.parseInt(JNIc_split[0]) && error == false){
             		P_two = Math.log(Integer.parseInt(JNIc_split[3]));
             		P_sum += P_two - P_one;
+            		P_sum = Math.pow(P_sum, 2);
             		P_one = Math.log(Integer.parseInt(JNIc_split[3]));
             	}//(約定値ver)ここまで*/
 
@@ -176,24 +177,10 @@ public class RV_calc{
             	else if(day == Integer.parseInt(JNIc_split[0]) && error == false){
             		P_two = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
             		P_sum += P_two - P_one;
+            		P_sum = Math.pow(P_sum, 2);
             		P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
             	}
-            	else if(day != Integer.parseInt(JNIc_split[0])){
-            		if(error == true){
-            			pw_rv.println(day + ",NaN");
-            		}
-            		else{
-            			pw_rv.println(day + "," + P_sum);
-            		}
-            		//System.out.println(day + "," + error);
-            		P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
-            		day = Integer.parseInt(JNIc_split[0]);
-            		error = false;
-            		P_sum = 0;
-            		if(Integer.parseInt(JNIc_split[3]) == 0){
-                		error = true;
-                	}
-            	}//(仲値ver)ここまで
+            	//(仲値ver)ここまで
 
             }
 

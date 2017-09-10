@@ -23,9 +23,13 @@ public class RV_source_extraction{
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
-            double time_for = 32400;//for文の初期値
+
             double time_intervals = 300;//計算したいRVの時間間隔
+            double time_for = 32400 + time_intervals;//for文の初期値
             int day = 0;
+            boolean am = false;//前場完了の有無
+            boolean pm = false;//後場完了の有無
+            String line_before = null;//一つ前のline
             String[] filename = txtFileName.split("\\_");
 
          	File file_rv = new File(filename[0].substring(0,4) + "_RV_5min_source.csv");
@@ -51,15 +55,49 @@ public class RV_source_extraction{
             	}
             	else if(day != Integer.parseInt(JNIc_split[0])){
             		if(Integer.parseInt(JNIc_split[0]) < 20160719){
-            			time_for = 32400;
+            			time_for = 32400 + time_intervals;
             		}
             		else{
-            			time_for = 31500;
+            			time_for = 31500 + time_intervals;
             		}
             		day = Integer.parseInt(JNIc_split[0]);
+            		line_before = null;
+            		am = false;
             	}
 
-            	if(time_intervals <= (time_total - time_for) && time_total < 54900){//区間内にデータがないとき
+
+            	if(am == false && time_total < (32400 + time_intervals) && day < 20110214 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
+            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4] + "---");
+            		am = true;
+            	}
+            	else if(am == false && (32400 + time_intervals) < time_total && day < 20110214 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
+
+            		am = true;
+
+            		do{
+            			int hour_null = (int)(time_for)/3600;
+                		int minute_null = ((int)(time_for)%3600)/60;
+                		String hour_null_output = String.valueOf(hour_null);
+                		String minute_null_output = String.valueOf(minute_null);
+                		if(hour_null_output.length() == 1){
+                			hour_null_output = 0 + hour_null_output;
+                		}
+                		if(minute_null_output.length() == 1){
+                			minute_null_output = 0 + minute_null_output;
+                		}
+
+
+                		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "0,0,0");
+            			time_for += time_intervals;
+            		}while(time_for < time_total);
+
+            		if(day == 20081010){
+            			//System.out.println(line  +  "---------" + time_for);
+            		}
+
+            	}
+
+            	/*if(time_intervals <= (time_total - time_for) && time_total < 54900 && am == false && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){//区間内にデータがないとき
             		do{
                 		int hour_null = (int)(time_for)/3600;
                 		int minute_null = ((int)(time_for)%3600)/60;
@@ -71,23 +109,67 @@ public class RV_source_extraction{
                 		if(minute_null_output.length() == 1){
                 			minute_null_output = 0 + minute_null_output;
                 		}
+
+
                 		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "0,0,0");
                 		time_for += time_intervals;
+
+
+            			System.out.println(line);
+                		System.out.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "0,0,0");
+
             		}while(time_intervals <= (time_total - time_for));
             		//System.out.println(line);
-            	}
+            	}*/
 
-            	if(time_for <= time_total && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))
-            			&& (((day != 20060104 && day != 20061229 && day != 20070104 && day != 20071228 && day != 20080104 && day != 20081230 && day != 20090105) && time_total < 54600)
-            			|| ((day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && time_total < 40200))){
+
+
+
+            	if(32400 < time_total && time_for <= time_total && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))
+            			&& (((day != 20060104 && day != 20061229 && day != 20070104 && day != 20071228 && day != 20080104 && day != 20081230 && day != 20090105) && time_total < 54900)
+            			|| ((day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && time_total < 40500))){
 
             		if((day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && time_total > 40200){
-            			System.out.println(line);
+
+            		}
+            		//System.out.println(line);
+
+
+            		if(line_before != null){
+            			JNIc_split = line_before.split(",", 0);
             		}
 
-            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4]);
 
-            		if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39300){
+            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4] + "////" + time_for);
+
+            		if(time_for + time_intervals < time_total){
+        				while(time_for < time_total){
+
+        					if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39600){
+                    			time_for += 5700;//昼休み
+                    		}
+        					else{
+        						time_for += time_intervals;
+        					}
+
+        					int hour_null = (int)(time_for)/3600;
+                    		int minute_null = ((int)(time_for)%3600)/60;
+                    		String hour_null_output = String.valueOf(hour_null);
+                    		String minute_null_output = String.valueOf(minute_null);
+                    		if(hour_null_output.length() == 1){
+                    			hour_null_output = 0 + hour_null_output;
+                    		}
+                    		if(minute_null_output.length() == 1){
+                    			minute_null_output = 0 + minute_null_output;
+                    		}
+
+                    		if(time_for < time_total){
+                    			pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "0,0,0***");
+                    		}
+                    		System.out.println(line  +  "---------" + time_for);
+        				}
+        			}
+            		else if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39600){
             			time_for += 5700;//昼休み
 
             		}
@@ -95,6 +177,13 @@ public class RV_source_extraction{
             			time_for += time_intervals;
             		}
             	}
+
+            	if(!(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
+            		line_before = line;
+            	}
+
+
+
 
             }
 
