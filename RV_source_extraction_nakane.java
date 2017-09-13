@@ -71,7 +71,13 @@ public class RV_source_extraction_nakane{
                 	}
             		rv_data[rv_day][rv_number][0] = day;//日にち
             		rv_data[rv_day][rv_number][1] = time_total;
-            		rv_data[rv_day][rv_number][2] = Integer.parseInt(JNIc_split[2]);
+            		if(JNIc_split[2].equals("NaN")){
+            			rv_data[rv_day][rv_number][2] = 0;
+            		}
+            		else{
+            			rv_data[rv_day][rv_number][2] = Integer.parseInt(JNIc_split[2]);
+            		}
+
 
             		//System.out.println(rv_data[rv_day][rv_number][0]);
             		//System.out.println(rv_data[rv_day][rv_number][1]);
@@ -111,7 +117,7 @@ public class RV_source_extraction_nakane{
                     		if(minute_null_output.length() == 1){
                     			minute_null_output = 0 + minute_null_output;
                     		}
-                    		pw_rv.println(BigDecimal.valueOf(rv_data[rv_day][rv_number][0]).toPlainString()  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,0,0,0,0");
+                    		pw_rv.println(BigDecimal.valueOf(rv_data[rv_day][rv_number][0]).toPlainString()  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,NaN,NaN,NaN,NaN");
                     		//System.out.println(BigDecimal.valueOf(rv_data[rv_day][rv_number][0]).toPlainString());
                 			rv_number++;
                 		}

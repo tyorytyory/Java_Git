@@ -29,7 +29,8 @@ public class RV_source_extraction{
             int day = 0;
             boolean am = false;//前場完了の有無(2011/2/14以前)
             boolean pm = false;//後場完了の有無(2011/2/14以前)
-            boolean first = false;//
+            boolean first = false;//2011/2/14以降
+            boolean end_trade = false;//time_totalが15:15:00を過ぎていることを示すプログラム
             String line_before = null;//一つ前のline
             String JNIc_split[] = null;
             double time_total = 0;
@@ -48,6 +49,8 @@ public class RV_source_extraction{
             	JNIc_split = line.split(",", 0);
 
 
+
+
             	double hour = Double.parseDouble(JNIc_split[1].substring(0, 2));
             	double minute = Double.parseDouble(JNIc_split[1].substring(3, 5));
             	double second = Double.parseDouble(JNIc_split[1].substring(6));
@@ -57,6 +60,33 @@ public class RV_source_extraction{
             		day = Integer.parseInt(JNIc_split[0]);
             	}
             	else if(day != Integer.parseInt(JNIc_split[0])){
+            		if(time_for < 54900 && !(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105)){
+                    	while(time_for < 54900){
+
+                			int hour_null = (int)(time_for)/3600;
+                    		int minute_null = ((int)(time_for)%3600)/60;
+                    		String hour_null_output = String.valueOf(hour_null);
+                    		String minute_null_output = String.valueOf(minute_null);
+                    		if(hour_null_output.length() == 1){
+                    			hour_null_output = 0 + hour_null_output;
+                    		}
+                    		if(minute_null_output.length() == 1){
+                    			minute_null_output = 0 + minute_null_output;
+                    		}
+
+
+                    		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,NaN,NaN,NaN");
+                    		if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39600){
+                    			time_for += 5700;//昼休み
+                    		}
+        					else{
+        						time_for += time_intervals;
+        					}
+
+                		}
+                    }
+
+
             		if(Integer.parseInt(JNIc_split[0]) < 20160719){
             			time_for = 32400 + time_intervals;
             		}
@@ -68,6 +98,7 @@ public class RV_source_extraction{
             		am = false;
             		pm = false;
             		first = false;
+            		end_trade = false;
             	}
 
             	if(first == false && time_total < (32400 + time_intervals) && 20110214 <= day && day < 20160719 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){//2011/2/14以前
@@ -77,7 +108,7 @@ public class RV_source_extraction{
             	else if(first == false && (32400 + time_intervals) < time_total && 20110214 <= day && day < 20170719 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
             		first = true;
 
-            		pw_rv.println(day  + ",09:00:00.000000," + "0,0,0");
+            		pw_rv.println(day  + ",09:00:00.000000,NaN,NaN,NaN");
             		do{
 
             			int hour_null = (int)(time_for)/3600;
@@ -107,7 +138,7 @@ public class RV_source_extraction{
             	else if(first == false && (31500 + time_intervals) < time_total && 20110214 <= day && day < 20170719 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
             		first = true;
 
-            		pw_rv.println(day  + ",08:45:00.000000," + "0,0,0");
+            		pw_rv.println(day  + ",08:45:00.000000,NaN,NaN,NaN");
             		do{
 
             			int hour_null = (int)(time_for)/3600;
@@ -138,7 +169,7 @@ public class RV_source_extraction{
             	else if(am == false && (32400 + time_intervals) < time_total && day < 20110214 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
 
             		am = true;
-            		pw_rv.println(day  + ",09:00:00.000000," + "0,0,0");
+            		pw_rv.println(day  + ",09:00:00.000000,NaN,NaN,NaN");
             		do{
 
             			int hour_null = (int)(time_for)/3600;
@@ -153,7 +184,7 @@ public class RV_source_extraction{
                 		}
 
 
-                		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "0,0,0");
+                		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,NaN,NaN,NaN");
                 		if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39600){
                 			time_for += 5700;//昼休み
                 		}
@@ -195,14 +226,14 @@ public class RV_source_extraction{
 
 
 
-            	if(32400 < time_total && time_for <= time_total //&& !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))
-            			&& (((day != 20060104 && day != 20061229 && day != 20070104 && day != 20071228 && day != 20080104 && day != 20081230 && day != 20090105) && time_total < 54900)
+            	if(31500 < time_total && time_for <= time_total && end_trade == false //&& !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))
+            			&& (((day != 20060104 && day != 20061229 && day != 20070104 && day != 20071228 && day != 20080104 && day != 20081230 && day != 20090105) && time_total < 54960)
             			|| ((day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && time_total < 40500))){
 
             		if((day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && time_total > 40200){
 
             		}
-            		//System.out.println(line);
+            		//System.out.println(line + "***** " + time_total);
 
 
             		if(line_before != null){
@@ -210,10 +241,16 @@ public class RV_source_extraction{
             		}
 
 
-            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4] + "////" + time_for);
+            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4]);
 
-            		if(time_for + time_intervals < time_total){
-        				while(time_for < time_total){
+            		if(54600 < time_total){
+            			end_trade = true;
+            			time_for += time_intervals;
+            			//System.out.println(line);
+            			//何もしない
+            		}
+            		else if(time_for + time_intervals < time_total){
+        				while(time_for < time_total && time_total < 54900){
 
         					if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39600){
                     			time_for += 5700;//昼休み
@@ -234,14 +271,13 @@ public class RV_source_extraction{
                     		}
 
                     		if(time_for < time_total){
-                    			pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "0,0,0***");
+                    			pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,NaN,NaN,NaN");
                     		}
-                    		System.out.println(line  +  "---------" + time_for);
+                    		//System.out.println(line  +  "---------" + time_for);
         				}
         			}
             		else if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39600){
             			time_for += 5700;//昼休み
-
             		}
             		else{
             			time_for += time_intervals;
@@ -262,8 +298,8 @@ public class RV_source_extraction{
             	else if(pm == false && (45000 + time_intervals) < time_total && day < 20110214 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
 
             		am = true;
-            		pw_rv.println(day  + ",12:30:00.000000," + "0,0,0???");
-            		do{
+            		pw_rv.println(day  + ",12:30:00.000000,NaN,NaN,NaN");
+            		while(time_for < time_total && time_total < 54900){
 
             			int hour_null = (int)(time_for)/3600;
                 		int minute_null = ((int)(time_for)%3600)/60;
@@ -277,7 +313,7 @@ public class RV_source_extraction{
                 		}
 
 
-                		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000," + "0,0,0");
+                		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,NaN,NaN,NaN");
                 		if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39600){
                 			time_for += 5700;//昼休み
                 		}
@@ -285,7 +321,7 @@ public class RV_source_extraction{
     						time_for += time_intervals;
     					}
 
-            		}while(time_for < time_total);
+            		}
 
             	}
 
@@ -293,6 +329,31 @@ public class RV_source_extraction{
 
 
 
+            }
+            if(time_for < 54900){
+            	while(time_for < time_total && time_total < 54900){
+
+        			int hour_null = (int)(time_for)/3600;
+            		int minute_null = ((int)(time_for)%3600)/60;
+            		String hour_null_output = String.valueOf(hour_null);
+            		String minute_null_output = String.valueOf(minute_null);
+            		if(hour_null_output.length() == 1){
+            			hour_null_output = 0 + hour_null_output;
+            		}
+            		if(minute_null_output.length() == 1){
+            			minute_null_output = 0 + minute_null_output;
+            		}
+
+
+            		pw_rv.println(day  + "," + hour_null_output + ":" + minute_null_output + ":00.000000,NaN,NaN,NaN");
+            		if(!(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && Integer.parseInt(JNIc_split[0]) < 20110214 && time_for == 39600){
+            			time_for += 5700;//昼休み
+            		}
+					else{
+						time_for += time_intervals;
+					}
+
+        		}
             }
 
 

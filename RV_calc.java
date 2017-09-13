@@ -125,60 +125,77 @@ public class RV_calc{
             	}
             	else if(day != Integer.parseInt(JNIc_split[0]) || (45000 <= time_total && day < 20110214 && morning_or_afternoon == false)){
             		if(morning_or_afternoon == false && day < 20110214 && day == Integer.parseInt(JNIc_split[0])){//前場の書き込み
-            			if(error == true){
+            			/*if(error == true){
                 			pw_rv.println(day + ",morning,NaN");
                 		}
-                		else{
+                		else{*/
                 			pw_rv.println(day + ",morning," + P_sum);
-                		}
+                		//}
             			morning_or_afternoon = true;
 
             		}
             		else if(morning_or_afternoon == false && day < 20110214 && day != Integer.parseInt(JNIc_split[0])){//半日オークションの場合
-            			if(error == true){
+            			/*if(error == true){
                 			pw_rv.println(day + ",morning,NaN");
                 		}
-                		else{
+                		else{*/
                 			pw_rv.println(day + ",morning," + P_sum);
-                		}
+                		//}
             			morning_or_afternoon = false;
 
             		}
             		else if(morning_or_afternoon == true && day < 20110214){//後場の書き込み
 
-            			if(error == true){
+            			/*if(error == true){
                 			pw_rv.println(day + ",afternoon,NaN");
                 		}
-                		else{
+                		else{*/
                 			pw_rv.println(day + ",afternoon," + P_sum);
-                		}
+                		//}
             			morning_or_afternoon = false;
             		}
             		else if(20110214 <= day){//昼休みが廃止されたとき
-            			if(error == true){
+            			/*if(error == true){
                 			pw_rv.println(day + ",no noon recess,NaN");
                 		}
-                		else{
+                		else{*/
                 			pw_rv.println(day + ",no noon recess," + P_sum);
-                		}
+                		//}
             		}
-            		P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            		if(JNIc_split[2].equals("NaN")){
+            			P_one = 0;
+            		}
+            		else{
+            			P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            		}
             		day = Integer.parseInt(JNIc_split[0]);
             		error = false;
             		P_sum = 0;
-            		if(Integer.parseInt(JNIc_split[3]) == 0){
+            		/*if(Integer.parseInt(JNIc_split[3]) == 0){
                 		error = true;
-                	}
+                	}*/
             	}
-            	else if(day == Integer.parseInt(JNIc_split[0]) && Integer.parseInt(JNIc_split[3]) == 0){
+            	/*else if(day == Integer.parseInt(JNIc_split[0]) && Integer.parseInt(JNIc_split[3]) == 0){
             		error = true;
             		P_sum = 0;
-            	}
+            	}*/
             	else if(day == Integer.parseInt(JNIc_split[0]) && error == false){
-            		P_two = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
-            		P_sum += P_two - P_one;
-            		P_sum = Math.pow(P_sum, 2);
-            		P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            		if(JNIc_split[2].equals("NaN")){
+
+            		}
+            		else{
+            			if(P_one == 0){
+            				P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            			}
+            			else{
+            				P_two = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            				P_sum += Math.pow(P_two - P_one,2);
+
+                    		P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            			}
+
+            		}
+
             	}
             	//(仲値ver)ここまで
 
