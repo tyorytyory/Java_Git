@@ -102,7 +102,7 @@ public class RV_source_extraction{
             	}
 
             	if(first == false && time_total < (32400 + time_intervals) && 20110214 <= day && day < 20160719 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){//2011/2/14以前
-            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4] + "---");
+            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4]);
             		first = true;
             	}
             	else if(first == false && (32400 + time_intervals) < time_total && 20110214 <= day && day < 20170719 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
@@ -132,7 +132,7 @@ public class RV_source_extraction{
             	}
 
             	if(first == false && time_total < (31500 + time_intervals) && 20160719 <= day && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){//2011/2/14 - 2016/07/15(?)
-            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4] + "---");
+            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4]);
             		first = true;
             	}
             	else if(first == false && (31500 + time_intervals) < time_total && 20110214 <= day && day < 20170719 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
@@ -163,7 +163,7 @@ public class RV_source_extraction{
 
 
             	if(am == false && time_total < (32400 + time_intervals) && day < 20110214 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){//2016/07/19以降
-            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4] + "---");
+            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4]);
             		am = true;
             	}
             	else if(am == false && (32400 + time_intervals) < time_total && day < 20110214 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
@@ -292,7 +292,7 @@ public class RV_source_extraction{
             	JNIc_split = line.split(",", 0);
 
             	if(pm == false && time_total < (45000 + time_intervals) && 45000 < time_total && day < 20110214 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
-            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4] + "++++++++");
+            		pw_rv.println(JNIc_split[0] + "," + JNIc_split[1] + "," + JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[4]);
             		pm = true;
             	}
             	else if(pm == false && (45000 + time_intervals) < time_total && day < 20110214 && !(JNIc_split[4].equals("donation")) && !(JNIc_split[4].equals("error1")) && !(JNIc_split[4].equals("error2"))){
