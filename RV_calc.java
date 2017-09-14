@@ -51,9 +51,15 @@ public class RV_calc{
 
 
 
-            	if(day == 0){//(約定値ver)ここから
+            	/*if(day == 0){//(約定値ver)ここから
             		day = Integer.parseInt(JNIc_split[0]);
-            		P_one = Math.log(Integer.parseInt(JNIc_split[3]));
+
+            		if(JNIc_split[2].equals("NaN")){
+
+            		}
+            		else{
+            			P_one = Math.log(Integer.parseInt(JNIc_split[3]));
+            		}
             	}
             	else if(day != Integer.parseInt(JNIc_split[0]) || (45000 <= time_total && day < 20110214 && morning_or_afternoon == false)){
             		if(morning_or_afternoon == false && day < 20110214 && day == Integer.parseInt(JNIc_split[0])){//前場の書き込み
@@ -109,15 +115,21 @@ public class RV_calc{
 
             		}
 
-            	}//(約定値ver)ここまで
+            	}//(約定値ver)ここまで*/
 
 
 
             	//System.out.println(line);
 
-            	/*if(day == 0){//(仲値ver)ここから
+            	if(day == 0){//(仲値ver)ここから
             		day = Integer.parseInt(JNIc_split[0]);
-            		P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            		if(JNIc_split[2].equals("NaN")){
+
+            		}
+            		else{
+            			P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            		}
+
             	}
             	else if(day != Integer.parseInt(JNIc_split[0]) || (45000 <= time_total && day < 20110214 && morning_or_afternoon == false)){
             		if(morning_or_afternoon == false && day < 20110214 && day == Integer.parseInt(JNIc_split[0])){//前場の書き込み
@@ -171,7 +183,7 @@ public class RV_calc{
             		}
 
             	}
-            	//(仲値ver)ここまで*/
+            	//(仲値ver)ここまで
 
             }
 
