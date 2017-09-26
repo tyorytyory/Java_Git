@@ -5,14 +5,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-//15分間隔のデータに分けるプログラム
-import java.math.BigDecimal;
 
 public class time_interval{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("../data/filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_intervals.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -40,7 +38,7 @@ public class time_interval{
 
 
 
-        FileReader fr = new FileReader("../data/" + txtFileName);
+        FileReader fr = new FileReader(txtFileName);
         BufferedReader brtxt = new BufferedReader(fr);
         String line ="";
 
@@ -233,7 +231,7 @@ public class time_interval{
         	k_all_time = hour2*60*60 + minute2*60 + second2;
         	//2011年～（comb2）*/
 
-        	String d4 = Index.substring(21,23);
+        	/*String d4 = Index.substring(21,23);
         	hour2 = Double.parseDouble(d4);
         	String d5 = Index.substring(24,26);
         	minute2 = Double.parseDouble(d5);
@@ -241,8 +239,10 @@ public class time_interval{
         	second2 = Double.parseDouble(d6);
         	k_all_time = hour2*60*60 + minute2*60 + (second2/1000000);
         	BigDecimal x1 = new BigDecimal(k_all_time);
-        	k_all_time = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+        	k_all_time = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();*/
         	//2016年取得ロイター通信社データ
+
+
 
         	/*String d4 = Index.substring(91,93);
         	hour2 = Double.parseDouble(d4);
@@ -318,6 +318,13 @@ public class time_interval{
 
 
 
+        	//(limit_order2_final_tradeのとき）（ここから）
+        	String JNIc_split[] = line.split(",", 0);
+        	hour2 = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
+        	minute2 = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
+        	second2 = Double.parseDouble(JNIc_split[1].substring(6));//秒
+        	k_all_time = hour2*3600 + minute2*60 + second2;//時間を秒換算
+        	//(limit_order2_final_tradeのとき）（ここまで）
 
 
 

@@ -10,7 +10,7 @@ public class kankaku_para{
 
     public static void main(String[] args) throws IOException{
 
-    	BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+    	BufferedReader br = new BufferedReader(new FileReader("filelist_kankaku.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
     	while((txtFileName = br.readLine()) != null) {
@@ -33,7 +33,7 @@ public class kankaku_para{
 
          	File file = new File(
          			//filename[0] + "_para.txt");
-         			filename[0] +"."+ filename[1] + "." + filename[2]  + "_para.txt");
+         			filename[0] + "_para.txt");
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
             while ((line = brtxt.readLine()) != null) {

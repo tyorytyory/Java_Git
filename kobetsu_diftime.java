@@ -12,7 +12,7 @@ public class kobetsu_diftime{
     public static void main(String[] args) throws IOException{
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_kankaku.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -84,7 +84,7 @@ public class kobetsu_diftime{
 
             String[] filename = txtFileName.split("\\_");
 
-         	File file = new File("dif_" + filename[0] + "_" + filename[1] + "_" + filename[4]);//時間差に0を含むときは0を記入
+         	File file = new File("dif_" + filename[0] + "_" + filename[1] + "_" + filename[2] + "_" + filename[5]);//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
@@ -148,7 +148,7 @@ public class kobetsu_diftime{
                 i4 = 0;
                 i5 = 0;//個別株の場合　ここまで*/
 
-            	length_konma = Index.length();
+            	/*length_konma = Index.length();
 
         		for(i1=0;i1<length_konma;i1++){//2016年取得ロイター　ここから
                     a = Index.substring(i1,i1+1);
@@ -204,7 +204,17 @@ public class kobetsu_diftime{
         		i2 = 0;
                 i3 = 0;
                 i4 = 0;
-                i5 = 0;//2016年取得ロイター　ここまで
+                i5 = 0;//2016年取得ロイター　ここまで*/
+
+            	//limit_order_final_trade(ここから）
+
+            	String JNIc_split[] = line.split(",", 0);
+            	day = Integer.parseInt(JNIc_split[0]);
+            	hour = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
+            	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
+            	second = Double.parseDouble(JNIc_split[1].substring(6));//秒
+            	time_sum = hour*3600 + minute*60 + second;//時間を秒換算
+            	//limit_order_final_trade(ここまで）
 
                 if(count_dif == 0){
                 	time_sum1 = time_sum;
@@ -220,6 +230,9 @@ public class kobetsu_diftime{
 
             		if(time_dif > 0){//時間差に0を含むか含まないか　これは非常に重要
             			pw.println(day + " " + time_dif);
+            		}
+            		else if(time_dif == 0){
+            			pw.println(day + " 0.0000001");//limit_orderの場合（時間差0のときの処理）
             		}
                 	time_sum1 = time_sum;
                 }
