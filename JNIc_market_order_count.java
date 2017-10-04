@@ -7,12 +7,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class JNIc_market_order_count{
-//market_orderから寄付きの情報や最終約定のデータを入力するプログラム
-//ただし、ロイター社にはデータが不足していることから、出力後いくつかのデータは修正する必要がある。
+//market_orderから時間ごとの約定枚数の平均・分散を算出するプロラグム
 //初期J-GATEのデータを扱う際は、最初にcombファイル、その次にmarket_orderファイルを読み込ませる
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_market_count.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         String JNIc_split[];
@@ -56,10 +55,12 @@ public class JNIc_market_order_count{
 
         	int market_for_number [] = new int [30];
         	int for_time = 32400;
-        	int for_count_number [] = new int [30];
+        	int for_count_number [] = new int [30];//時間ごとの約定枚数について、とりあえず格納する変数
 
 
         	int day_if = 0;
+        	
+        	int count_26 = 0;
 
 
 
@@ -78,27 +79,33 @@ public class JNIc_market_order_count{
             		day_if = day;
             	}
             	else if(day_if != day){
-            		market_for_number[26] = count_number;
+            		if(market_count == 26){
+            			order_insert[26][count_number] = Integer.parseInt(JNIc_split[2]);
+    					market_order_count[1][26] += Integer.parseInt(JNIc_split[2]);
+    					market_order_count[2][26]++;
+                		market_for_number[26] = count_number;
+            		}
+            		
 
             		day_if = day;
 
             		for_time = 32400;
-            		market_count_for = 1;
+            		//market_count_for = 1;
+            		market_count = 1;
 
-            		for(int i = 1;i<=26;i++){
+            		/*for(int i = 1;i<=26;i++){
             			for_count_number[i] = market_for_number[i];
             			//System.out.println(market_for_number[i]);
             			//System.out.println(line);
 
-            		}
+            		}*/
 
             		count_number = for_count_number[1];
             	}
 
             	if(day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105){
             		for(int j = 31500;j<=40500;j+=900){
-            			if(j <= time_total && time_total < (j + 900) && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0
-            					){
+            			if(j <= time_total && time_total < (j + 900) && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0){
             				market_order_count_half[1][market_count_half] += Integer.parseInt(JNIc_split[2]);
             				market_order_count_half[2][market_count_half]++;
             				/*order_insert_half[market_count_half][count_number_half] = Integer.parseInt(JNIc_split[2]);
@@ -107,53 +114,113 @@ public class JNIc_market_order_count{
             			market_count_half++;
             		}
             	}
-            	else{
-            		for(int j = 31500;j<=54000;j+=900){
+            	else if((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0) || 
+            			(JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))
+            			){
+            		//for(int j = 31500;j<=54000;j+=900){
 
-            			if(j <= time_total && time_total < (j + 900) && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0
-            					&& (JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))){
-            				market_order_count[1][market_count] += Integer.parseInt(JNIc_split[2]);
-            				market_order_count[2][market_count]++;
+            			//if(j <= time_total && time_total < (j + 900) && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0
+            				//	&& (JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))){
+            				//market_order_count[1][market_count] += Integer.parseInt(JNIc_split[2]);
+            				//market_order_count[2][market_count]++;
 
-
-            				if(54900 <= time_total){
-
-            				}
-
+            		//System.out.println(for_time);
 
             				if(for_time <= time_total && time_total <= 54900){
-
-            					market_for_number[market_count_for] = count_number;
-
-
-            					while(for_time <= time_total && for_time < 54000){
-            						market_count_for++;
-            						if(day_if < 20110214 && for_time == 39600){
-            							for_time += 5400;
-            						}
-            						else{
-            							for_time += 900;
-            						}
+            					
+            					
+            					if(day_if < 20110214 && for_time == 39600 && 39600 <= time_total){
+            						//System.out.println(line);
+            						market_for_number[market_count] = count_number;
+        							for_time += 900;
+        							market_count++;
+        							//market_count_for += 6;
+        							count_number = market_for_number[market_count];
+        						}
+            					else if(day_if < 20110214 && for_time == 40500){
+            						market_for_number[market_count] = count_number;
+        							for_time += 5400;
+        							market_count += 6;
+        							//market_count_for += 6;
+        							count_number = market_for_number[market_count];
             					}
-
-
-            					count_number = for_count_number[market_count_for];
-            					order_insert[market_count][count_number] = Integer.parseInt(JNIc_split[2]);
+        						else{
+        							if(market_count == 25){
+                						//System.out.println(line);
+                					}
+        							      							
+        							market_for_number[market_count] = count_number;
+        							for_time += 900;
+        							market_count++;
+        							//market_count_for++;
+        							count_number = market_for_number[market_count];
+        						}
+            					
+            					
+            					
+            					if(for_time <= time_total && for_time <= 54900){
+            						while(for_time <= time_total && for_time <= 54900){
+            							if(day_if < 20110214 && for_time == 39600 && 39600 <= time_total){
+                    						//System.out.println(line);
+                    						
+                							for_time += 900;
+                							market_count++;
+                							//market_count_for += 6;
+                							count_number = market_for_number[market_count];
+                						}
+                    					else if(day_if < 20110214 && for_time == 40500){
+                    						
+                							for_time += 5400;
+                							market_count += 6;
+                							//market_count_for += 6;
+                							count_number = market_for_number[market_count];
+                    					}
+                						else{      							
+                							for_time += 900;
+                							market_count++;
+                							//market_count_for++;
+                							count_number = market_for_number[market_count];
+                						}
+                					}
+            						/*if(day_if < 20110214 && 39600 <= for_time && for_time <= 43200){
+            							order_insert[market_count][count_number] = Integer.parseInt(JNIc_split[2]);
+                    					market_order_count[1][market_count] += Integer.parseInt(JNIc_split[2]);
+                    					market_order_count[2][market_count]++;
+                    					count_number++;
+            						}*/
+            					}
+            						            					
+            					//System.out.println(line + "+++" + for_time);
+		
+            					//System.out.println(market_count + ",,,,," + line + "***" + for_time);			
+            					
             				}
             				else{
+            					if(market_count == 26){
+            						//System.out.println(line);
+            					}
+            					
             					order_insert[market_count][count_number] = Integer.parseInt(JNIc_split[2]);
-            					//System.out.println(order_insert[market_count][count_number]);
+            					market_order_count[1][market_count] += Integer.parseInt(JNIc_split[2]);
+            					market_order_count[2][market_count]++;
             					count_number++;
+            						
             				}
             			}
-            			market_count++;
-            		}
-           		}
-            	market_count = 1;
+            	
+            	if(54000 < time_total && time_total < 54900){
+            		count_26++;
+            	}
+            			
+            		//}
+           		//}
+            	//market_count = 1;
             	market_count_half = 1;
             }
+            
+            System.out.println(count_26 + "----------");
 
-            market_for_number[market_count_for] = count_number;
+            market_for_number[market_count] = count_number;
             market_count_for = 1;
 			market_count = 1;
 			count_number = 1;
@@ -161,6 +228,7 @@ public class JNIc_market_order_count{
 
             File file = new File(filename[0] + "_count.csv");
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+            System.out.println(filename[0]);
 
             if(market_order_count_half[2][market_count] != 0){
             	for(market_count = 1;market_count<=26;market_count++){
@@ -187,26 +255,21 @@ public class JNIc_market_order_count{
 
             for(market_count = 1;market_count<=26;market_count++){
 
+            	
             	double value_ave = (double)market_order_count[1][market_count]/market_order_count[2][market_count];
             	double value_va = 0;
 
-
-
-            	//System.out.println(market_for_number[market_count]);
-
+            	
+            	System.out.println(market_for_number[market_count]);
 
             	for(int i = 1;i < market_for_number[market_count];i++){
-
+            		
         			value_va += (order_insert[market_count][i] - value_ave)*(order_insert[market_count][i] - value_ave);//分散の算出
         			order_insert[market_count][i] = 0;
 
-
         		}
 
-            	//System.out.println(value_va);
-
-
-        		pw.print((double)market_order_count[1][market_count]/market_order_count[2][market_count] + ",");
+        		pw.print(market_count + "," + (double)market_order_count[1][market_count]/market_order_count[2][market_count] + ",");
         		pw.print((double)value_va/market_order_count[2][market_count]);
         		pw.print("\n");
 
