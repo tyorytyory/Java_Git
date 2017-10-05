@@ -51,11 +51,11 @@ public class RV_calc{
 
 
 
-            	/*if(day == 0){//(約定値ver)ここから
+            	if(day == 0){//(約定値ver)ここから
             		day = Integer.parseInt(JNIc_split[0]);
 
             		if(JNIc_split[2].equals("NaN")){
-
+            			pw_rv.print("NaN,");//時間ごとの計算結果を記述するように変更されている。
             		}
             		else{
             			P_one = Math.log(Integer.parseInt(JNIc_split[3]));
@@ -63,7 +63,7 @@ public class RV_calc{
             	}
             	else if(day != Integer.parseInt(JNIc_split[0]) || (45000 <= time_total && day < 20110214 && morning_or_afternoon == false)){
             		if(morning_or_afternoon == false && day < 20110214 && day == Integer.parseInt(JNIc_split[0])){//前場の書き込み
-            			pw_rv.println(day + ",morning," + P_sum);
+            			pw_rv.print(day + ",morning," + P_sum + ",");//時間ごとの計算結果を記述するように変更されている。
 
             			morning_or_afternoon = true;
 
@@ -90,7 +90,9 @@ public class RV_calc{
             		day = Integer.parseInt(JNIc_split[0]);
 
             		P_sum = 0;
+
             		if(JNIc_split[2].equals("NaN")){
+            			pw_rv.print("NaN,");//時間ごとの計算結果を記述するように変更されている。
             			P_one = 0;
             		}
             		else{
@@ -100,7 +102,7 @@ public class RV_calc{
             	else if(day == Integer.parseInt(JNIc_split[0]) && error == false){
 
             		if(JNIc_split[2].equals("NaN")){
-
+            			pw_rv.print("NaN,");//時間ごとの計算結果を記述するように変更されている。
             		}
             		else{
             			if(P_one == 0){
@@ -108,6 +110,7 @@ public class RV_calc{
             			}
             			else{
             				P_two = Math.log(Integer.parseInt(JNIc_split[3]));
+            				pw_rv.print(Math.pow(P_two - P_one,2) + ",");//時間ごとの計算結果を記述するように変更されている。
             				P_sum += Math.pow(P_two - P_one,2);
 
                     		P_one = Math.log(Integer.parseInt(JNIc_split[3]));
@@ -115,13 +118,13 @@ public class RV_calc{
 
             		}
 
-            	}//(約定値ver)ここまで*/
+            	}//(約定値ver)ここまで
 
 
 
             	//System.out.println(line);
 
-            	if(day == 0){//(仲値ver)ここから
+            	/*if(day == 0){//(仲値ver)ここから
             		day = Integer.parseInt(JNIc_split[0]);
             		if(JNIc_split[2].equals("NaN")){
 
@@ -184,6 +187,8 @@ public class RV_calc{
 
             	}
             	//(仲値ver)ここまで
+            	 
+            	 */
 
             }
 

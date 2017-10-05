@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 
 public class JNIc_market_order_count{
 //market_orderから時間ごとの約定枚数の平均・分散を算出するプロラグム
-//初期J-GATEのデータを扱う際は、最初にcombファイル、その次にmarket_orderファイルを読み込ませる
+
     public static void main(String[] args) throws IOException{
 
         BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
@@ -114,9 +114,10 @@ public class JNIc_market_order_count{
             			market_count_half++;
             		}
             	}
-            	else if((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0) || 
+            	else if((day != 20060104 && day != 20061229 && day != 20070104 && day != 20071228 && day != 20080104 && day != 20081230 && day != 20090105) && 
+            			((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0) || 
             			(JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))
-            			){
+            			)){
             		//for(int j = 31500;j<=54000;j+=900){
 
             			//if(j <= time_total && time_total < (j + 900) && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0

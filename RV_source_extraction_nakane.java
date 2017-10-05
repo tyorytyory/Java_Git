@@ -6,18 +6,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.Arrays;
 //RV_source_extraction.javaから抽出したファイルから、仲値のデータを「2006_limit.txt」から抽出するプログラム
 //2006_RV_5min_source.csv→2006_limit.txtの順でファイルを読み込ませる。
 public class RV_source_extraction_nakane{
 
     public static void main(String[] args) throws IOException{
 
-    	double rv_data[][][] = new double [300][6000][3];
+    	double rv_data[][][] = new double [300][6000][4];
 
 
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_rv_nakane.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("fililist_rv_nakane.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -34,7 +35,7 @@ public class RV_source_extraction_nakane{
             int rv_day = 0;
             int rv_number = 0;
 
-         	File file_rv = new File(filename[0].substring(0,4) + "_RV_1min_source_nakane.csv");
+         	File file_rv = new File(filename[0].substring(0,4) + "_RV_5min_source_nakane.csv");
           	PrintWriter pw_rv = new PrintWriter(new BufferedWriter(new FileWriter(file_rv)));
 
 
@@ -62,6 +63,7 @@ public class RV_source_extraction_nakane{
 
 
             		if(day == 0){
+            			//Arrays.fill(rv_data, 0);
                 		day = Integer.parseInt(JNIc_split[0]);
                 	}
                 	else if(day != Integer.parseInt(JNIc_split[0])){
@@ -74,12 +76,18 @@ public class RV_source_extraction_nakane{
             		rv_data[rv_day][rv_number][1] = time_total;
             		if(JNIc_split[2].equals("NaN")){
             			rv_data[rv_day][rv_number][2] = 0;
+            			rv_data[rv_day][rv_number][3] = 0;
             		}
             		else{
-            			rv_data[rv_day][rv_number][2] = Integer.parseInt(JNIc_split[2]);
+            			rv_data[rv_day][rv_number][2] = Integer.parseInt(JNIc_split[3]);
+            			if(JNIc_split[4].equals("donation")){
+            				System.out.println(line + "****" +rv_data[rv_day][rv_number][2]);
+            				rv_data[rv_day][rv_number][3] = 500;
+            			}
+            			
             		}
 
-            		System.out.println(line + "****" +rv_number);
+            		
 
 
             		//System.out.println(rv_data[rv_day][rv_number][0]);
@@ -126,6 +134,11 @@ public class RV_source_extraction_nakane{
                         		//System.out.println(BigDecimal.valueOf(rv_data[rv_day][rv_number][0]).toPlainString());
                     			rv_number++;
                 			}
+                		}
+                		else if(rv_data[rv_day][rv_number][3] == 500){
+                			pw_rv.println(JNIc_split[2] + "," + (double)(rv_data[rv_day][rv_number][1]/3600) + "," + rv_data[rv_day][rv_number][2] + ",," + rv_data[rv_day][rv_number][2] + ",," );
+                			rv_data[rv_day][rv_number][1] = 0;
+                			rv_number++;
                 		}
                 		else if(rv_data[rv_day][rv_number][1] <= time_total && JNIc_split[4].equals("Quote")){
                 			pw_rv.println(JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[8] + "," + JNIc_split[9] + "," + JNIc_split[10] + "," + JNIc_split[11]);
