@@ -35,8 +35,9 @@ public class RV_calc{
          	File file_rv = new File(filename[0] + "_calc.csv");
           	PrintWriter pw_rv = new PrintWriter(new BufferedWriter(new FileWriter(file_rv)));
 
-          	pw_rv.println("day,divide,RV");
+          	//pw_rv.println("day,divide,RV");
 
+          	
 
             while ((line = brtxt.readLine()) != null) {
 
@@ -54,6 +55,8 @@ public class RV_calc{
             	if(day == 0){//(約定値ver)ここから
             		day = Integer.parseInt(JNIc_split[0]);
 
+            		pw_rv.print(day + ",");
+            		
             		if(JNIc_split[2].equals("NaN")){
             			pw_rv.print("NaN,");//時間ごとの計算結果を記述するように変更されている。
             		}
@@ -70,8 +73,12 @@ public class RV_calc{
             		}
             		else if(morning_or_afternoon == false && day < 20110214 && day != Integer.parseInt(JNIc_split[0])){//半日オークションの場合
             			pw_rv.println(day + ",morning," + P_sum);
+            			
 
             			morning_or_afternoon = false;
+            			
+            			day = Integer.parseInt(JNIc_split[0]);
+            			pw_rv.print(day + ",");
 
             		}
             		else if(morning_or_afternoon == true && day < 20110214){//後場の書き込み
@@ -79,15 +86,21 @@ public class RV_calc{
             			pw_rv.println(day + ",afternoon," + P_sum);
 
             			morning_or_afternoon = false;
+            			
+            			day = Integer.parseInt(JNIc_split[0]);
+            			pw_rv.print(day + ",");
             		}
             		else if(20110214 <= day){//昼休みが廃止されたとき
             			pw_rv.println(day + ",no noon recess," + P_sum);
+            			
+            			day = Integer.parseInt(JNIc_split[0]);
+            			pw_rv.print(day + ",");
 
             		}
 
 
 
-            		day = Integer.parseInt(JNIc_split[0]);
+            		
 
             		P_sum = 0;
 
@@ -122,73 +135,94 @@ public class RV_calc{
 
 
 
-            	//System.out.println(line);
+            	
 
             	/*if(day == 0){//(仲値ver)ここから
             		day = Integer.parseInt(JNIc_split[0]);
+            		
+            		pw_rv.print(day + ",");
+            		
             		if(JNIc_split[2].equals("NaN")){
 
             		}
             		else{
-            			P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            			System.out.println(Double.parseDouble(JNIc_split[2]));
+            			
+            			P_one = Math.log((Double.parseDouble(JNIc_split[2]) + Double.parseDouble(JNIc_split[4])) / 2);
             		}
 
             	}
             	else if(day != Integer.parseInt(JNIc_split[0]) || (45000 <= time_total && day < 20110214 && morning_or_afternoon == false)){
             		if(morning_or_afternoon == false && day < 20110214 && day == Integer.parseInt(JNIc_split[0])){//前場の書き込み
-            			pw_rv.println(day + ",morning," + P_sum);
+            			pw_rv.print(day + ",morning," + P_sum + ",");
+            			
+            			
 
             			morning_or_afternoon = true;
 
             		}
             		else if(morning_or_afternoon == false && day < 20110214 && day != Integer.parseInt(JNIc_split[0])){//半日オークションの場合
             			pw_rv.println(day + ",morning," + P_sum);
-
+            			
+            			day = Integer.parseInt(JNIc_split[0]);
+            			
+            			pw_rv.print(day + ",");
+            			
             			morning_or_afternoon = false;
 
             		}
             		else if(morning_or_afternoon == true && day < 20110214){//後場の書き込み
 
             			pw_rv.println(day + ",afternoon," + P_sum);
+            			
+            			day = Integer.parseInt(JNIc_split[0]);
+            			
+            			pw_rv.print(day + ",");
 
             			morning_or_afternoon = false;
             		}
             		else if(20110214 <= day){//昼休みが廃止されたとき
             			pw_rv.println(day + ",no noon recess," + P_sum);
+            			
+            			day = Integer.parseInt(JNIc_split[0]);
+            			
+            			pw_rv.print(day + ",");
 
             		}
             		if(JNIc_split[2].equals("NaN")){
+            			pw_rv.print("NaN,");//時間ごとの計算結果を記述するように変更されている。
             			P_one = 0;
             		}
             		else{
-            			P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            			P_one = Math.log((Double.parseDouble(JNIc_split[2]) + Double.parseDouble(JNIc_split[4])) / 2);
             		}
-            		day = Integer.parseInt(JNIc_split[0]);
+            		
 
             		P_sum = 0;
 
             	}
             	else if(day == Integer.parseInt(JNIc_split[0]) && error == false){
             		if(JNIc_split[2].equals("NaN")){
-
+            			pw_rv.print("NaN,");//時間ごとの計算結果を記述するように変更されている。
             		}
             		else{
             			if(P_one == 0){
-            				P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            				P_one = Math.log((Double.parseDouble(JNIc_split[2]) + Double.parseDouble(JNIc_split[4])) / 2);
             			}
             			else{
-            				P_two = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+            				P_two = Math.log((Double.parseDouble(JNIc_split[2]) + Double.parseDouble(JNIc_split[4])) / 2);
+            				pw_rv.print(Math.pow(P_two - P_one,2) + ",");//時間ごとの計算結果を記述するように変更されている。
             				P_sum += Math.pow(P_two - P_one,2);
 
-                    		P_one = Math.log((Integer.parseInt(JNIc_split[2]) + Integer.parseInt(JNIc_split[4])) / 2);
+                    		P_one = Math.log((Double.parseDouble(JNIc_split[2]) + Double.parseDouble(JNIc_split[4])) / 2);
             			}
 
             		}
 
             	}
-            	//(仲値ver)ここまで
+            	//(仲値ver)ここまで*/
             	 
-            	 */
+            	 
 
             }
 

@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.math.BigDecimal;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -27,15 +28,14 @@ public class RV_source_extraction_nakane{
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
-            double time_for = 32400;//for文の初期値
-            double time_intervals = 300;//計算したいRVの時間間隔
+           
             int day = 0;
             String[] filename = txtFileName.split("\\_");
 
             int rv_day = 0;
             int rv_number = 0;
 
-         	File file_rv = new File(filename[0].substring(0,4) + "_RV_5min_source_nakane.csv");
+         	File file_rv = new File(filename[0].substring(0,4) + "_RV_5min_source_nakane3.csv");
           	PrintWriter pw_rv = new PrintWriter(new BufferedWriter(new FileWriter(file_rv)));
 
 
@@ -80,7 +80,7 @@ public class RV_source_extraction_nakane{
             		}
             		else{
             			rv_data[rv_day][rv_number][2] = Integer.parseInt(JNIc_split[3]);
-            			if(JNIc_split[4].equals("donation")){
+            			if(JNIc_split[4].equals("donation") || JNIc_split[5].equals("final trade")){//寄り付きと最終約定をそのまま約定値を使用するとき。
             				System.out.println(line + "****" +rv_data[rv_day][rv_number][2]);
             				rv_data[rv_day][rv_number][3] = 500;
             			}
@@ -135,11 +135,30 @@ public class RV_source_extraction_nakane{
                     			rv_number++;
                 			}
                 		}
-                		else if(rv_data[rv_day][rv_number][3] == 500){
-                			pw_rv.println(JNIc_split[2] + "," + (double)(rv_data[rv_day][rv_number][1]/3600) + "," + rv_data[rv_day][rv_number][2] + ",," + rv_data[rv_day][rv_number][2] + ",," );
+                		/*else if(rv_data[rv_day][rv_number][3] == 500){//寄り付きと最終約定をそのまま約定値を使用するとき。
+                			int hour_null = (int)(rv_data[rv_day][rv_number][1])/3600;
+                    		int minute_null = ((int)(rv_data[rv_day][rv_number][1])%3600)/60;
+                    		double second_null = (double)(rv_data[rv_day][rv_number][1])%60;
+                    		
+                    		String hour_null_output = String.valueOf(hour_null);
+                    		String minute_null_output = String.valueOf(minute_null);
+                    		String second_null_output = String.valueOf(second_null);
+                    		BigDecimal bd = new BigDecimal(second_null_output);
+                    		BigDecimal second_null_output2 = bd.setScale(6, BigDecimal.ROUND_HALF_UP);
+                    		second_null_output = String.valueOf(second_null_output2);
+                    		if(hour_null_output.length() == 1){
+                    			hour_null_output = 0 + hour_null_output;
+                    		}
+                    		if(minute_null_output.length() == 1){
+                    			minute_null_output = 0 + minute_null_output;
+                    		}
+                    		if(second_null_output.length() == 8){
+                    			second_null_output = 0 + second_null_output;
+                    		}
+                			pw_rv.println(JNIc_split[2] + "," + hour_null_output + ":" + minute_null_output +":" + second_null_output + "," + rv_data[rv_day][rv_number][2] + ",," + rv_data[rv_day][rv_number][2] + ",," );
                 			rv_data[rv_day][rv_number][1] = 0;
                 			rv_number++;
-                		}
+                		}*/
                 		else if(rv_data[rv_day][rv_number][1] <= time_total && JNIc_split[4].equals("Quote")){
                 			pw_rv.println(JNIc_split[2] + "," + JNIc_split[3] + "," + JNIc_split[8] + "," + JNIc_split[9] + "," + JNIc_split[10] + "," + JNIc_split[11]);
                 			rv_data[rv_day][rv_number][1] = 0;
