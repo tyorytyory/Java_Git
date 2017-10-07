@@ -35,7 +35,7 @@ public class RV_source_extraction_nakane{
             int rv_day = 0;
             int rv_number = 0;
 
-         	File file_rv = new File(filename[0].substring(0,4) + "_RV_5min_source_nakane3.csv");
+         	File file_rv = new File(filename[0].substring(0,4) + "_RV_1min_source_nakane3.csv");
           	PrintWriter pw_rv = new PrintWriter(new BufferedWriter(new FileWriter(file_rv)));
 
 

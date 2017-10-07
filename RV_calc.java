@@ -52,7 +52,8 @@ public class RV_calc{
 
 
 
-            	if(day == 0){//(約定値ver)ここから
+            	
+            	/*if(day == 0){//(約定値ver)ここから
             		day = Integer.parseInt(JNIc_split[0]);
 
             		pw_rv.print(day + ",");
@@ -131,13 +132,14 @@ public class RV_calc{
 
             		}
 
-            	}//(約定値ver)ここまで
+            	}//(約定値ver)ここまで*/
 
 
 
+            	//System.out.println(line);
             	
 
-            	/*if(day == 0){//(仲値ver)ここから
+            	if(day == 0){//(仲値ver)ここから
             		day = Integer.parseInt(JNIc_split[0]);
             		
             		pw_rv.print(day + ",");
@@ -146,7 +148,7 @@ public class RV_calc{
 
             		}
             		else{
-            			System.out.println(Double.parseDouble(JNIc_split[2]));
+            			
             			
             			P_one = Math.log((Double.parseDouble(JNIc_split[2]) + Double.parseDouble(JNIc_split[4])) / 2);
             		}
@@ -220,7 +222,7 @@ public class RV_calc{
             		}
 
             	}
-            	//(仲値ver)ここまで*/
+            	//(仲値ver)ここまで
             	 
             	 
 
