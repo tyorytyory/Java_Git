@@ -106,7 +106,7 @@ public class JNIc_market_order_count{
                 		
 
             		}
-            		else{
+            		else if(market_count != 1){
             			market_for_number[26] = count_number;
             		}
             		
@@ -132,7 +132,8 @@ public class JNIc_market_order_count{
                 		
                 		for_count_half_number[10] = count_number_half;
             		}
-            		else{
+            		else if(market_count_half != 1){
+            			
             			for_count_half_number[10] = count_number_half;
             		}
             		
@@ -281,7 +282,7 @@ public class JNIc_market_order_count{
             					if(for_time <= time_total && for_time <= 54900){
             						while(for_time <= time_total && for_time <= 54900){
             							if(day_if < 20110214 && for_time == 39600 && 39600 <= time_total){
-                    						System.out.println(line);
+                    						//System.out.println(line);
                     						
                 							for_time += 900;
                 							market_count++;
@@ -319,7 +320,7 @@ public class JNIc_market_order_count{
             				}
             				else{
             					if(market_count == 10){
-            						System.out.println(line);
+            						//System.out.println(line);
             					}
             					
             					/*if(time_total_before == time_total){//(複合注文を仮定するとき)ここから
@@ -350,8 +351,10 @@ public class JNIc_market_order_count{
             
             //System.out.println(count_26 + "----------");
 
+            System.out.println("adsasd" + count_number_half);
+            
             market_for_number[market_count] = count_number;
-            for_count_half_number[market_count_half] = market_count_half;
+            for_count_half_number[market_count_half] = count_number_half;
             market_count_for = 1;
 			market_count = 1;
 			count_number = 1;
