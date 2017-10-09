@@ -18,7 +18,7 @@ public class day_divide{
     	String data_insert[] = new String [1000000];//書き込みをする際に使用する変数
 
 
-        BufferedReader br = new BufferedReader(new FileReader("../data/filelist4.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -28,7 +28,7 @@ public class day_divide{
 
 
 
-        	FileReader fr = new FileReader("../data/" + txtFileName);
+        	FileReader fr = new FileReader(txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
@@ -41,21 +41,22 @@ public class day_divide{
             	String[] data_split = line.split(",", 0);
 
             	if(data_day_before.equals("")){
-            		data_day_before = data_split[2];
+            		data_day_before = data_split[0];
+            		data_insert[data_number] = line;
+            		data_number++;
+            		System.out.println(data_day_before);
+            	}
+            	else if(data_day_before.equals(data_split[0])){
             		data_insert[data_number] = line;
             		data_number++;
             	}
-            	else if(data_day_before.equals(data_split[2])){
-            		data_insert[data_number] = line;
-            		data_number++;
-            	}
-            	else if(!(data_day_before.equals(data_split[2]))){
+            	else if(!(data_day_before.equals(data_split[0]))){
 
             		String[] filename = txtFileName.split("\\.");
             		filename = txtFileName.split("_");
              		//File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//HDTCDT用
-             		File file = new File(data_day_before  + "_" + filename[0] + ".csv");//JNIc用
-                  	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("../data/" + file)));
+             		File file = new File(data_day_before  + "_" + filename[1] + ".csv");//JNIc用
+                  	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("../kklab_Github/Test/" + file)));
 
                   	for(int i = 0;i<data_number;i++){//書き込み
                   		pw.println(data_insert[i]);
@@ -64,7 +65,7 @@ public class day_divide{
 
                     Arrays.fill(data_insert, null);//初期化
 
-            		data_day_before = data_split[2];
+            		data_day_before = data_split[0];
             		data_number = 0;
             		data_insert[data_number] = line;
             		data_number++;
@@ -75,8 +76,8 @@ public class day_divide{
             String[] filename = txtFileName.split("\\.");
     		filename = txtFileName.split("_");
      		//File file = new File(data_day_before +	"_HTICDT_market_limit_gcheck_change.csv");//HTICDT用
-     		File file = new File(data_day_before + "_" + filename[0] + ".csv");//JNIc用
-          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("../data/" + file)));
+     		File file = new File(data_day_before + "_" + filename[1] + ".csv");//JNIc用
+          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("../kklab_Github/Test/" + file)));
 
           	for(int i = 0;i<data_number;i++){//書き込み
           		pw.println(data_insert[i]);
