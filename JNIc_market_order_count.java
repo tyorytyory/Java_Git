@@ -31,6 +31,8 @@ public class JNIc_market_order_count{
 
 
 
+            
+            
 
             String[] filename = txtFileName.split("\\.");
 
@@ -75,6 +77,8 @@ public class JNIc_market_order_count{
             	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
             	second = Double.parseDouble(JNIc_split[1].substring(6));//秒
             	time_total = hour*3600 + minute*60 + second;//時間を秒換算
+            	
+            	
 
 
             	if(day_if == 0){
@@ -258,9 +262,7 @@ public class JNIc_market_order_count{
         							
             					}
         						else{
-        							if(market_count == 25){
-                						//System.out.println(line);
-                					}
+        							
         							
         							
         							      							
@@ -319,8 +321,8 @@ public class JNIc_market_order_count{
             					
             				}
             				else{
-            					if(market_count == 10){
-            						//System.out.println(line);
+            					if(market_count == 26){
+            						System.out.println(line);
             					}
             					
             					/*if(time_total_before == time_total){//(複合注文を仮定するとき)ここから
