@@ -86,9 +86,9 @@ public class JNIc_market_order_count{
             	}
             	else if(day_if != day){
             		if(market_count == 26 && 
-            				(((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask"))) //&& Integer.parseInt(JNIc_split[2]) >= 0 
-                        	)	||	(JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade"))
-                        			))
+            				(((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask"))) && Integer.parseInt(JNIc_split[2]) >= 0 
+                        	)	//||	(JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))
+                        			)
             				){
             			
             			/*if(time_total_before == time_total){//(複合注文を仮定するとき)ここから
@@ -115,9 +115,9 @@ public class JNIc_market_order_count{
             		}
             		
             		if(market_count_half == 10 &&
-            				(((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask"))) //&& Integer.parseInt(JNIc_split[2]) >= 0
-            						) || 	(JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade"))
-                        			))
+            				(((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask"))) && Integer.parseInt(JNIc_split[2]) >= 0
+            						)// || 	(JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))
+                        			)
             				){
             			//System.out.println("aaa");
             			/*if(time_total_before == time_total){//(複合注文を仮定するとき)ここから
@@ -165,9 +165,9 @@ public class JNIc_market_order_count{
             	}
 
             	if((day == 20060104 || day == 20061229 || day == 20070104 || day == 20071228 || day == 20080104 || day == 20081230 || day == 20090105) && 
-            			(((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask"))) //&& Integer.parseInt(JNIc_split[2]) >= 0
-            					) || (JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade"))
-            			))){
+            			(((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask"))) && Integer.parseInt(JNIc_split[2]) >= 0
+            					) //|| (JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))
+            			)){
             		
             		
             				
@@ -213,8 +213,8 @@ public class JNIc_market_order_count{
             		
             	}
             	else if((day != 20060104 && day != 20061229 && day != 20070104 && day != 20071228 && day != 20080104 && day != 20081230 && day != 20090105) && 
-            			((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) //&& Integer.parseInt(JNIc_split[2]) >= 0
-            					) || (JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))
+            			((JNIc_split.length == 5 && (JNIc_split[4].equals("bid") || JNIc_split[4].equals("ask")) && Integer.parseInt(JNIc_split[2]) >= 0
+            					) //|| (JNIc_split.length == 6 && !(JNIc_split[5].equals("final trade")))
             			)){
             		//for(int j = 31500;j<=54000;j+=900){
 
@@ -321,7 +321,7 @@ public class JNIc_market_order_count{
             					
             				}
             				else{
-            					if(market_count == 26){
+            					if(market_count == 10){
             						System.out.println(line);
             					}
             					

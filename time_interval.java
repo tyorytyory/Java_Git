@@ -10,7 +10,7 @@ public class time_interval{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_intervals.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -404,7 +404,7 @@ public class time_interval{
         		pw24.println(Index);
         	}
         	else if(54000 <= k_all_time && k_all_time < 54900){
-        		//pw25.println(Index);
+        		pw25.println(Index);
         	}
         	else if(54900 <= k_all_time && k_all_time < 55800){
         		//pw26.println(Index);
@@ -445,7 +445,7 @@ public class time_interval{
         pw22.close();
         pw23.close();
         pw24.close();
-        //pw25.close();
+        pw25.close();
         //pw26.close();
         }
     }
