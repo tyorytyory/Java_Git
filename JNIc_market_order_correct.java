@@ -28,7 +28,7 @@ public class JNIc_market_order_correct{
         boolean comb_donation = false;//combデータから寄付データの有無を示す変数（false→ある、true→ない）
         boolean comb_final_trade = false;//combデータから最終約定データの有無を示す変数（true→ある、false→ない）
 
-        String file_input[] = new String[1000000];//maeketデータを格納する変数。あとでこれをもとに書き込みを行う。
+        String file_input[] = new String[1000000];//marketデータを格納する変数。あとでこれをもとに書き込みを行う。
         int file_input_number = 0;//読み込んだファイルの数を格納する変数。file_inputでも使う。
         String JNIc_split[] = new String[50];//「,」で区切ったlineを格納する変数
 
@@ -80,7 +80,7 @@ public class JNIc_market_order_correct{
             	//-----------------------(初期J-GATE以外ここから)--------------------------------------
 
 
-            	JNIc_split = line.split(",", 0);
+            	/*JNIc_split = line.split(",", 0);
 
             	hour = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
             	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
@@ -131,7 +131,7 @@ public class JNIc_market_order_correct{
             			file_input_number++;
             		}
 
-            	}
+            	}*/
 
 
 
@@ -143,7 +143,7 @@ public class JNIc_market_order_correct{
             	//-----------------------(初期J-GATEここから)--------------------------------------
 
 
-            	/*if(filename[0].substring(0, 3).equals("JNI") || filename[0].substring(0, 3).equals("JNc")){//combデータの読み込み
+            	if(filename[0].substring(0, 3).equals("JNI") || filename[0].substring(0, 3).equals("JNc")){//combデータの読み込み
 
             		hour = Double.parseDouble(line.substring(91,93));//時間
                 	minute = Double.parseDouble(line.substring(94,96));//分
@@ -160,7 +160,7 @@ public class JNIc_market_order_correct{
             			day_comb = Integer.parseInt(line.substring(4, 12));
             			delete_comb_row++;
             			delete_comb[day_comb][1]++;//寄付データの行数のカウント
-            			delete_comb[day_comb][2]++;//最終約定データののカウント
+            			//delete_comb[day_comb][2]++;//最終約定データののカウント
             			comb_donation = false;//初期化
             			comb_final_trade = false;//初期化
 
@@ -173,8 +173,10 @@ public class JNIc_market_order_correct{
             		}
 
             		if((line.substring(52,55).equals("128") || line.substring(52,55).equals("160")) && comb_final_trade == false){
+            			
             			comb_final_trade = true;//最終約定の開始
             			delete_comb[day_comb][2] = time_total;
+            			
 
             		}
 
@@ -208,7 +210,6 @@ public class JNIc_market_order_correct{
                 				pw.println(file_input[i]);
                 			}
                 		}
-
                 		Arrays.fill(file_input, null);//初期化
                 		file_input_number = 0;//初期化
                 		day_market = Integer.parseInt(JNIc_split[0]);
@@ -241,7 +242,7 @@ public class JNIc_market_order_correct{
 
             		}
 
-            	}*/
+            	}
 
             	//-----------------------(初期J-GATEここまで)--------------------------------------
 
@@ -256,7 +257,7 @@ public class JNIc_market_order_correct{
             //最後の書き込み
 
 
-            for(int i = 0;i < file_input_number;i++){
+           /* for(int i = 0;i < file_input_number;i++){
     			if(day_market < 20110214 && morning_finai_trade_count - 1  == i){//前場の最終約定の書き出し
     				String file_write_mornig_final_trade_split[] = file_input[i].split(",", 0);
     				pw.println(file_write_mornig_final_trade_split[0] + "," + file_write_mornig_final_trade_split[1] + "," + file_write_mornig_final_trade_split[2] + "," + file_write_mornig_final_trade_split[3] +
@@ -275,7 +276,7 @@ public class JNIc_market_order_correct{
     		file_input_number = 0;//初期化
     		afternoon_donation = false;//初期化
     		morning_finai_trade_count = 0;//初期化
-    		day_market = Integer.parseInt(JNIc_split[0]);
+    		day_market = Integer.parseInt(JNIc_split[0]);*/
 
 
 
@@ -289,15 +290,24 @@ public class JNIc_market_order_correct{
           //-----------------------(初期J-GATEここから)--------------------------------------
 
 
-           /*if(filename[1].equals("market")){
-
+           if(filename[1].equals("market")){
+        	   System.out.println(day_market + "+" + delete_comb[day_market][2]);
         	   for(int i = 0;i < file_input_number;i++){
+        		   
+        		   String file_input_split[] = file_input[i].split(",", 0);
+       			hour = Double.parseDouble(file_input_split[1].substring(0, 2));//時間
+               	minute = Double.parseDouble(file_input_split[1].substring(3, 5));//分
+               	second = Double.parseDouble(file_input_split[1].substring(6));//秒
+               	time_total = hour*3600 + minute*60 + second;//時間を秒換算
+        		   
+        		   
        			if(delete_comb[day_market][2] <= time_total && day_market != 20160714){//最終約定の書き込み
        				String file_write_final_trade_split[] = file_input[i].split(",", 0);
        				pw.println(file_write_final_trade_split[0] + "," + file_write_final_trade_split[1] + "," + file_write_final_trade_split[2] + "," + file_write_final_trade_split[3] +
        						"," + file_write_final_trade_split[4] + ",final trade,,,");
        			}
        			else{//寄付・約定データの書き込み
+       				//System.out.println(day_market + "+" + delete_comb[day_market][2]);
        				pw.println(file_input[i]);
        			}
        		}
@@ -307,7 +317,7 @@ public class JNIc_market_order_correct{
           		day_market = 0;//初期化
 
 
-           }*/
+           }
 
 
          //-----------------------(初期J-GATEここまで)--------------------------------------
