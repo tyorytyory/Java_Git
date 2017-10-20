@@ -207,6 +207,38 @@ public class JNc_number_extraction{
             			else if(day_array[j] == 0){
             				pw.print("NaN,");
             			}
+            			else if((day_array[j] == 20061227) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081222) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081010) ||//サーキットブレイカー
+            					(day_array[j] == 20081014) ||//サーキットブレイカー
+            					(day_array[j] == 20081016) ||//サーキットブレイカー
+            					(day_array[j] == 20110314) ||//サーキットブレイカー
+            					(day_array[j] == 20110315) ||//サーキットブレイカー
+            					(day_array[j] == 20130304) ||//サーキットブレイカー
+            					(day_array[j] == 20130523) ||//サーキットブレイカー
+            					(day_array[j] == 20140304) ||//システムエラー
+            					(day_array[j] == 20160714)//ロイター社のデータエラー
+            					){
+            				//System.out.println(day_array[j]);
+            				pw.print("NaN,");
+                		}
+            			/*else if((day_array[j] == 20061227 && 15 <= i) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081222 && 0 <= i && i <= 8) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081010 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					(day_array[j] == 20081014 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					(day_array[j] == 20081016 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					(day_array[j] == 20110314 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && 9 <= i && i <= 11) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && 13 <= i && i <= 13) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && 16 <= i && i <= 16) ||//サーキットブレイカー
+            					(day_array[j] == 20130304 && 9 <= i && i <= 21) ||//サーキットブレイカー
+            					(day_array[j] == 20130523 && 22 <= i && i <= 23) ||//サーキットブレイカー
+            					(day_array[j] == 20140304 && 9 <= i && i <= 10) ||//システムエラー
+            					(day_array[j] == 20160714)//ロイター社のデータエラー
+            					){
+            				System.out.println(day_array[j]);
+            				pw.print("NaN,");
+                		}*/
             			else{
             				if(i == 0 && day_array[j] < 20160719){
                 				pw.print("NaN,");
@@ -246,7 +278,6 @@ public class JNc_number_extraction{
             		else if(day_array[j] == 0){
             			pw.print("NaN,");
             		}
-            		
             		for(int i=0;i<=25;i++){
             			if(9 <= i && i <= 14 && day_array[j] < 20110214 && day_array[j] != 20060104 && day_array[j] != 20061229 && day_array[j] != 20070104 && day_array[j] != 20071228 && day_array[j] != 20080104 && day_array[j] != 20081230 && day_array[j] != 20090105){
             				pw.print("NaN,");
@@ -254,6 +285,21 @@ public class JNc_number_extraction{
             			else if(day_array[j] == 0){
             				pw.print("NaN,");
             			}
+            			else if((day_array[j] == 20061227) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081222) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081010) ||//サーキットブレイカー
+            					(day_array[j] == 20081014) ||//サーキットブレイカー
+            					(day_array[j] == 20081016) ||//サーキットブレイカー
+            					(day_array[j] == 20110314) ||//サーキットブレイカー
+            					(day_array[j] == 20110315) ||//サーキットブレイカー
+            					(day_array[j] == 20130304) ||//サーキットブレイカー
+            					(day_array[j] == 20130523) ||//サーキットブレイカー
+            					(day_array[j] == 20140304) ||//システムエラー
+            					(day_array[j] == 20160714)//ロイター社のデータエラー
+            					){
+            				System.out.println(day_array[j]);
+            				pw.print("NaN,");
+                		}
             			else{
             				if(i == 0 && day_array[j] < 20160719){
                 				pw.print("NaN,");
