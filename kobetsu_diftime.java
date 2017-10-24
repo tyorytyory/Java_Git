@@ -12,7 +12,7 @@ public class kobetsu_diftime{
     public static void main(String[] args) throws IOException{
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_kankaku.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -84,7 +84,10 @@ public class kobetsu_diftime{
 
             String[] filename = txtFileName.split("\\_");
 
-         	File file = new File("dif_" + filename[0] + "_" + filename[1] + "_" + filename[2] + "_" + filename[5]);//時間差に0を含むときは0を記入
+         	File file = new File("dif0_" + filename[0] + "_" 
+         	+ filename[1] + //limit or market
+         	//+ "cancel" + //cancel
+         	"_" + filename[2] + "_" + filename[5]);//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
@@ -214,25 +217,44 @@ public class kobetsu_diftime{
             	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
             	second = Double.parseDouble(JNIc_split[1].substring(6));//秒
             	time_sum = hour*3600 + minute*60 + second;//時間を秒換算
+            	int volume = Integer.parseInt(JNIc_split[2]);
             	//limit_order_final_trade(ここまで）
+            	
+            	//System.out.println(volume);
 
                 if(count_dif == 0){
                 	time_sum1 = time_sum;
                 	count_dif++;
                 	day_dummy = day;
                 }
+                else if((day == 20061227 && 38700 <= time_sum) || //10:45以降
+                		(day == 20081222 && time_sum <= 45000) || //12:30以降
+                		(day == 20081010 && 32400 <= time_sum && time_sum <= 34200) || 
+                		(day == 20081014 && 32400 <= time_sum && time_sum <= 34200) || 
+                		(day == 20081016 && 32400 <= time_sum && time_sum <= 34200) || 
+                		(day == 20110314 && 32400 <= time_sum && time_sum <= 33300) || 
+                		(day == 20110315 && 39600 <= time_sum && time_sum <= 42300) || 
+                		(day == 20110315 && 43200 <= time_sum && time_sum <= 44100) || 
+                		(day == 20110315 && 45900 <= time_sum && time_sum <= 46800) || 
+                		(day == 20130304 && 39600 <= time_sum && time_sum <= 51300) || 
+                		(day == 20110523 && 52200 <= time_sum && time_sum <= 53100) || 
+                		(day == 20140304 && 39600 <= time_sum && time_sum <= 41400) 
+                		){
+                	System.out.println(line);
+                	
+                }
                 else if(day_dummy == day){
                 	time_sum2 = time_sum;
                 	time_dif = time_sum2 - time_sum1;
                 	BigDecimal x1 = new BigDecimal(time_dif);
-            		time_dif = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+            		time_dif = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();//マイクロ秒
             		//time_dif = x1.setScale(3, BigDecimal.ROUND_DOWN).doubleValue();//ミリ秒
 
-            		if(time_dif > 0){//時間差に0を含むか含まないか　これは非常に重要
+            		if(time_dif > 0){//時間差に0を含むか含まないか　これは非常に重要．volumeは指値注文のとき，キャンセルなのか否かを判別するもの
             			pw.println(day + " " + time_dif);
             		}
             		else if(time_dif == 0){
-            			pw.println(day + " 0.0000001");//limit_orderの場合（時間差0のときの処理）
+            			pw.println(day + " 0.0000001");//limit_orderの場合（時間差0のときの処理）．volumeは指値注文のとき，キャンセルなのか否かを判別するもの
             		}
                 	time_sum1 = time_sum;
                 }

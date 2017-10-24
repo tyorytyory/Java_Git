@@ -83,7 +83,7 @@ public class dekidaka{
 
             String[] filename = txtFileName.split("\\.");
 
-         	File file = new File(filename[0] + "_oyaorder_milli.txt");//時間差に0を含むときは0を記入
+         	File file = new File(filename[0] + "_oyaorder_micro.txt");//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
@@ -92,16 +92,18 @@ public class dekidaka{
             while ((line = brtxt.readLine()) != null) {
             	Index = line;
 
+            			String JNIc_split[] = line.split(",", 0);//final_trade
+            			
+            			
 
                 		//String d5 = Index.substring(0,8);//ミリ秒のとき
-            			String d5 = Index.substring(12,20);//2016年取得ロイター通信社データ
+            			//String d5 = Index.substring(12,20);//2016年取得ロイター通信社データ
                 		//System.out.println(line);
 
                 		//String d5 = Index.substring(8,16);//個別株のとき
 
-            			day =  Integer.parseInt(d5);
-
-
+            			//day =  Integer.parseInt(d5);//final_trade以外
+            			day = Integer.parseInt(JNIc_split[0]);//final_trade
 
 
                     	/*String d1 = Index.substring(9,11);//日経平均先物　ここから
@@ -129,15 +131,25 @@ public class dekidaka{
                     	String db = Index.substring(22);
                     	dekidaka = Integer.parseInt(db);//日経平均先物　ここまで*/
 
-                    	String d1 = Index.substring(21,23);//2016年取得ロイター通信社データ　ここから
+                    	/*String d1 = Index.substring(21,23);//2016年取得ロイター通信社データ　ここから
                     	String d2 = Index.substring(24,26);
                     	String d3 = Index.substring(27,29);
                     	time = Index.substring(21,36);
                     	//String d4 = Index.substring(30,36);//マイクロ秒
                     	String d4 = Index.substring(30,33);//ミリ秒
+                    	*/
 
 
-
+                    	String d1 = JNIc_split[1].substring(0,2);//final_trade
+                    	String d2 = JNIc_split[1].substring(3,5);//final_trade
+                    	String d3 = JNIc_split[1].substring(6,8);//final_trade
+                    	String d4 = JNIc_split[1].substring(9,15);//final_trade
+                    	time = JNIc_split[1].substring(0,15);//final_trade
+                    	
+                    	//System.out.println(d1 + ":" + d2 + ":" + d3 + ":" + d4);
+                    	
+                    	
+                    	
 
 
 
@@ -147,18 +159,23 @@ public class dekidaka{
                     	time4 = Double.parseDouble(d4);
 
 
-                    	//time_total =time1*3600 + time2*60 + time3 + time4/1000000;//マイクロ秒
-                    	time_total =time1*3600 + time2*60 + time3 + time4/1000;//ミリ秒
+                    	time_total =time1*3600 + time2*60 + time3 + time4/1000000;//マイクロ秒
+                    	//time_total =time1*3600 + time2*60 + time3 + time4/1000;//ミリ秒
 
                     	BigDecimal x1 = new BigDecimal(time_total);
-                    	time_total = x1.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();//ミリ秒(3)かマイクロ秒(6)どちらかで変更
+                    	time_total = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();//ミリ秒(3)かマイクロ秒(6)どちらかで変更
 
 
                     	//System.out.println(x1);
                     	//System.out.println(time_total);
                     	//System.out.println(d1 + " " + d2 + " " + d3 + " " + d4);
 
-                    	int length_konma = Index.length();
+                    	
+                    	dekidaka = Integer.parseInt(JNIc_split[2]);//final_trade
+                    	
+                    	
+                    	
+                    	/*int length_konma = Index.length();//ロイターデータ
 
                     	for(i1=0;i1<length_konma;i1++){
                             String a = Index.substring(i1,i1+1);
@@ -187,6 +204,7 @@ public class dekidaka{
 
                 		i2 = 0;
                         i3 = 0;//2016年取得ロイター通信社データ　ここまで
+                        */
 
 
 
@@ -281,7 +299,7 @@ public class dekidaka{
 
 
                     		BigDecimal x2 = new BigDecimal(time_dif);//日経平均先物　普通バージョン
-                    		time_dif = x2.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();//2016年取得ロイター通信社」
+                    		time_dif = x2.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();//2016年取得ロイター通信社」
                     		//ミリ秒(3)かマイクロ秒(6)どちらかで変更
 
 
