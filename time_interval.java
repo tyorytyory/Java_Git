@@ -352,7 +352,7 @@ public class time_interval{
         	else if(37800 <= k_all_time && k_all_time < 38700){
         		pw7.println(Index);
         	}
-        	else if(38700 <= k_all_time && k_all_time < 39600){
+        	else if(38700 <= k_all_time && k_all_time < 39600){//11:45-12:00
         		pw8.println(Index);
         	}
         	else if(39600 <= k_all_time && k_all_time < 40500){
@@ -404,7 +404,7 @@ public class time_interval{
         		pw24.println(Index);
         	}
         	else if(54000 <= k_all_time && k_all_time < 54900){
-        		pw25.println(Index);
+        		//pw25.println(Index);
         	}
         	else if(54900 <= k_all_time && k_all_time < 55800){
         		//pw26.println(Index);
