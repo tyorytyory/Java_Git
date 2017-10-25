@@ -18,7 +18,7 @@ public class market_number_dis{
 
 
 
-        File file = new File("market_transaction_number.csv");
+        File file = new File("market_transaction_number1.csv");
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
@@ -58,7 +58,7 @@ public class market_number_dis{
             		pw.print(market_number[i] + ",");
             		market_number[i] = 0;
 
-            		count_for++;
+            		//count_for++;
             	}
 
                 pw.println();
@@ -88,7 +88,7 @@ public class market_number_dis{
     		pw.print(market_number[i] + ",");
     		market_number[i] = 0;
 
-    		count_for++;
+    		//count_for++;
     	}
 
         pw.println();
