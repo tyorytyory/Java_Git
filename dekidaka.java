@@ -13,7 +13,7 @@ public class dekidaka{
 
     	String Index = null;
 
-    	BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+    	BufferedReader br = new BufferedReader(new FileReader("filelist_dekidaka.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -93,8 +93,8 @@ public class dekidaka{
             	Index = line;
 
             			String JNIc_split[] = line.split(",", 0);//final_trade
-            			
-            			
+
+
 
                 		//String d5 = Index.substring(0,8);//ミリ秒のとき
             			//String d5 = Index.substring(12,20);//2016年取得ロイター通信社データ
@@ -145,11 +145,11 @@ public class dekidaka{
                     	String d3 = JNIc_split[1].substring(6,8);//final_trade
                     	String d4 = JNIc_split[1].substring(9,15);//final_trade
                     	time = JNIc_split[1].substring(0,15);//final_trade
-                    	
+
                     	//System.out.println(d1 + ":" + d2 + ":" + d3 + ":" + d4);
-                    	
-                    	
-                    	
+
+
+
 
 
 
@@ -170,11 +170,11 @@ public class dekidaka{
                     	//System.out.println(time_total);
                     	//System.out.println(d1 + " " + d2 + " " + d3 + " " + d4);
 
-                    	
+
                     	dekidaka = Integer.parseInt(JNIc_split[2]);//final_trade
-                    	
-                    	
-                    	
+
+
+
                     	/*int length_konma = Index.length();//ロイターデータ
 
                     	for(i1=0;i1<length_konma;i1++){

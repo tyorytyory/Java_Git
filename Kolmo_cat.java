@@ -19,7 +19,7 @@ public class Kolmo_cat{
         int nodata_number = 0;
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_cat.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_number.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -78,7 +78,7 @@ public class Kolmo_cat{
         		}
         	}*/
 
-    		Kolmo[Integer.parseInt(filename[1])][number] = Kolmo_natural;
+    		Kolmo[Integer.parseInt(filename[2])][number] = Kolmo_natural;
     		number++;
 
 
@@ -88,14 +88,14 @@ public class Kolmo_cat{
 
         number = 1;
 
-        if(Integer.parseInt(filename[1]) % 24 == 0 && Integer.parseInt(filename[1]) != 0){
+        if(Integer.parseInt(filename[2]) % 24 == 0 && Integer.parseInt(filename[2]) != 0){
 
 			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  +".txt"
 					);
 	     	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
-	     	for(int i = 1;i<=271;i++){
-	     		for(int j = 0;j<=24;j++){//j = 0 or 1
+	     	for(int i = 1;i<=250;i++){
+	     		for(int j = 1;j<=24;j++){//j = 0 or 1
 	         		if(Kolmo[j][i] != null && Kolmo[j][i].length() <= 30 ){
 	         			pw.print(Kolmo[j][i] + ",");
 	         			Kolmo[j][i] = null;

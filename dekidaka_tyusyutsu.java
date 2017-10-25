@@ -6,7 +6,7 @@ public class dekidaka_tyusyutsu{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_dekidaka.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         String Index;
@@ -20,7 +20,7 @@ public class dekidaka_tyusyutsu{
 
         	int length_konma = 0;
 
-        	int count_space = 0;
+        	int count_space = -1;
 
 
         	int count_1 = 0;
@@ -209,13 +209,14 @@ public class dekidaka_tyusyutsu{
             			count_21++;
             			//pw21.println(Index);
             			count_over += count_space;
+            			//System.out.println(line);
             		}
             		else{
             			System.out.println(Index);
             		}
 
 
-            		count_space = 0;
+            		count_space = -1;
             	//}//データに時間があるとき
 
 
