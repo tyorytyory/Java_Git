@@ -20,12 +20,12 @@ public class JNc_number_extraction{
         	//String Index[] = new String[400000];
 
 
-        	
-        	
+
+
         	int day = 0;//日付
         	int day_array [] = new int [300];
         	int count_number [][][] = new int[300][30][6];
-        	
+
         	int count_bid_number_trade[] = new int[30];//買　取引回数
         	int count_ask_number_trade[] = new int[30];//売　取引回数
         	int count_bid_volume[] = new int[30];//買　出来高
@@ -34,32 +34,32 @@ public class JNc_number_extraction{
         	int count_error_volume[] = new int[30];//その他の出来高
         	int time_count = 0;//配列の２番目に用いる変数*/
         	int day_count = 0;
-        	
-        	
+
+
 
             FileReader fr = new FileReader(txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
 
             String[] filename = txtFileName.split("\\.");
-            
-            File file = new File(filename[0] + "_cancel_number.csv");//時間差に0を含むときは0を記入
+
+            File file = new File(filename[0] + "_market_number_not_divide.csv");//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
-                                	
+
 
             while ((line = brtxt.readLine()) != null) {
 
             	String JNc_split[] = line.split(",", 0);
-            	//System.out.println(line);          	
-            	
+            	//System.out.println(line);
+
             	double hour = Double.parseDouble(JNc_split[1].substring(0, 2));
             	double minute = Double.parseDouble(JNc_split[1].substring(3, 5));
             	double second = Double.parseDouble(JNc_split[1].substring(6));
             	double time_total = hour*3600 + minute*60 + second;
             	time_count = 0;
-            	
+
             	for(double i = 31500;i<=54000;i+=900){
             		if(i <= time_total && time_total < (i + 900)){
             			//System.out.println(i);
@@ -69,117 +69,117 @@ public class JNc_number_extraction{
             			time_count++;
             		}
             	}
-            	
+
             	if(day == 0){
             		day = Integer.parseInt(JNc_split[0]);
             		day_array[day_count] = day;
-            		
-            		if(JNc_split[4].equals("bid") 
-            				//&& JNc_split.length == 5//成り行き注文
-            				&& 0 >= Integer.parseInt(JNc_split[2])//指値注文
-            				){            			
+
+            		if(JNc_split[4].equals("bid")
+            				&& JNc_split.length == 5//成り行き注文
+            				//&& 0 <= Integer.parseInt(JNc_split[2])//指値注文
+            				){
             			count_bid_number_trade[time_count]++;
             			count_bid_volume[time_count] += Integer.parseInt(JNc_split[2]);
-            			
+
             			count_number[day_count][time_count][0]++;//買い注文回数
             			count_number[day_count][time_count][1] += Integer.parseInt(JNc_split[2]);;//買い注文量
-            			
-            			
+
+
             		}
             		else if(JNc_split[4].equals("ask")
-            				//&& JNc_split.length == 5//成り行き注文
-            				&& 0 >= Integer.parseInt(JNc_split[2])//指値注文            				
+            				&& JNc_split.length == 5//成り行き注文
+            				//&& 0 <= Integer.parseInt(JNc_split[2])//指値注文
             				){
             			count_ask_number_trade[time_count]++;
             			count_ask_volume[time_count] += Integer.parseInt(JNc_split[2]);
-            			
+
             			count_number[day_count][time_count][2]++;//売り注文回数
             			count_number[day_count][time_count][3] += Integer.parseInt(JNc_split[2]);//売り注文量
-            			
+
             		}
-            		/*else if(JNc_split[4].equals("error1") || JNc_split[4].equals("error2")){//成行注文のとき	
+            		/*else if(JNc_split[4].equals("error1") || JNc_split[4].equals("error2")){//成行注文のとき
             			count_error_number_trade[time_count]++;
                     	count_error_volume[time_count] += Integer.parseInt(JNc_split[2]);
-                    	
+
                     	count_number[day_count][time_count][4]++;//error注文回数
-            			count_number[day_count][time_count][5] += Integer.parseInt(JNc_split[2]);;//error注文量                   	
+            			count_number[day_count][time_count][5] += Integer.parseInt(JNc_split[2]);;//error注文量
             		}*/
-            		
+
             	}
             	else if(day != Integer.parseInt(JNc_split[0])){
-            		
+
             		day_count++;
             		day = Integer.parseInt(JNc_split[0]);
             		day_array[day_count] = day;
-            		
-            		if(JNc_split[4].equals("bid") 
-            				//&& JNc_split.length == 5//成り行き注文
-            				&& 0 >= Integer.parseInt(JNc_split[2])//指値注文
-            				){            			
+
+            		if(JNc_split[4].equals("bid")
+            				&& JNc_split.length == 5//成り行き注文
+            				//&& 0 <= Integer.parseInt(JNc_split[2])//指値注文
+            				){
             			count_bid_number_trade[time_count]++;
             			count_bid_volume[time_count] += Integer.parseInt(JNc_split[2]);
-            			
+
             			count_number[day_count][time_count][0]++;//買い注文回数
             			count_number[day_count][time_count][1] += Integer.parseInt(JNc_split[2]);;//買い注文量
-            			
-            			
+
+
             		}
             		else if(JNc_split[4].equals("ask")
-            				//&& JNc_split.length == 5//成り行き注文
-            				&& 0 >= Integer.parseInt(JNc_split[2])//指値注文            				
+            				&& JNc_split.length == 5//成り行き注文
+            				//&& 0 <= Integer.parseInt(JNc_split[2])//指値注文
             				){
             			count_ask_number_trade[time_count]++;
             			count_ask_volume[time_count] += Integer.parseInt(JNc_split[2]);
-            			
+
             			count_number[day_count][time_count][2]++;//売り注文回数
             			count_number[day_count][time_count][3] += Integer.parseInt(JNc_split[2]);//売り注文量
-            			
+
             		}
-            		/*else if(JNc_split[4].equals("error1") || JNc_split[4].equals("error2")){//成行注文のとき	
+            		/*else if(JNc_split[4].equals("error1") || JNc_split[4].equals("error2")){//成行注文のとき
             			count_error_number_trade[time_count]++;
                     	count_error_volume[time_count] += Integer.parseInt(JNc_split[2]);
-                    	
+
                     	count_number[day_count][time_count][4]++;//error注文回数
-            			count_number[day_count][time_count][5] += Integer.parseInt(JNc_split[2]);;//error注文量                   	
+            			count_number[day_count][time_count][5] += Integer.parseInt(JNc_split[2]);;//error注文量
             		}*/
-            		
+
             	}
             	else if(day == Integer.parseInt(JNc_split[0])){
-            		if(JNc_split[4].equals("bid") 
-            				//&& JNc_split.length == 5//成り行き注文
-            				&& 0 >= Integer.parseInt(JNc_split[2])//指値注文
-            				){            			
+            		if(JNc_split[4].equals("bid")
+            				&& JNc_split.length == 5//成り行き注文
+            				//&& 0 <= Integer.parseInt(JNc_split[2])//指値注文
+            				){
             			count_bid_number_trade[time_count]++;
             			count_bid_volume[time_count] += Integer.parseInt(JNc_split[2]);
-            			
+
             			count_number[day_count][time_count][0]++;//買い注文回数
             			count_number[day_count][time_count][1] += Integer.parseInt(JNc_split[2]);;//買い注文量
-            			
-            			
+
+
             		}
             		else if(JNc_split[4].equals("ask")
-            				//&& JNc_split.length == 5//成り行き注文
-            				&& 0 >= Integer.parseInt(JNc_split[2])//指値注文            				
+            				&& JNc_split.length == 5//成り行き注文
+            				//&& 0 <= Integer.parseInt(JNc_split[2])//指値注文
             				){
             			count_ask_number_trade[time_count]++;
             			count_ask_volume[time_count] += Integer.parseInt(JNc_split[2]);
-            			
+
             			count_number[day_count][time_count][2]++;//売り注文回数
             			count_number[day_count][time_count][3] += Integer.parseInt(JNc_split[2]);//売り注文量
-            			
+
             		}
-            		/*else if(JNc_split[4].equals("error1") || JNc_split[4].equals("error2")){//成行注文のとき	
+            		/*else if(JNc_split[4].equals("error1") || JNc_split[4].equals("error2")){//成行注文のとき
             			count_error_number_trade[time_count]++;
                     	count_error_volume[time_count] += Integer.parseInt(JNc_split[2]);
-                    	
+
                     	count_number[day_count][time_count][4]++;//error注文回数
-            			count_number[day_count][time_count][5] += Integer.parseInt(JNc_split[2]);;//error注文量                   	
+            			count_number[day_count][time_count][5] += Integer.parseInt(JNc_split[2]);;//error注文量
             		}*/
             	}
-            	            	            	
+
             }
-            
-            for(int h=0;h<=3;h++){//成り行きと指値の時でかえる．
+
+            /*for(int h=0;h<=3;h++){//買い注文と売り注文で区別している。
             	if(h == 0){
             		pw.println("bid number,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
             	}
@@ -199,7 +199,7 @@ public class JNc_number_extraction{
             		else if(day_array[j] == 0){
             			pw.print("NaN,");
             		}
-            		
+
             		for(int i=0;i<=25;i++){
             			if(9 <= i && i <= 14 && day_array[j] < 20110214 && day_array[j] != 20060104 && day_array[j] != 20061229 && day_array[j] != 20070104 && day_array[j] != 20071228 && day_array[j] != 20080104 && day_array[j] != 20081230 && day_array[j] != 20090105){
             				pw.print("NaN,");
@@ -222,23 +222,23 @@ public class JNc_number_extraction{
             				//System.out.println(day_array[j]);
             				pw.print("NaN,");
                 		}
-            			/*else if((day_array[j] == 20061227 && 15 <= i) ||//ロイター社のデータエラー
-            					(day_array[j] == 20081222 && 0 <= i && i <= 8) ||//ロイター社のデータエラー
-            					(day_array[j] == 20081010 && 1 <= i && i <= 2) ||//サーキットブレイカー
-            					(day_array[j] == 20081014 && 1 <= i && i <= 2) ||//サーキットブレイカー
-            					(day_array[j] == 20081016 && 1 <= i && i <= 2) ||//サーキットブレイカー
-            					(day_array[j] == 20110314 && 1 <= i && i <= 2) ||//サーキットブレイカー
-            					(day_array[j] == 20110315 && 9 <= i && i <= 11) ||//サーキットブレイカー
-            					(day_array[j] == 20110315 && 13 <= i && i <= 13) ||//サーキットブレイカー
-            					(day_array[j] == 20110315 && 16 <= i && i <= 16) ||//サーキットブレイカー
-            					(day_array[j] == 20130304 && 9 <= i && i <= 21) ||//サーキットブレイカー
-            					(day_array[j] == 20130523 && 22 <= i && i <= 23) ||//サーキットブレイカー
-            					(day_array[j] == 20140304 && 9 <= i && i <= 10) ||//システムエラー
-            					(day_array[j] == 20160714)//ロイター社のデータエラー
-            					){
-            				System.out.println(day_array[j]);
-            				pw.print("NaN,");
-                		}*/
+            			//else if((day_array[j] == 20061227 && 15 <= i) ||//ロイター社のデータエラー
+            					//(day_array[j] == 20081222 && 0 <= i && i <= 8) ||//ロイター社のデータエラー
+            					//(day_array[j] == 20081010 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					//(day_array[j] == 20081014 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					//(day_array[j] == 20081016 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					//(day_array[j] == 20110314 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					//(day_array[j] == 20110315 && 9 <= i && i <= 11) ||//サーキットブレイカー
+            					//(day_array[j] == 20110315 && 13 <= i && i <= 13) ||//サーキットブレイカー
+            					//(day_array[j] == 20110315 && 16 <= i && i <= 16) ||//サーキットブレイカー
+            					//(day_array[j] == 20130304 && 9 <= i && i <= 21) ||//サーキットブレイカー
+            					//(day_array[j] == 20130523 && 22 <= i && i <= 23) ||//サーキットブレイカー
+            					//(day_array[j] == 20140304 && 9 <= i && i <= 10) ||//システムエラー
+            					//(day_array[j] == 20160714)//ロイター社のデータエラー
+            					//){
+            				//System.out.println(day_array[j]);
+            				//pw.print("NaN,");
+                		//}
             			else{
             				if(i == 0 && day_array[j] < 20160719){
                 				pw.print("NaN,");
@@ -247,11 +247,11 @@ public class JNc_number_extraction{
             					pw.print("NaN,");
             				}
             				else{
-            					
+
             					if(h%2 == 1){//指値キャンセルのとき
             						pw.print(-1*count_number[j][i][h] + ",");
             					}
-            					else{//指値キャンセルのとき
+            					else{//指値キャンセルの以外のとき
             						pw.print(count_number[j][i][h] + ",");
             					}
             				}
@@ -262,9 +262,11 @@ public class JNc_number_extraction{
             		}
             	}
             	pw.print("\n\n\n\n\n");
-            }
-            
-            for(int h=0;h<=2;h += 2){//成り行きと指値の時でかえる．
+            }*/
+
+
+
+            /*for(int h=0;h<=2;h += 2){//成り行きと指値の時でかえる．注文一回あたりの平均注文量のプログラム
             	if(h == 0){
             		pw.println("bid average volume per 1 trade,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
             	}
@@ -313,9 +315,89 @@ public class JNc_number_extraction{
             					}
             					else{
             						//pw.print((double)((count_number[j][i][h+1]))/count_number[j][i][h] + ",");//指値キャンセル以外
-                					pw.print((double)((-1*count_number[j][i][h+1]))/count_number[j][i][h] + ",");//指値キャンセル                					
+                					pw.print((double)((-1*count_number[j][i][h+1]))/count_number[j][i][h] + ",");//指値キャンセル
             					}
-            					
+
+            				}
+            			}
+            			if(i == 25){
+            				pw.print("\n");
+            			}
+            		}
+            	}
+            	pw.print("\n\n\n\n\n");
+            }*/
+
+
+            for(int h=0;h<=1;h++){//買い注文と売り注文で区別しない。
+            	if(h == 0){
+            		pw.println("number,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
+            	}
+            	else if(h == 1){
+            		pw.println("volume,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
+            	}
+            	for(int j=0;j<=260;j++){
+            		if(day_array[j] != 0){
+            			pw.print(day_array[j] + ",");
+            		}
+            		else if(day_array[j] == 0){
+            			pw.print("NaN,");
+            		}
+
+            		for(int i=0;i<=25;i++){
+            			if(9 <= i && i <= 14 && day_array[j] < 20110214 && day_array[j] != 20060104 && day_array[j] != 20061229 && day_array[j] != 20070104 && day_array[j] != 20071228 && day_array[j] != 20080104 && day_array[j] != 20081230 && day_array[j] != 20090105){
+            				pw.print("NaN,");
+            			}
+            			else if(day_array[j] == 0){
+            				pw.print("NaN,");
+            			}
+            			/*else if((day_array[j] == 20061227) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081222) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081010) ||//サーキットブレイカー
+            					(day_array[j] == 20081014) ||//サーキットブレイカー
+            					(day_array[j] == 20081016) ||//サーキットブレイカー
+            					(day_array[j] == 20110314) ||//サーキットブレイカー
+            					(day_array[j] == 20110315) ||//サーキットブレイカー
+            					(day_array[j] == 20130304) ||//サーキットブレイカー
+            					(day_array[j] == 20130523) ||//サーキットブレイカー
+            					(day_array[j] == 20140304) ||//システムエラー
+            					(day_array[j] == 20160714)//ロイター社のデータエラー
+            					){
+            				//System.out.println(day_array[j]);
+            				pw.print("NaN,");
+                		}*/
+            			else if((day_array[j] == 20061227 && 15 <= i) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081222 && 0 <= i && i <= 8) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081010 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					(day_array[j] == 20081014 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					(day_array[j] == 20081016 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					(day_array[j] == 20110314 && 1 <= i && i <= 2) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && 9 <= i && i <= 11) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && 13 <= i && i <= 13) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && 16 <= i && i <= 16) ||//サーキットブレイカー
+            					(day_array[j] == 20130304 && 9 <= i && i <= 21) ||//サーキットブレイカー
+            					(day_array[j] == 20130523 && 22 <= i && i <= 23) ||//サーキットブレイカー
+            					(day_array[j] == 20140304 && 9 <= i && i <= 10) ||//システムエラー
+            					(day_array[j] == 20160714)//ロイター社のデータエラー
+            					){
+            				System.out.println(day_array[j]);
+            				pw.print("NaN,");
+                		}
+            			else{
+            				if(i == 0 && day_array[j] < 20160719){
+                				pw.print("NaN,");
+                			}
+                			else if(10 <= i && (day_array[j] == 20060104 || day_array[j] == 20061229 || day_array[j] == 20070104 || day_array[j] == 20071228 || day_array[j] == 20080104 || day_array[j] == 20081230 || day_array[j] == 20090105)){
+            					pw.print("NaN,");
+            				}
+            				else{
+
+            					/*if(h%2 == 1){//指値キャンセルのとき
+            						pw.print(-1*(count_number[j][i][h]+count_number[j][i][h+2]) + ",");
+            					}
+            					else{//指値キャンセルの以外のとき*/
+            						pw.print((count_number[j][i][h]+count_number[j][i][h+2]) + ",");
+            					//}
             				}
             			}
             			if(i == 25){
@@ -325,11 +407,12 @@ public class JNc_number_extraction{
             	}
             	pw.print("\n\n\n\n\n");
             }
-            
+
+
             /*pw.print(day + ",");
-    		
+
     		for(int i = 0;i<=25;i++){
-  
+
     			if(i == 0 && day < 20160719){
     				pw.print("NaN,NaN,NaN,NaN,NaN,NaN,");
     			}
@@ -342,7 +425,7 @@ public class JNc_number_extraction{
     			if(i == 25){
     				pw.print("\n");
     			}
-    			
+
     			count_ask_number_trade[i] = 0;//売　取引回数
             	count_bid_volume[i] = 0;//買　出来高
             	count_ask_volume[i] = 0;//売　出来高

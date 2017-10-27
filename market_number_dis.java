@@ -22,7 +22,7 @@ public class market_number_dis{
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_all.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_market.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
