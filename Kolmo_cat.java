@@ -15,11 +15,12 @@ public class Kolmo_cat{
         int Kolmo_count[] = new int [30];
         int number = 1;
         String Kolmo_natural = "0.0";
+        //String parameter = "";
         String[] filename = new String [20];
         int nodata_number = 0;
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_number.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_pareto3.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -37,13 +38,21 @@ public class Kolmo_cat{
         while ((line = brtxt.readLine()) != null) {
 
         	Index = line;
-        	if(Index.length()<=30){
-            	Kolmo_natural = Index;
+        	String Index_split[] = line.split("	", 0);//読み込むデータが２列だったとき
+        	//System.out.println(Index.length());
+        	
+        	if(//Index.length()<=30//kolmoを一つにするとき
+        			Index.length()<=50//パラメータのとき
+        			){
+            	//Kolmo_natural = Index;//コルモゴロフのとき（というか列が一列のとき）
+            	Kolmo_natural = Index_split[1];//読み込むデータが２列だったとき
         	}
-        	else if(Index.length()>30){
+        	else if(//Index.length()>30//kolmoを一つにするとき
+        			Index.length()>50//パラメータのとき
+        			){
         		Kolmo_natural = "-1";
-        	}
-        	/*if(filename[0].equals("2008")){//サーキットブレイカー等が原因で取引がとまったところ
+        	}////連続分布のkolmoはサーキットブレイカーのところもすべていれているのであれ
+        	if(filename[0].equals("2008")){//サーキットブレイカー等が原因で取引がとまったところ
         		if((filename[1].equals("01") && number == 192)
         				|| (filename[1].equals("02") && (number ==192 || number == 193 || number == 195))){
         			Kolmo_natural = "-1";
@@ -76,9 +85,10 @@ public class Kolmo_cat{
         		if((filename[1].equals("01") && number == 132)){
         							Kolmo_natural = "-1";
         		}
-        	}*/
+        	}
+        	//連続分布のkolmoはサーキットブレイカーのところもすべていれているのであれ
 
-    		Kolmo[Integer.parseInt(filename[2])][number] = Kolmo_natural;
+    		Kolmo[Integer.parseInt(filename[1])][number] = Kolmo_natural;
     		number++;
 
 
@@ -88,9 +98,9 @@ public class Kolmo_cat{
 
         number = 1;
 
-        if(Integer.parseInt(filename[2]) % 24 == 0 && Integer.parseInt(filename[2]) != 0){
+        if(Integer.parseInt(filename[1]) % 24 == 0 && Integer.parseInt(filename[1]) != 0){
 
-			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  +".txt"
+			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  +"_beta.txt"
 					);
 	     	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
