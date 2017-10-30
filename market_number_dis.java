@@ -17,7 +17,6 @@ public class market_number_dis{
         boolean noon_recess = false;
 
 
-
         File file = new File("market_transaction_number1.csv");
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 

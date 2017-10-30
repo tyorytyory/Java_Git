@@ -11,7 +11,7 @@ public class Order_dis_data{
     public static void main(String[] args) throws IOException{
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_dekidaka.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
 
@@ -37,9 +37,9 @@ public class Order_dis_data{
         	FileReader fr = new FileReader(txtFileName);
             BufferedReader brtxt = new BufferedReader(fr);
             String line ="";
-            int insert_bid[] = new int [10000];
+            int insert_bid[] = new int [1000000];
             int bid_count = 0;
-            int insert_ask[] = new int [10000];
+            int insert_ask[] = new int [1000000];
             int ask_count = 0;
 
             int day = 0;
@@ -52,6 +52,9 @@ public class Order_dis_data{
 
             File file_ask = new File("ask_" + filename[0] + ".csv");
             PrintWriter pw_ask = new PrintWriter(new BufferedWriter(new FileWriter(file_ask)));
+
+            pw_bid.println(filename[0].substring(0, 4));
+            pw_ask.println(filename[0].substring(0, 4));
 
 
             while ((line = brtxt.readLine()) != null) {
@@ -67,14 +70,19 @@ public class Order_dis_data{
             	double time_total = hour*3600 + minute*60 + second;
 
 
+            	if(JNc_split[4].equals("bid")&& JNc_split.length == 5 &&  time_total <= 54000){
+            		pw_bid.println(JNc_split[2]);
+            	}
+            	else if(JNc_split[4].equals("ask")&& JNc_split.length == 5 &&  time_total <= 54000){
+            		pw_ask.println(JNc_split[2]);
+            	}
 
-
-            	if(day == 0){
+            	if(day == 0){//1500までにするときは54000を条件にいれる
             		day = Integer.parseInt(JNc_split[0]);
 
 
             		if(JNc_split[4].equals("bid")
-            				//&& JNc_split.length == 5//成り行き注文
+            				&& JNc_split.length == 5//成り行き注文
 
             				){
 
@@ -99,27 +107,27 @@ public class Order_dis_data{
 
             		}
             	}
-            	else if(day != Integer.parseInt(JNc_split[0])){
+            	else if(day != Integer.parseInt(JNc_split[0])){//1500までにするときは54000を条件にいれる
 
-            		pw_bid.print(day + ",");
-            		pw_ask.print(day + ",");
+            		//pw_bid.print(day + ",");//年間のときは出力しない
+            		//pw_ask.print(day + ",");//年間のときは出力しない
 
             		for(int i = 0;i < bid_count;i++){
-            			pw_bid.print(insert_bid[i] + ",");
+            			//pw_bid.print(insert_bid[i] + ",");
             			insert_bid[i] = 0;
             			if(i == bid_count - 1){
             				//System.out.println(line + "+++");
-            				pw_bid.println();
+            				//pw_bid.println();//年間のときは出力しない
             			}
             		}
 
             		bid_count = 0;
 
             		for(int i = 0;i < ask_count;i++){
-            			pw_ask.print(insert_ask[i] + ",");
+            			//pw_ask.print(insert_ask[i] + ",");
             			insert_ask[i] = 0;
             			if(i == ask_count - 1){
-            				pw_ask.println();
+            				//pw_ask.println();//年間のときは出力しない
             			}
             		}
 
@@ -130,7 +138,7 @@ public class Order_dis_data{
             		day = Integer.parseInt(JNc_split[0]);
 
             		if(JNc_split[4].equals("bid")
-            				//&& JNc_split.length == 5//成り行き注文
+            				&& JNc_split.length == 5//成り行き注文
 
             				){
 
@@ -143,7 +151,7 @@ public class Order_dis_data{
 
             		}
             		else if(JNc_split[4].equals("ask")
-            				//&& JNc_split.length == 5//成り行き注文
+            				&& JNc_split.length == 5//成り行き注文
 
             				){
             			if(0 <= Integer.parseInt(JNc_split[2])){
@@ -155,9 +163,10 @@ public class Order_dis_data{
 
             		}
             	}
-            	else if(day == Integer.parseInt(JNc_split[0])){
+            	else if(day == Integer.parseInt(JNc_split[0])){//1500までにするときは54000を条件にいれる
+
             		if(JNc_split[4].equals("bid")
-            				//&& JNc_split.length == 5//成り行き注文
+            				&& JNc_split.length == 5//成り行き注文
 
             				){
             			if(0 <= Integer.parseInt(JNc_split[2])){
@@ -168,7 +177,7 @@ public class Order_dis_data{
             			}
             		}
             		else if(JNc_split[4].equals("ask")
-            				//&& JNc_split.length == 5//成り行き注文
+            				&& JNc_split.length == 5//成り行き注文
 
             				){
             			if(0 <= Integer.parseInt(JNc_split[2])){

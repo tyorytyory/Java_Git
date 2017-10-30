@@ -23,17 +23,20 @@ public class JNc_number_extraction{
 
 
         	int day = 0;//日付
-        	int day_array [] = new int [300];
-        	int count_number [][][] = new int[300][30][6];
+        	int day_array [] = new int [3000];
+        	int count_number [][][] = new int[3000][400][6];
 
-        	int count_bid_number_trade[] = new int[30];//買　取引回数
-        	int count_ask_number_trade[] = new int[30];//売　取引回数
-        	int count_bid_volume[] = new int[30];//買　出来高
-        	int count_ask_volume[] = new int[30];//売　出来高
-        	int count_error_number_trade[] = new int[30];//その他の取引回数
-        	int count_error_volume[] = new int[30];//その他の出来高
+        	int count_bid_number_trade[] = new int[400];//買　取引回数
+        	int count_ask_number_trade[] = new int[400];//売　取引回数
+        	int count_bid_volume[] = new int[400];//買　出来高
+        	int count_ask_volume[] = new int[400];//売　出来高
+        	int count_error_number_trade[] = new int[400];//その他の取引回数
+        	int count_error_volume[] = new int[400];//その他の出来高
         	int time_count = 0;//配列の２番目に用いる変数*/
         	int day_count = 0;
+        	int if_time[] = new int[400];//サーキットブレイカーのときに必要になる文章。
+        	int time_dif = 3600;//time_difを変えることにより、時間間隔を変える。
+        	int pw_enter_point = 0;//書き込みの際に改行するもの
 
 
 
@@ -43,10 +46,16 @@ public class JNc_number_extraction{
 
             String[] filename = txtFileName.split("\\.");
 
-            File file = new File(filename[0] + "_market_number_not_divide.csv");//時間差に0を含むときは0を記入
+            File file = new File(filename[0] + "_market_number_not_divide_30min.csv");//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
+
+         	for(int i = 0;i<=((54000-31500)/time_dif)-1;i++){
+         		if_time[i] = 31500 + i*time_dif;
+         		System.out.println(i + "++++" + if_time[i]);
+         		pw_enter_point = i;
+        	}
 
 
             while ((line = brtxt.readLine()) != null) {
@@ -60,8 +69,8 @@ public class JNc_number_extraction{
             	double time_total = hour*3600 + minute*60 + second;
             	time_count = 0;
 
-            	for(double i = 31500;i<=54000;i+=900){
-            		if(i <= time_total && time_total < (i + 900)){
+            	for(double i = 31500;i<=54000;i+=time_dif){
+            		if(i <= time_total && time_total < (i + time_dif)){
             			//System.out.println(i);
             			break;
             		}
@@ -331,12 +340,40 @@ public class JNc_number_extraction{
 
             for(int h=0;h<=1;h++){//買い注文と売り注文で区別しない。
             	if(h == 0){
-            		pw.println("number,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
+            		pw.print("number,");
+            		for(double i = 31500;i<54000;i+=time_dif){
+            			int hour_null = (int)(i)/3600;
+                		int minute_null = ((int)(i)%3600)/60;
+                		String hour_null_output = String.valueOf(hour_null);
+                		String minute_null_output = String.valueOf(minute_null);
+                		if(hour_null_output.length() == 1){
+                			hour_null_output = 0 + hour_null_output;
+                		}
+                		if(minute_null_output.length() == 1){
+                			minute_null_output = 0 + minute_null_output;
+                		}
+            			pw.print(hour_null_output + ":" + minute_null_output +":00,");
+                	}
+            		pw.print("\n");
             	}
             	else if(h == 1){
-            		pw.println("volume,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
+            		pw.print("volume,");
+            		for(double i = 31500;i<54000;i+=time_dif){
+            			int hour_null = (int)(i)/3600;
+                		int minute_null = ((int)(i)%3600)/60;
+                		String hour_null_output = String.valueOf(hour_null);
+                		String minute_null_output = String.valueOf(minute_null);
+                		if(hour_null_output.length() == 1){
+                			hour_null_output = 0 + hour_null_output;
+                		}
+                		if(minute_null_output.length() == 1){
+                			minute_null_output = 0 + minute_null_output;
+                		}
+            			pw.print(hour_null_output + ":" + minute_null_output +":00,");
+                	}
+            		pw.print("\n");
             	}
-            	for(int j=0;j<=260;j++){
+            	for(int j=0;j<=2460;j++){
             		if(day_array[j] != 0){
             			pw.print(day_array[j] + ",");
             		}
@@ -344,8 +381,8 @@ public class JNc_number_extraction{
             			pw.print("NaN,");
             		}
 
-            		for(int i=0;i<=25;i++){
-            			if(9 <= i && i <= 14 && day_array[j] < 20110214 && day_array[j] != 20060104 && day_array[j] != 20061229 && day_array[j] != 20070104 && day_array[j] != 20071228 && day_array[j] != 20080104 && day_array[j] != 20081230 && day_array[j] != 20090105){
+            		for(int i=0;i<=pw_enter_point;i++){//時間間隔によりiを変える。15min->25,1min->374,5min->74
+            			if(39600 <= if_time[i] && if_time[i] < 45000 && day_array[j] < 20110214 && day_array[j] != 20060104 && day_array[j] != 20061229 && day_array[j] != 20070104 && day_array[j] != 20071228 && day_array[j] != 20080104 && day_array[j] != 20081230 && day_array[j] != 20090105){
             				pw.print("NaN,");
             			}
             			else if(day_array[j] == 0){
@@ -366,28 +403,29 @@ public class JNc_number_extraction{
             				//System.out.println(day_array[j]);
             				pw.print("NaN,");
                 		}*/
-            			else if((day_array[j] == 20061227 && 15 <= i) ||//ロイター社のデータエラー
-            					(day_array[j] == 20081222 && 0 <= i && i <= 8) ||//ロイター社のデータエラー
-            					(day_array[j] == 20081010 && 1 <= i && i <= 2) ||//サーキットブレイカー
-            					(day_array[j] == 20081014 && 1 <= i && i <= 2) ||//サーキットブレイカー
-            					(day_array[j] == 20081016 && 1 <= i && i <= 2) ||//サーキットブレイカー
-            					(day_array[j] == 20110314 && 1 <= i && i <= 2) ||//サーキットブレイカー
-            					(day_array[j] == 20110315 && 9 <= i && i <= 11) ||//サーキットブレイカー
-            					(day_array[j] == 20110315 && 13 <= i && i <= 13) ||//サーキットブレイカー
-            					(day_array[j] == 20110315 && 16 <= i && i <= 16) ||//サーキットブレイカー
-            					(day_array[j] == 20130304 && 9 <= i && i <= 21) ||//サーキットブレイカー
-            					(day_array[j] == 20130523 && 22 <= i && i <= 23) ||//サーキットブレイカー
-            					(day_array[j] == 20140304 && 9 <= i && i <= 10) ||//システムエラー
+            			else if((day_array[j] == 20061227 && 38700 <= if_time[i]) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081222 && 31500 <= if_time[i] && if_time[i] <= 39600) ||//ロイター社のデータエラー
+            					(day_array[j] == 20081010 && (9*3600 + 8*60 + 0) <= if_time[i] && if_time[i] <= (9*3600 + 23*60 + 4)) ||//サーキットブレイカー
+            					(day_array[j] == 20081014 && (9*3600 + 10*60 + 0) <= if_time[i] && if_time[i] <= (9*3600 + 25*60 + 31)) ||//サーキットブレイカー
+            					(day_array[j] == 20081016 && (9*3600 + 9*60 + 0) <= if_time[i] && if_time[i] <= (9*3600 + 24*60 + 30)) ||//サーキットブレイカー
+            					(day_array[j] == 20110314 && (9*3600 + 0*60 + 0) <= if_time[i] && if_time[i] <= (9*3600 + 1*60 + 55)) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && (11*3600 + 8*60 + 0) <= if_time[i] && if_time[i] <= (11*3600 + 24*60 + 46)) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && (11*3600 + 24*60 +0) <= if_time[i] && if_time[i] <= (11*3600 + 40*60 + 16)) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && (12*3600 + 13*60 + 0) <= if_time[i] && if_time[i] <= (12*3600 + 14*60 + 12)) ||//サーキットブレイカー
+            					(day_array[j] == 20110315 && (12*3600 + 46*60 + 0) <= if_time[i] && if_time[i] <= (12*3600 + 47*60 + 10)) ||//サーキットブレイカー
+            					(day_array[j] == 20130304 && (11*3600 + 4*60 + 0) <= if_time[i] && if_time[i] <= (14*3600 + 10*60 + 5)) ||//サーキットブレイカー
+            					(day_array[j] == 20130523 && (14*3600 + 28*60 + 0) <= if_time[i] && if_time[i] <= (14*3600 + 43*60 + 40)) ||//サーキットブレイカー
+            					(day_array[j] == 20140304 && (11*3600 + 5*60 + 0) <= if_time[i] && if_time[i] <= (11*3600 + 30*60 + 0)) ||//システムエラー
             					(day_array[j] == 20160714)//ロイター社のデータエラー
             					){
             				System.out.println(day_array[j]);
             				pw.print("NaN,");
                 		}
             			else{
-            				if(i == 0 && day_array[j] < 20160719){
+            				if(if_time[i] < 32400 && day_array[j] < 20160719){
                 				pw.print("NaN,");
                 			}
-                			else if(10 <= i && (day_array[j] == 20060104 || day_array[j] == 20061229 || day_array[j] == 20070104 || day_array[j] == 20071228 || day_array[j] == 20080104 || day_array[j] == 20081230 || day_array[j] == 20090105)){
+                			else if(40200 <= if_time[i] && (day_array[j] == 20060104 || day_array[j] == 20061229 || day_array[j] == 20070104 || day_array[j] == 20071228 || day_array[j] == 20080104 || day_array[j] == 20081230 || day_array[j] == 20090105)){
             					pw.print("NaN,");
             				}
             				else{
@@ -400,7 +438,7 @@ public class JNc_number_extraction{
             					//}
             				}
             			}
-            			if(i == 25){
+            			if(i == pw_enter_point){//時間間隔によりiを変える。15min->25,1min->374
             				pw.print("\n");
             			}
             		}

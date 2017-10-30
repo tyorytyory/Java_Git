@@ -154,12 +154,15 @@ public class dekidaka{
 
 
                     	time1 = Double.parseDouble(d1);
-                    	time2 = Double.parseDouble(d2);
-                    	time3 = Double.parseDouble(d3);
-                    	time4 = Double.parseDouble(d4);
+                        time2 = Double.parseDouble(d2);
+                        time3 = Double.parseDouble(d3);
+                        time4 = Double.parseDouble(d4);
 
 
-                    	time_total =time1*3600 + time2*60 + time3 + time4/1000000;//マイクロ秒
+                        time_total =time1*3600 + time2*60 + time3 + time4/1000000;//マイクロ秒
+
+
+
                     	//time_total =time1*3600 + time2*60 + time3 + time4/1000;//ミリ秒
 
                     	BigDecimal x1 = new BigDecimal(time_total);

@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 //final_tradeから約定と指値を抽出するプログラム
+//とか色々
 public class Limit_extraction{
 
     public static void main(String[] args) throws IOException{
@@ -19,7 +20,7 @@ public class Limit_extraction{
         int nodata_number = 0;
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_all.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_dekidaka.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -33,7 +34,7 @@ public class Limit_extraction{
 
         filename = txtFileName.split("\\.");
 
-        File file = new File(filename[0]+ "_1500.csv");
+        File file = new File("bid_" + filename[0]+ "_1500.csv");
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
         while ((line = brtxt.readLine()) != null) {
