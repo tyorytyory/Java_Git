@@ -35,7 +35,7 @@ public class JNc_number_extraction{
         	int time_count = 0;//配列の２番目に用いる変数*/
         	int day_count = 0;
         	int if_time[] = new int[400];//サーキットブレイカーのときに必要になる文章。
-        	int time_dif = 3600;//time_difを変えることにより、時間間隔を変える。
+        	int time_dif = 900;//time_difを変えることにより、時間間隔を変える。
         	int pw_enter_point = 0;//書き込みの際に改行するもの
 
 
@@ -46,7 +46,7 @@ public class JNc_number_extraction{
 
             String[] filename = txtFileName.split("\\.");
 
-            File file = new File(filename[0] + "_market_number_not_divide_30min.csv");//時間差に0を含むときは0を記入
+            File file = new File(filename[0] + "_market_number_not_divide_15min.csv");//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
