@@ -43,6 +43,7 @@ public class Order_dis_data{
             int ask_count = 0;
 
             int day = 0;
+            double time_total = 0;
 
             String[] filename = txtFileName.split("\\.");
 
@@ -67,15 +68,50 @@ public class Order_dis_data{
             	double hour = Double.parseDouble(JNc_split[1].substring(0, 2));
             	double minute = Double.parseDouble(JNc_split[1].substring(3, 5));
             	double second = Double.parseDouble(JNc_split[1].substring(6));
-            	double time_total = hour*3600 + minute*60 + second;
+            	time_total = hour*3600 + minute*60 + second;
 
 
-            	if(JNc_split[4].equals("bid")&& JNc_split.length == 5 &&  time_total <= 54000){//年間で行うとき
-            		//pw_bid.println(JNc_split[2]);
+            	if((JNc_split[0].equals("20081010") && 32400 <= time_total && time_total <= 34200) ||
+        				(JNc_split[0].equals("20081014") && 32400 <= time_total && time_total <= 34200) ||
+        				(JNc_split[0].equals("20081016") && 32400 <= time_total && time_total <= 34200) ||
+        				(JNc_split[0].equals("20110314") && 32400 <= time_total && time_total <= 33300) ||
+        				(JNc_split[0].equals("20110315") && 39600 <= time_total && time_total <= 42300) ||
+        				(JNc_split[0].equals("20110315") && 43200 <= time_total && time_total <= 44100) ||
+        				(JNc_split[0].equals("20110315") && 45900 <= time_total && time_total <= 46800) ||
+        				(JNc_split[0].equals("20130304") && 39600 <= time_total && time_total <= 51300) ||
+        				(JNc_split[0].equals("20130523") && 51300 <= time_total && time_total <= 53100) ||
+        				(JNc_split[0].equals("20140304") && 39600 <= time_total && time_total <= 41400)
+            				){
+            	}//サーキットブレイカーorシステムエラー
+            	else{
+            		if(Integer.parseInt(JNc_split[0]) < 20110214 && 39600 <= time_total && time_total <= 45000){
+            			//昼休み
+            		}
+            		else{
+            			if(JNc_split[4].equals("bid")&&  time_total <= 54000
+                    			//&& JNc_split.length == 5 //成行注文のとき
+                    			){//年間で行うとき
+            				if(0 <= Integer.parseInt(JNc_split[2])){
+                				pw_bid.println(Integer.parseInt(JNc_split[2]));
+                			}
+                			else if(Integer.parseInt(JNc_split[2]) <= 0){
+                				pw_bid.println(-1*Integer.parseInt(JNc_split[2]));
+                			}
+                    	}
+                    	else if(JNc_split[4].equals("ask") &&  time_total <= 54000
+                    			//&& JNc_split.length == 5//成行注文のとき
+                    			){//年間で行うとき
+                    		if(0 <= Integer.parseInt(JNc_split[2])){
+                				pw_ask.println(Integer.parseInt(JNc_split[2]));
+                			}
+                			else if(Integer.parseInt(JNc_split[2]) <= 0){
+                				pw_ask.println(-1*Integer.parseInt(JNc_split[2]));
+                			}
+                    	}
+            		}
+
             	}
-            	else if(JNc_split[4].equals("ask")&& JNc_split.length == 5 &&  time_total <= 54000){//年間で行うとき
-            		//pw_ask.println(JNc_split[2]);
-            	}
+
 
             	//System.out.println(JNc_split[4]);
 
@@ -86,7 +122,7 @@ public class Order_dis_data{
 
 
             		if(JNc_split[4].equals("bid")
-            				&& JNc_split.length == 5//成り行き注文
+            				//&& JNc_split.length == 5//成り行き注文
 
             				){
 
@@ -99,7 +135,7 @@ public class Order_dis_data{
 
             		}
             		else if(JNc_split[4].equals("ask")
-            				&& JNc_split.length == 5//成り行き注文
+            				//&& JNc_split.length == 5//成り行き注文
 
             				){
             			if(0 <= Integer.parseInt(JNc_split[2])){
@@ -113,31 +149,37 @@ public class Order_dis_data{
             	}
             	else if(day != Integer.parseInt(JNc_split[0])){//1500までにするときは54000を条件にいれる
 
-            		pw_bid.print(day + ",");//年間のときは出力しない
-            		pw_ask.print(day + ",");//年間のときは出力しない
-
-            		for(int i = 0;i < bid_count;i++){
-            			pw_bid.print(insert_bid[i] + ",");
-            			insert_bid[i] = 0;
-            			/*if(i == bid_count - 1){
-            				//System.out.println(line + "+++");
-
-            			}*/
+            		if(day < 20110214 && 39600 <= time_total && time_total <= 45000){
+            			//昼休みがある期間
             		}
-            		pw_bid.println();//年間のときは出力しない
+            		else{
+            			//pw_bid.print(day + ",");//年間のときは出力しない
+                		//pw_ask.print(day + ",");//年間のときは出力しない
 
-            		bid_count = 0;
+                		for(int i = 0;i < bid_count;i++){
+                			//pw_bid.print(insert_bid[i] + ",");
+                			insert_bid[i] = 0;
+                			/*if(i == bid_count - 1){
+                				//System.out.println(line + "+++");
 
-            		for(int i = 0;i < ask_count;i++){
-            			pw_ask.print(insert_ask[i] + ",");
-            			insert_ask[i] = 0;
-            			/*if(i == ask_count - 1){
+                			}*/
+                		}
+                		//pw_bid.println();//年間のときは出力しない
 
-            			}*/
+                		bid_count = 0;
+
+                		for(int i = 0;i < ask_count;i++){
+                			//pw_ask.print(insert_ask[i] + ",");
+                			insert_ask[i] = 0;
+                			/*if(i == ask_count - 1){
+
+                			}*/
+                		}
+                		//pw_ask.println();//年間のときは出力しない
+
+                		ask_count = 0;
             		}
-            		pw_ask.println();//年間のときは出力しない
 
-            		ask_count = 0;
 
 
 
@@ -158,7 +200,7 @@ public class Order_dis_data{
                 	}//サーキットブレイカーorシステムエラー
             		else{
             			if(JNc_split[4].equals("bid")
-                				&& JNc_split.length == 5//成り行き注文
+                				//&& JNc_split.length == 5//成り行き注文
 
                 				){
 
@@ -171,7 +213,7 @@ public class Order_dis_data{
 
                 		}
                 		else if(JNc_split[4].equals("ask")
-                				&& JNc_split.length == 5//成り行き注文
+                				//&& JNc_split.length == 5//成り行き注文
 
                 				){
                 			if(0 <= Integer.parseInt(JNc_split[2])){
@@ -204,7 +246,7 @@ public class Order_dis_data{
                 	}//サーキットブレイカーorシステムエラー
             		else{
             			if(JNc_split[4].equals("bid")
-                				&& JNc_split.length == 5//成り行き注文
+                				//&& JNc_split.length == 5//成り行き注文
                 				){
                 			if(0 <= Integer.parseInt(JNc_split[2])){
                 				insert_bid[bid_count++] = Integer.parseInt(JNc_split[2]);
@@ -214,7 +256,7 @@ public class Order_dis_data{
                 			}
                 		}
                 		else if(JNc_split[4].equals("ask")
-                				&& JNc_split.length == 5//成り行き注文
+                				//&& JNc_split.length == 5//成り行き注文
 
                 				){
                 			if(0 <= Integer.parseInt(JNc_split[2])){
@@ -231,6 +273,37 @@ public class Order_dis_data{
 
 
             }
+
+            if(day < 20110214 && 39600 <= time_total && time_total <= 45000){
+    			//昼休みがある期間
+    		}
+    		else{
+    			//pw_bid.print(day + ",");//年間のときは出力しない
+        		//pw_ask.print(day + ",");//年間のときは出力しない
+
+        		for(int i = 0;i < bid_count;i++){
+        			//pw_bid.print(insert_bid[i] + ",");
+        			insert_bid[i] = 0;
+        			/*if(i == bid_count - 1){
+        				//System.out.println(line + "+++");
+
+        			}*/
+        		}
+        		//pw_bid.println();//年間のときは出力しない
+
+        		bid_count = 0;
+
+        		for(int i = 0;i < ask_count;i++){
+        			//pw_ask.print(insert_ask[i] + ",");
+        			insert_ask[i] = 0;
+        			/*if(i == ask_count - 1){
+
+        			}*/
+        		}
+        		//pw_ask.println();//年間のときは出力しない
+
+        		ask_count = 0;
+    		}
 
 
 
