@@ -20,7 +20,7 @@ public class Kolmo_cat{
         int nodata_number = 0;
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_pareto3.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -40,19 +40,19 @@ public class Kolmo_cat{
         	Index = line;
         	String Index_split[] = line.split("	", 0);//読み込むデータが２列だったとき
         	//System.out.println(Index.length());
-        	
+
         	if(//Index.length()<=30//kolmoを一つにするとき
         			Index.length()<=50//パラメータのとき
         			){
-            	//Kolmo_natural = Index;//コルモゴロフのとき（というか列が一列のとき）
-            	Kolmo_natural = Index_split[1];//読み込むデータが２列だったとき
+            	Kolmo_natural = Index;//コルモゴロフのとき（というか列が一列のとき）
+            	//Kolmo_natural = Index_split[1];//読み込むデータが２列だったとき
         	}
         	else if(//Index.length()>30//kolmoを一つにするとき
         			Index.length()>50//パラメータのとき
         			){
         		Kolmo_natural = "-1";
         	}////連続分布のkolmoはサーキットブレイカーのところもすべていれているのであれ
-        	if(filename[0].equals("2008")){//サーキットブレイカー等が原因で取引がとまったところ
+        	/*if(filename[0].equals("2008")){//サーキットブレイカー等が原因で取引がとまったところ
         		if((filename[1].equals("01") && number == 192)
         				|| (filename[1].equals("02") && (number ==192 || number == 193 || number == 195))){
         			Kolmo_natural = "-1";
@@ -85,7 +85,7 @@ public class Kolmo_cat{
         		if((filename[1].equals("01") && number == 132)){
         							Kolmo_natural = "-1";
         		}
-        	}
+        	}*/
         	//連続分布のkolmoはサーキットブレイカーのところもすべていれているのであれ
 
     		Kolmo[Integer.parseInt(filename[1])][number] = Kolmo_natural;
