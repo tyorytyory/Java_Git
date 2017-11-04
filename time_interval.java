@@ -5,12 +5,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 
 public class time_interval{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_dekidaka.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -256,7 +257,7 @@ public class time_interval{
         	//System.out.println(d4 + " " + d5 + " " + d6  );*/
         	//2016年取得ロイター通信社データ(comb2)データ
 
-        	/*String d4 = Index.substring(9,11);
+        	String d4 = Index.substring(9,11);
         	hour2 = Double.parseDouble(d4);
         	String d5 = Index.substring(12,14);
         	minute2 = Double.parseDouble(d5);
@@ -265,7 +266,7 @@ public class time_interval{
         	k_all_time = hour2*60*60 + minute2*60 + (second2/1000000);
         	BigDecimal x1 = new BigDecimal(k_all_time);
         	k_all_time = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-        	*///oyaorderなどの場合
+        	//oyaorderなどの場合
         	//System.out.println(d4 + ":" + d5  + ":" + d6);
 
 
@@ -319,11 +320,11 @@ public class time_interval{
 
 
         	//(limit_order2_final_tradeのとき）（ここから）
-        	String JNIc_split[] = line.split(",", 0);
+        	/*String JNIc_split[] = line.split(",", 0);
         	hour2 = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
         	minute2 = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
         	second2 = Double.parseDouble(JNIc_split[1].substring(6));//秒
-        	k_all_time = hour2*3600 + minute2*60 + second2;//時間を秒換算
+        	k_all_time = hour2*3600 + minute2*60 + second2;//時間を秒換算*/
         	//(limit_order2_final_tradeのとき）（ここまで）
 
 

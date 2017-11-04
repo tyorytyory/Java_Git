@@ -43,7 +43,7 @@ public class Kolmo_cat{
 
         	if(Integer.parseInt(filename[0]) < 2011 && 9 <= Integer.parseInt(filename[1]) && Integer.parseInt(filename[1]) <= 14){
         		Kolmo_natural = "";
-        		System.out.println(line);
+        		//System.out.println(line);
         		//昼休みのデータの削除
         	}
         	else if(//Index.length()<=30//kolmoを一つにするとき
@@ -108,7 +108,7 @@ public class Kolmo_cat{
 
         if(Integer.parseInt(filename[1]) % 24 == 0 && Integer.parseInt(filename[1]) != 0){
 
-			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  +"_beta.txt"
+			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  +"_all.txt"
 					);
 	     	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
