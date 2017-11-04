@@ -41,7 +41,12 @@ public class Kolmo_cat{
         	String Index_split[] = line.split("	", 0);//読み込むデータが２列だったとき
         	//System.out.println(Index.length());
 
-        	if(//Index.length()<=30//kolmoを一つにするとき
+        	if(Integer.parseInt(filename[0]) < 2011 && 9 <= Integer.parseInt(filename[1]) && Integer.parseInt(filename[1]) <= 14){
+        		Kolmo_natural = "";
+        		System.out.println(line);
+        		//昼休みのデータの削除
+        	}
+        	else if(//Index.length()<=30//kolmoを一つにするとき
         			Index.length()<=50//パラメータのとき
         			){
             	Kolmo_natural = Index;//コルモゴロフのとき（というか列が一列のとき）
@@ -51,7 +56,10 @@ public class Kolmo_cat{
         			Index.length()>50//パラメータのとき
         			){
         		Kolmo_natural = "-1";
-        	}////連続分布のkolmoはサーキットブレイカーのところもすべていれているのであれ
+        	}
+
+
+        	////連続分布のkolmoはサーキットブレイカーのところもすべていれているのであれ
         	/*if(filename[0].equals("2008")){//サーキットブレイカー等が原因で取引がとまったところ
         		if((filename[1].equals("01") && number == 192)
         				|| (filename[1].equals("02") && (number ==192 || number == 193 || number == 195))){
