@@ -39,7 +39,7 @@ public class Kolmo_cat{
 
         	Index = line;
         	String Index_split[] = line.split("	", 0);//読み込むデータが２列だったとき
-        	//System.out.println(Index.length());
+        	//System.out.println(Index);
 
         	if(Integer.parseInt(filename[0]) < 2011 && 9 <= Integer.parseInt(filename[1]) && Integer.parseInt(filename[1]) <= 14){
         		Kolmo_natural = "";
@@ -47,13 +47,16 @@ public class Kolmo_cat{
         		//昼休みのデータの削除
         	}
         	else if(//Index.length()<=30//kolmoを一つにするとき
-        			Index.length()<=50//パラメータのとき
+        			//Index.length()<=50//パラメータのとき
+        			Index.length()<=200//シミュレータに用いるパラメータ
         			){
+        		//System.out.println(line);
             	Kolmo_natural = Index;//コルモゴロフのとき（というか列が一列のとき）
             	//Kolmo_natural = Index_split[1];//読み込むデータが２列だったとき
         	}
         	else if(//Index.length()>30//kolmoを一つにするとき
-        			Index.length()>50//パラメータのとき
+        			//Index.length()>50//パラメータのとき
+        			Index.length()>200//シミュレータに用いるパラメータ
         			){
         		Kolmo_natural = "-1";
         	}
@@ -108,13 +111,13 @@ public class Kolmo_cat{
 
         if(Integer.parseInt(filename[1]) % 24 == 0 && Integer.parseInt(filename[1]) != 0){
 
-			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  +"_all.txt"
+			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  +"_p.txt"
 					);
 	     	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 
 	     	for(int i = 1;i<=250;i++){
 	     		for(int j = 1;j<=24;j++){//j = 0 or 1
-	         		if(Kolmo[j][i] != null && Kolmo[j][i].length() <= 30 ){
+	         		if(Kolmo[j][i] != null && Kolmo[j][i].length() <= 200 ){
 	         			pw.print(Kolmo[j][i] + ",");
 	         			Kolmo[j][i] = null;
 	         		}
