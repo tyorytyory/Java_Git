@@ -16,6 +16,7 @@ public class CDF_simulater_pareto_new{
         String txtFileName;
         
         String market_inerval_para [] []= new String [500][30];//成行注文，時間間隔のパラメータ
+        String market_interval_pareto3_para [] [] = new String [500][30];//成行注文，時間間隔のパラメータ（パレート３限定）
         int day [] = new int[500];//日付を格納する配列
         int first_number = 1;//配列で用いる関数（１つめ）
         int second_number = 1;//配列で用いる関数（２つめ）
@@ -46,6 +47,16 @@ public class CDF_simulater_pareto_new{
             			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
             				market_inerval_para [first_number][second_number] = para_split[second_number];
             			}
+            			day[first_number] = Integer.parseInt(para_split[0]);
+            			first_number++;
+            		}
+            		else if(filename[1].equals("Pareto3")){
+            			//System.out.println(para_split[1]);
+            			market_interval_pareto3_para [first_number][1] = para_split[1];//alpha
+            			market_interval_pareto3_para [first_number][2] = para_split[2];//alpha
+            			market_interval_pareto3_para [first_number][3] = para_split[3];//alpha
+            			market_interval_pareto3_para [first_number][4] = para_split[4];//alpha
+            			market_interval_pareto3_para [first_number][5] = para_split[5];//alpha           			
             			day[first_number] = Integer.parseInt(para_split[0]);
             			first_number++;
             		}
@@ -121,11 +132,12 @@ public class CDF_simulater_pareto_new{
         	
         	while(first_number <= 2 && market_order_intervals_sum <= 54000 && limit_order_intervals_sum <= 54000 && limit_cancel_intervals_sum <= 54000){
         		if(market_order_intervals_sum == 0 || limit_order_intervals_sum == 0 || limit_cancel_intervals_sum == 0){
-        			System.out.println(market_inerval_para[1][1]);
+        			//System.out.println(market_interval_pareto3_para[1][5]);
         			
-        			String para_split_simu[] = market_inerval_para[first_number][1].split("	", 0);
-        			
-            		market_order_intervals_sum = 32400 + cdf.pareto3(ransu.NextUnif(), Double.parseDouble(para_split_simu[0].substring(1)), Double.parseDouble(para_split_simu[1].substring(0,15)));
+        			String para_split_simu[] = market_inerval_para[first_number][1].split("	", 0);//一般的な分布で用いる（成り行き注文）        			
+            		market_order_intervals_sum = 32400 + cdf.pareto3(ransu.NextUnif(), Double.parseDouble(para_split_simu[0].substring(1)), Double.parseDouble(para_split_simu[1].substring(0,15)));//一般的な分布で用いる（成り行き注文） 
+            		
+            		//market_order_intervals_sum = 32400 + cdf.pareto3(ransu.NextUnif(),Double.parseDouble(market_interval_pareto3_para [first_number][1]),Double.parseDouble(market_interval_pareto3_para [first_number][5]));//成り行き注文のパレートブ分布３のみ
             		limit_order_intervals_sum = 32400 + cdf.expo(ransu.NextUnif(), 0.96);
             		limit_cancel_intervals_sum = 32400 + cdf.expo(ransu.NextUnif(), 0.53);
             		System.out.println(market_order_intervals_sum + "+" + limit_order_intervals_sum + "+" + limit_cancel_intervals_sum);
@@ -184,6 +196,7 @@ public class CDF_simulater_pareto_new{
             		  //-------------（時刻を出力するための行）----------------
             		  //System.out.println(hour + ":" + minute + ":" + second);
             		  
+            		  //---------成行注文の一般的なパラメータ----------
             		  second_number = (int)((market_order_intervals_sum - 32400)/900) + 1;
             		  if((day[first_number] == 20070104 || day[first_number] == 20071228) && second_number == 9){
             			  first_number++;
@@ -200,11 +213,38 @@ public class CDF_simulater_pareto_new{
             			  System.out.println((int)((market_order_intervals_sum - 32400)/900) + 1 + "++++" + market_order_intervals_sum);
             			  System.out.println(hour_out + ":" + minute_out + ":" + second_out );
             			  String para_split_simu[] = market_inerval_para[first_number][second_number].split("	", 0);
-                		  
-                		  
-                		  market_order_intervals_sum += cdf.pareto3(ransu.NextUnif(), Double.parseDouble(para_split_simu[0].substring(1)), Double.parseDouble(para_split_simu[1].substring(0,15)));//次の成行注文の到着時間
-                		  
+                		  market_order_intervals_sum += cdf.pareto3(ransu.NextUnif(), Double.parseDouble(para_split_simu[0].substring(1)), Double.parseDouble(para_split_simu[1].substring(0,15)));//次の成行注文の到着時間                		  
             		  }
+            		//---------成行注文の一般的なパラメータ----------
+            		  
+            		//---------成行注文のパレート分布３----------
+            		  
+            		  /*if(market_order_intervals_sum < 33300){
+            			  market_order_intervals_sum += cdf.pareto3(ransu.NextUnif(),Double.parseDouble(market_interval_pareto3_para [first_number][1]),Double.parseDouble(market_interval_pareto3_para [first_number][5]));//成り行き注文のパレートブ分布３のみ
+            			  System.out.println(market_order_intervals_sum);
+            		  }
+            		  else if(33300 <= market_order_intervals_sum && market_order_intervals_sum < 34200){
+            			  market_order_intervals_sum += cdf.pareto3(ransu.NextUnif(),Double.parseDouble(market_interval_pareto3_para [first_number][2]),Double.parseDouble(market_interval_pareto3_para [first_number][5]));//成り行き注文のパレートブ分布３のみ
+            			  System.out.println(market_order_intervals_sum);
+            		  }
+            		  else if((day[first_number] == 20070104 || day[first_number] == 20071228) && 39600 <= market_order_intervals_sum){
+            			  first_number++;
+            			  market_order_intervals_sum = 0;
+            		  }
+            		  else if(39600 <= market_order_intervals_sum && market_order_intervals_sum < 45000){
+            			  market_order_intervals_sum = 45000;
+            			  limit_order_intervals_sum = 45000;
+            			  limit_cancel_intervals_sum = 45000;
+            		  }
+            		  else if((34200 <= market_order_intervals_sum && market_order_intervals_sum < 39600) || (45000 <= market_order_intervals_sum && market_order_intervals_sum < 53100)){
+            			  market_order_intervals_sum += cdf.pareto3(ransu.NextUnif(),Double.parseDouble(market_interval_pareto3_para [first_number][3]),Double.parseDouble(market_interval_pareto3_para [first_number][5]));//成り行き注文のパレートブ分布３のみ
+            			  System.out.println(market_order_intervals_sum);
+            		  }
+            		  else if(53100 <= market_order_intervals_sum){
+            			  market_order_intervals_sum += cdf.pareto3(ransu.NextUnif(),Double.parseDouble(market_interval_pareto3_para [first_number][4]),Double.parseDouble(market_interval_pareto3_para [first_number][5]));//成り行き注文のパレートブ分布３のみ
+            		  }*/
+            		//---------成行注文のパレート分布３----------
+            		  
             		  
             		  if(0.5 < bid_prob){//買い注文
             			  bid_market_order = (int)cdf.negabio(ransu.NextUnif(),2,0.3);
