@@ -20,7 +20,7 @@ public class Kolmo_cat{
         int nodata_number = 0;
 
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist_cat.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -111,7 +111,9 @@ public class Kolmo_cat{
 
         if(Integer.parseInt(filename[1]) % 24 == 0 && Integer.parseInt(filename[1]) != 0){
 
-			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + "_" + filename[4]  +"_p.txt"
+			File file = new File(filename[0] + "_" + filename[2] + "_" + filename[3] + 
+					//"_" + filename[4]  +
+					"_p.txt"
 					);
 	     	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 

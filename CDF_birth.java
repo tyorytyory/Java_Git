@@ -21,14 +21,15 @@ class CDF_birth{
 	double negabio(double random, double n, double p){//負の二項分布
 		double x = 0;//チェック済み
 		double k = 0;
-		for(k = 0;k<=100;k++){
+		for(k = 0;k<=400;k++){
 			x = Beta.regularizedBeta(p, n, 1+k);
 			//System.out.println(x);
 			if(random < x){
-				k--;
+				//k--;
 				break;
 			}
 		}		
+		//if(k>100)System.out.println(k);
 		return k+1;//定義域に0を含むので
 	}
 	double zeta(double random, double rho){//ゼータ分布
@@ -36,22 +37,24 @@ class CDF_birth{
 		double k = 1;
 		double bunsi = 0;
 		double bunbo = 0;
-		for(k=1;k<=100;k++){
+		for(k=1;k<=500;k++){
 			bunsi = 0;
 			for(int i=1;i<=k;i++){
 				bunsi += 1/(Math.pow(i, (1+rho)));
 			}
 			bunbo = 0;
-			for(int n=1;n<=100000;n++){
+			for(int n=1;n<=1000;n++){
 				bunbo += 1/(Math.pow(n, (1+rho)));
 			}
 			x = bunsi/bunbo;
-			//System.out.println(x);
+			
 			if(random < x){
-				k--;
+				//k--;
 				break;
 			}
+			
 		}
+		 //if(k == 11)System.out.println(k);
 		return k;
 	}
 	double poisson(double random, double mu){//ポアソン分布
@@ -61,7 +64,7 @@ class CDF_birth{
 			x = Gamma.regularizedGammaQ(1+k,mu);
 			//System.out.println(x);
 			if(random < x){
-				k--;
+				//k--;
 				break;
 			}
 		}
