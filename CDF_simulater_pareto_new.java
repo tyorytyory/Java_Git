@@ -25,15 +25,15 @@ public class CDF_simulater_pareto_new{
         String ask_cancel_volume_para [] []= new String [500][30];//売り指値キャンセル，注文量のパラメータ
         String bid_cancel_volume_para [] []= new String [500][30];//買い指値キャンセル，注文量のパラメータ
         String market_volume_same_para [] []= new String [500][30];//成行注文，同一注文のパラメータ
-        double market_bid_trade_prob [] [] = new double [500][30];//成行注文の買い注文率
-        double limit_bid_trade_prob [] [] = new double [500][30];//指値注文の買い注文率
-        double cancel_bid_trade_prob [] [] = new double [500][30];//指値キャンセルの買い注文率
-        int up_ask_depth [] [] = new int [500][2];//板が上昇した後の売板の枚数
-        int up_bid_depth [] [] = new int [500][2];//板が上昇した後の買板の枚数
-        int down_ask_depth [] [] = new int [500][2];//板が下降した後の売板の枚数
-        int down_bid_depth [] [] = new int [500][2];//板が下降した後の買板の枚数
-        int first_ask_depth [] [] = new int [500][2];//一番最初の売板の枚数
-        int first_bid_depth [] [] = new int [500][2];//一番最初の買板の枚数
+        double market_ask_trade_prob [] [] = new double [500][30];//成行注文の買い注文率
+        double limit_ask_trade_prob [] [] = new double [500][30];//指値注文の買い注文率
+        double cancel_ask_trade_prob [] [] = new double [500][30];//指値キャンセルの買い注文率
+        int down_ask_depth [] [] = new int [500][3];//板が下降した後の売板の枚数
+        int down_bid_depth [] [] = new int [500][3];//板が下降した後の買板の枚数
+        int up_ask_depth [] [] = new int [500][3];//板が上昇した後の売板の枚数
+        int up_bid_depth [] [] = new int [500][3];//板が上昇した後の買板の枚数
+        int first_ask_depth [] [] = new int [500][3];//一番最初の売板の枚数
+        int first_bid_depth [] [] = new int [500][3];//一番最初の買板の枚数
         
         
         
@@ -126,6 +126,52 @@ public class CDF_simulater_pareto_new{
             			}
             			first_number++;
             		}
+            		else if(filename[1].equals("market") && filename[2].equals("ask") && filename[3].equals("prob")){
+            			
+            			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
+            				if(second_number == 9){
+            					second_number +=6;
+            				}
+            				market_ask_trade_prob [first_number][second_number] = Double.parseDouble(para_split[second_number]);
+            			}
+            			first_number++;           			
+            		}
+            		else if(filename[1].equals("limit") && filename[2].equals("ask") && filename[3].equals("prob")){
+            			
+            			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
+            				if(second_number == 9){
+            					second_number +=6;
+            				}
+            				limit_ask_trade_prob [first_number][second_number] = Double.parseDouble(para_split[second_number]);
+            			}
+            			first_number++;           			
+            		}
+            		else if(filename[1].equals("cancel") && filename[2].equals("ask") && filename[3].equals("prob")){
+            			
+            			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
+            				if(second_number == 9){
+            					second_number +=6;
+            				}
+            				cancel_ask_trade_prob [first_number][second_number] = Double.parseDouble(para_split[second_number]);
+            			}
+            			first_number++;           			
+            		}
+            		else if(filename[1].equals("depth") && filename[2].equals("info")){
+            			int depth_number = 1;//下のfor文のためにある変数
+            			for(second_number = 1;second_number <= (para_split.length-1) ;second_number+=6){
+            				//System.out.println(second_number);
+            				down_ask_depth[first_number][depth_number] = (int)Double.parseDouble(para_split[second_number]);
+                			down_bid_depth[first_number][depth_number] = (int)Double.parseDouble(para_split[second_number+1]);
+                			up_ask_depth[first_number][depth_number] = (int)Double.parseDouble(para_split[second_number+2]);
+                			up_bid_depth[first_number][depth_number] = (int)Double.parseDouble(para_split[second_number+3]);
+                			first_ask_depth[first_number][depth_number] = (int)Double.parseDouble(para_split[second_number+4]);
+                			first_bid_depth[first_number][depth_number] = (int)Double.parseDouble(para_split[second_number+5]);
+                			depth_number++;
+            			}
+            			//System.out.println(first_bid_depth[2][2]);
+            			depth_number = 1;
+            			first_number++;
+            		}
             		else if(filename[1].equals("Pareto3")){//成行注文のパレート分布３に限ったver（平均値を用いる）
             			//System.out.println(para_split[1]);
             			market_interval_pareto3_para [first_number][1] = para_split[1];//alpha
@@ -161,8 +207,8 @@ public class CDF_simulater_pareto_new{
         	Sfmt ransu = new Sfmt(Sfmt_number);//メルセンヌ・ツイスタ乱数．引数を変えることで，乱数の発生パターンを変更
         	CDF_birth cdf = new CDF_birth();//様々な累積分布関数から時間間隔や注文量を出力するオブジェクト
 
-        	int ask_depth = 30;//売板の累積枚数
-        	int bid_depth = 30;//買板の累積枚数
+        	int ask_depth = 0;//売板の累積枚数
+        	int bid_depth = 0;//買板の累積枚数
         	int ask_price = 10010;//最良売気配の価格
         	int bid_price = 10000;//最良買気配の価格
         	int ask_market_order = 0;//売り成行注文量
@@ -211,7 +257,7 @@ public class CDF_simulater_pareto_new{
             	
         	}
         	
-        	first_number = 39;//二つの配列の１つめ
+        	first_number = 1;//二つの配列の１つめ
         	
         	while(//first_number <=  245//一部分
         			day[first_number] != 0//最後まで
@@ -219,6 +265,11 @@ public class CDF_simulater_pareto_new{
         			){
         		if(market_order_intervals_sum == 0 || limit_order_intervals_sum == 0 || limit_cancel_intervals_sum == 0){//初期値の代入
         			//System.out.println(market_interval_pareto3_para[1][5]);
+        			
+        			ask_depth = first_ask_depth[first_number][1];//最初の売板の枚数（前場）
+        			bid_depth = first_bid_depth[first_number][1];//最初の買板の枚数（前場）
+        			//System.out.println(ask_depth + ",いた," + bid_depth);
+        			
         			
         			para_split_simu = market_intervals_para[first_number][1].split("	", 0);//一般的な分布で用いる     
         			if(para_split_simu.length == 1){//指数分布
@@ -310,6 +361,11 @@ public class CDF_simulater_pareto_new{
             			  System.out.println(day[first_number] + ",morning," + up_count + "," + down_count);
             			  up_count = 0;
                 		  down_count = 0;
+                		  
+                		  ask_depth = first_ask_depth[first_number][2];//最初の売板の枚数（後場）
+              			  bid_depth = first_bid_depth[first_number][2];//最初の買板の枚数（後場）
+              			  //System.out.println(ask_depth + ",いた," + bid_depth);
+              			
                 		  
             			  para_split_simu = market_intervals_para[first_number][15].split("	", 0);//一般的な分布で用いる（成り行き注文）   
             			  if(para_split_simu.length == 1){//指数分布
@@ -445,7 +501,7 @@ public class CDF_simulater_pareto_new{
             		//---------成行注文のパレート分布３----------
             		  
             		  
-            		  if(0.5 < ask_prob){//売り注文
+            		  if(ask_prob < market_ask_trade_prob [first_number][second_number]){//売り注文
             			  para_split_simu = ask_market_volume_para[first_number][second_number].split("	", 0);
                 		  if(para_split_simu.length == 1){//ゼータ分布
                 			 
@@ -467,8 +523,20 @@ public class CDF_simulater_pareto_new{
             			  
             			  if(bid_depth <= 0){//板の下降
             				  down_count++;
-            				  ask_depth = 40;
-            				  bid_depth = 450;
+            				  if(second_number <= 8){//前場の板が移動した後の板の厚み(不完全！！確認すること！)→次は板が上に移動したというか，ここから下以降
+            					  ask_depth = down_ask_depth[first_number][1];
+            					  bid_depth = down_bid_depth[first_number][1];
+            					  
+            				  }
+            				  else{//後場の板が移動した後の板の厚み
+            					  ask_depth = down_ask_depth[first_number][2];
+            					  bid_depth = down_bid_depth[first_number][2];
+            					  System.out.println(ask_depth + "," + bid_depth);
+            				  }
+            				  
+            				  
+            				  //ask_depth = 40;
+            				  //bid_depth = 450;
             				  bid_price -= 10;
             				  ask_price -= 10;
             			  }
@@ -496,6 +564,9 @@ public class CDF_simulater_pareto_new{
             			  
             			  if(ask_depth <= 0){//板の上昇
             				  up_count++;
+            				  
+            				  
+            				  
             				  ask_depth = 450;
             				  bid_depth = 40;
             				  bid_price += 10;
@@ -551,7 +622,7 @@ public class CDF_simulater_pareto_new{
             		  
 
             		  
-            		  if(0.5 < ask_prob){//売り指値注文
+            		  if(ask_prob < limit_ask_trade_prob [first_number][second_number]){//売り指値注文
             			  para_split_simu = ask_limit_volume_para[first_number][second_number].split("	", 0);
                 		  if(para_split_simu.length == 1){//ゼータ分布
                 			  
@@ -637,7 +708,7 @@ public class CDF_simulater_pareto_new{
             		  
             		  
             		  
-            		  if(0.5 < ask_prob){//売り指値キャンセル
+            		  if(ask_prob < cancel_ask_trade_prob [first_number][second_number]){//売り指値キャンセル
             			  para_split_simu = ask_cancel_volume_para[first_number][second_number].split("	", 0);
                 		  if(para_split_simu.length == 1){//ゼータ分布
                 			  
