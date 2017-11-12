@@ -72,6 +72,7 @@ public class JNIc_ita_corr{
     		String d2 = JNIc_split[0];
     		day = Integer.parseInt(d2);
 
+    		//System.out.println(JNIc_split[0] + JNIc_split[1]);
     		hour = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
         	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
         	second = Double.parseDouble(JNIc_split[1].substring(6));//秒
@@ -112,28 +113,28 @@ public class JNIc_ita_corr{
 
 
         		if(day_now == 20060104 || day_now == 20061229 || day_now == 20070104 || day_now == 20071228 || day_now == 20080104 || day_now == 20081230 || day_now == 20090105){//半日オークション
-        			pw.print(day_now + ",morning," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        			pw.println(day_now + ",morning," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
         		}
         		else if(day_now < 20110214 && time_total > 45000 && am_or_pm == false){//前場
-        			pw.print(day_now + ",morning," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        			pw.println(day_now + ",morning," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
         			am_or_pm = true;
         		}
         		else if(day_now < 20110214 && day_now != day){//後場
-        			pw.print(day_now + ",afternoon," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        			pw.println(day_now + ",afternoon," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
         			am_or_pm = false;
         		}
         		else if(20110214 <= day_now){//2011/2/14以降（昼休みの廃止）
-        			pw.print(day_now + ",no noon recess," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
+        			pw.println(day_now + ",no noon recess," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
         		}
         		else{
         			System.out.println(line);
         		}
 
         		if(Math.abs(value_cor) > Math.abs(significance)){
-        			pw.println("採択される");
+        			//pw.println("採択される");
         		}
         		else if(Math.abs(value_cor) < Math.abs(significance)){
-        			pw.println("棄却される");
+        			//pw.println("棄却される");
         		}
 
         		/*System.out.println(day_now);
@@ -179,7 +180,7 @@ public class JNIc_ita_corr{
     		count1 = 0;
     		*/
     		//System.out.println(JNIc_split[7]);
-    		value[(int)(number_of_value)] = Double.parseDouble(JNIc_split[7]);
+    		value[(int)(number_of_value)] = Double.parseDouble(JNIc_split[2]);
     		value_sum += value[(int)(number_of_value)];//valueの合計値を算出
 
     		number_of_value++;

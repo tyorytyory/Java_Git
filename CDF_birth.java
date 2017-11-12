@@ -37,7 +37,7 @@ class CDF_birth{
 		double k = 1;
 		double bunsi = 0;
 		double bunbo = 0;
-		for(k=1;k<=500;k++){
+		for(k=1;k<=400;k++){
 			bunsi = 0;
 			for(int i=1;i<=k;i++){
 				bunsi += 1/(Math.pow(i, (1+rho)));
