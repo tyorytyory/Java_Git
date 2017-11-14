@@ -226,7 +226,7 @@ public class CDF_simulater_pareto_new{
          	PrintWriter pw_li_imb = new PrintWriter(new BufferedWriter(new FileWriter(file_li_imb)));
          	//買い指値注文量の総量_買い指値キャンセル量の総量_買い成行注文量の総量_売り指値注文量の総量_売り指値キャンセル量の総量_売り成行注文量の総量_終値（買板）_初値（買板）_終値（売板）_初値（売板）
 
-
+         	pw_li_imb.println("day,AM or PM,limit buy order volume,cancel buy order volume,market buy order volume,limit sell order volume,cancel sell order volume,market sell order volume,last price(bid),first price(bid),last price(ask),first price(ask)");
 
 
 
@@ -237,8 +237,8 @@ public class CDF_simulater_pareto_new{
 
             	int ask_depth = 0;//売板の累積枚数
             	int bid_depth = 0;//買板の累積枚数
-            	int simu_first_ask_price = 10010;//シミュレーション上の最初の売板の値段
-            	int simu_first_bid_price = 10000;//シミュレーション上の最初の買板の値段
+            	int simu_first_ask_price = 20010;//シミュレーション上の最初の売板の値段
+            	int simu_first_bid_price = 20000;//シミュレーション上の最初の買板の値段
             	int ask_price = simu_first_ask_price;//最良売気配の価格
             	int bid_price = simu_first_bid_price;//最良買気配の価格
             	int ask_market_order = 0;//売り成行注文量
@@ -318,7 +318,7 @@ public class CDF_simulater_pareto_new{
             			bid_depth = first_bid_depth[first_number][1];//最初の買板の枚数（前場）
             			ask_price = simu_first_ask_price;//最良売気配の価格
                     	bid_price = simu_first_bid_price;//最良買気配の価格
-            			
+            			//System.out.println(ask_price + "," + bid_price);
             			first_ask_price = ask_price;
             			first_bid_price = bid_price;
             			//System.out.println(ask_depth + ",いた," + bid_depth);
