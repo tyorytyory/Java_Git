@@ -25,6 +25,9 @@ public class CDF_simulater_pareto_new{
     		txtFileName_first_array = txtFileName_first_array[1].split("\\.");//filelist_simu.txtで読み込んだファイル名を分割
 
     		String txtFileName;
+    		String filename_constant_market = "";
+    		String filename_constant_limit = "";
+    		String filename_constant_cancel = "";
             BufferedReader br = new BufferedReader(new FileReader(txtFileName_first));//読み取りたいファイル名の記入
             String filename_pw [] = new String [30];//書き込むファイル名に用いる配列
             String market_intervals_para [] []= new String [500][30];//成行注文，時間間隔のパラメータ
@@ -101,6 +104,7 @@ public class CDF_simulater_pareto_new{
                 		}
                 		else if(filename[1].equals("market") && filename[2].equals("ask") && filename[3].equals("volume")){//売り成行注文量
                 			filename_pw[4] = filename[4];
+                			filename_constant_market = filename[5];
                 			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
                 				ask_market_volume_para [first_number][second_number] = para_split[second_number];
                 			}
@@ -114,6 +118,7 @@ public class CDF_simulater_pareto_new{
                 		}
                 		else if(filename[1].equals("limit") && filename[2].equals("ask") && filename[3].equals("volume")){//売り指値注文量
                 			filename_pw[5] = filename[4];
+                			filename_constant_limit = filename[5];
                 			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
                 				ask_limit_volume_para [first_number][second_number] = para_split[second_number];
                 			}
@@ -127,6 +132,7 @@ public class CDF_simulater_pareto_new{
                 		}
                 		else if(filename[1].equals("cancel") && filename[2].equals("ask") && filename[3].equals("volume")){//売り指値キャンセル注文量
                 			filename_pw[6] = filename[4];
+                			filename_constant_cancel = filename[5];
                 			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
                 				ask_cancel_volume_para [first_number][second_number] = para_split[second_number];
                 			}
@@ -208,6 +214,9 @@ public class CDF_simulater_pareto_new{
         	}
             br.close();
 
+            System.out.println(filename_constant_market);
+            System.out.println(filename_constant_limit);
+            System.out.println(filename_constant_cancel);
 
 
             //書き込みデータの順番
@@ -604,7 +613,7 @@ public class CDF_simulater_pareto_new{
 
                 		  if(ask_prob < market_ask_trade_prob [first_number][second_number]){//売り注文
                 			  para_split_simu = ask_market_volume_para[first_number][second_number].split("	", 0);
-                    		  if(Double.parseDouble(filename_pw[4])%10 == 0){//定数
+                    		  if(filename_constant_market.equals("constant.csv")){//定数
                     			  //System.out.println(para_split_simu[0].substring(1,para_split_simu[0].length()));
                     			  ask_market_order = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
                     		  }
@@ -616,7 +625,7 @@ public class CDF_simulater_pareto_new{
                     			  
                     		  }
                     		  else if(para_split_simu.length == 2){//負の二項分布
-                    			  //System.out.println("NG");
+                    			  //System.out.println(para_split_simu);
                     			  ask_market_order = (int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));
                     			  para_split_simu = market_volume_same_para[first_number][second_number].split("	", 0);//複合過程
                     			  ask_market_order = ask_market_order*(int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));//複合過程
@@ -665,7 +674,7 @@ public class CDF_simulater_pareto_new{
                 		  }
                 		  else{//買い注文
                 			  para_split_simu = bid_market_volume_para[first_number][second_number].split("	", 0);
-                			  if(Double.parseDouble(filename_pw[4])%10 == 0){//定数
+                			  if(filename_constant_market.equals("constant.csv")){//定数
                     			  bid_market_order = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
                     		  }
                 			  else if(para_split_simu.length == 1){//ゼータ分布
@@ -769,7 +778,7 @@ public class CDF_simulater_pareto_new{
 
                 		  if(ask_prob < limit_ask_trade_prob [first_number][second_number]){//売り指値注文
                 			  para_split_simu = ask_limit_volume_para[first_number][second_number].split("	", 0);
-                			  if(Double.parseDouble(filename_pw[5])%10 == 0){//定数
+                			  if(filename_constant_limit.equals("constant.csv")){//定数
                 				  ask_limit_order = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
                     		  }
                 			  else if(para_split_simu.length == 1){//ゼータ分布
@@ -793,7 +802,7 @@ public class CDF_simulater_pareto_new{
                 		  }
                 		  else{//買い指値注文
                 			  para_split_simu = bid_limit_volume_para[first_number][second_number].split("	", 0);
-                			  if(Double.parseDouble(filename_pw[5])%10 == 0){//定数
+                			  if(filename_constant_limit.equals("constant.csv")){//定数
                 				  bid_limit_order = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
                     		  }
                 			  else if(para_split_simu.length == 1){//ゼータ分布
@@ -858,7 +867,7 @@ public class CDF_simulater_pareto_new{
 
                 		  if(ask_prob < cancel_ask_trade_prob [first_number][second_number]){//売り指値キャンセル
                 			  para_split_simu = ask_cancel_volume_para[first_number][second_number].split("	", 0);
-                			  if(Double.parseDouble(filename_pw[6])%10 == 0){//定数
+                			  if(filename_constant_cancel.equals("constant.csv")){//定数
                 				  ask_limit_cancel = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
                     		  }
                 			  else if(para_split_simu.length == 1){//ゼータ分布
@@ -916,7 +925,7 @@ public class CDF_simulater_pareto_new{
                 		  }
                 		  else{//買い指値キャンセル
                 			  para_split_simu = bid_cancel_volume_para[first_number][second_number].split("	", 0);
-                			  if(Double.parseDouble(filename_pw[6])%10 == 0){//定数
+                			  if(filename_constant_cancel.equals("constant.csv")){//定数
                 				  bid_limit_cancel = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
                     		  }
                 			  else if(para_split_simu.length == 1){//ゼータ分布
