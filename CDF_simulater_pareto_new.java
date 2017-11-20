@@ -313,9 +313,9 @@ public class CDF_simulater_pareto_new{
 
             	}*/
 
-            	first_number = 1;//二つの配列の１つめ
+            	first_number = 1;//二つの配列の１つめ（これでなにから始めるか決まる）
 
-            	while(//first_number <=  245//一部分
+            	while(//first_number ==  227//一部分
             			day[first_number] != 0//最後まで
             			//&& market_order_intervals_sum <= 54000 && limit_order_intervals_sum <= 54000 && limit_cancel_intervals_sum <= 54000
             			){
@@ -533,12 +533,12 @@ public class CDF_simulater_pareto_new{
                 		  next_limit_cancel = false;
             			//-------------初期化----------------
                 		  first_number++;
-                		  if(first_number == 227){//検証するデータのジャンプ（20071203）
+                		  /*if(first_number == 227){//検証するデータのジャンプ（20071203）
                 			  pw_ita_move.println(day[first_number] + ",morning,NaN,NaN");
                 			  pw_ita_move.println(day[first_number] + ",afternoon,NaN,NaN");
                 			  //pw_ita_corr.println(day[first_number] + ",0,0");
                 			  first_number++;
-                		  }
+                		  }*/
 
                 	  }
 
@@ -548,6 +548,7 @@ public class CDF_simulater_pareto_new{
                 		  ask_prob = ransu.NextUnif();//買い注文・売り注文の決定
 
 
+                		  
 
                 		  //-------------（時刻を出力するための行）----------------
                 		  hour = (int)(market_order_intervals_sum)/3600;//時間に変換
@@ -673,6 +674,9 @@ public class CDF_simulater_pareto_new{
 
                 		  }
                 		  else{//買い注文
+                			  
+                			  
+                			  
                 			  para_split_simu = bid_market_volume_para[first_number][second_number].split("	", 0);
                 			  if(filename_constant_market.equals("constant.csv")){//定数
                     			  bid_market_order = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
