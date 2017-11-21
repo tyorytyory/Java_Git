@@ -11,7 +11,7 @@ public class time_interval{
 
     public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_dekidaka.txt"));//読み取りたいファイル名の記入
+        BufferedReader br = new BufferedReader(new FileReader("filelist.txt"));//読み取りたいファイル名の記入
         String txtFileName;
 
         while((txtFileName = br.readLine()) != null) {
@@ -232,7 +232,7 @@ public class time_interval{
         	k_all_time = hour2*60*60 + minute2*60 + second2;
         	//2011年～（comb2）*/
 
-        	/*String d4 = Index.substring(21,23);
+        	String d4 = Index.substring(21,23);
         	hour2 = Double.parseDouble(d4);
         	String d5 = Index.substring(24,26);
         	minute2 = Double.parseDouble(d5);
@@ -240,7 +240,7 @@ public class time_interval{
         	second2 = Double.parseDouble(d6);
         	k_all_time = hour2*60*60 + minute2*60 + (second2/1000000);
         	BigDecimal x1 = new BigDecimal(k_all_time);
-        	k_all_time = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();*/
+        	k_all_time = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
         	//2016年取得ロイター通信社データ
 
 
@@ -257,7 +257,7 @@ public class time_interval{
         	//System.out.println(d4 + " " + d5 + " " + d6  );*/
         	//2016年取得ロイター通信社データ(comb2)データ
 
-        	String d4 = Index.substring(9,11);
+        	/*String d4 = Index.substring(9,11);
         	hour2 = Double.parseDouble(d4);
         	String d5 = Index.substring(12,14);
         	minute2 = Double.parseDouble(d5);
@@ -265,7 +265,7 @@ public class time_interval{
         	second2 = Double.parseDouble(d6);
         	k_all_time = hour2*60*60 + minute2*60 + (second2/1000000);
         	BigDecimal x1 = new BigDecimal(k_all_time);
-        	k_all_time = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+        	k_all_time = x1.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();*/
         	//oyaorderなどの場合
         	//System.out.println(d4 + ":" + d5  + ":" + d6);
 
@@ -404,14 +404,14 @@ public class time_interval{
         	else if(53100 <= k_all_time && k_all_time < 54000){//個別株取引終了時間　後半を等号にすること(14:45-15:00)
         		pw24.println(Index);
         	}
-        	else if(54000 <= k_all_time && k_all_time < 54900){
-        		//pw25.println(Index);
+        	else if(54000 <= k_all_time && k_all_time < 54600){//10分間のみ抽出
+        		pw25.println(Index);
         	}
-        	else if(54900 <= k_all_time && k_all_time < 55800){
+        	else if(54600 <= k_all_time && k_all_time < 55800){//15:10-
         		//pw26.println(Index);
         	}
         	else{
-        		System.out.println("error");
+        		System.out.println(line);
         	}
 
 
