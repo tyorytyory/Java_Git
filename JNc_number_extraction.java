@@ -35,7 +35,7 @@ public class JNc_number_extraction{
         	int time_count = 0;//配列の２番目に用いる変数*/
         	int day_count = 0;
         	int if_time[] = new int[400];//サーキットブレイカーのときに必要になる文章。
-        	int time_dif = 900;//time_difを変えることにより、時間間隔を変える。
+        	int time_dif = 300;//time_difを変えることにより、時間間隔を変える。
         	int pw_enter_point = 0;//書き込みの際に改行するもの
 
 
@@ -51,7 +51,7 @@ public class JNc_number_extraction{
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
 
-         	for(int i = 0;i<=((54000-31500)/time_dif)-1;i++){
+         	for(int i = 0;i<=((54600-31500)/time_dif)-1;i++){
          		if_time[i] = 31500 + i*time_dif;
          		System.out.println(i + "++++" + if_time[i]);
          		pw_enter_point = i;
@@ -341,7 +341,7 @@ public class JNc_number_extraction{
             for(int h=0;h<=1;h++){//買い注文と売り注文で区別しない。
             	if(h == 0){
             		pw.print("number,");
-            		for(double i = 31500;i<54000;i+=time_dif){
+            		for(double i = 31500;i<54600;i+=time_dif){
             			int hour_null = (int)(i)/3600;
                 		int minute_null = ((int)(i)%3600)/60;
                 		String hour_null_output = String.valueOf(hour_null);
@@ -358,7 +358,7 @@ public class JNc_number_extraction{
             	}
             	else if(h == 1){
             		pw.print("volume,");
-            		for(double i = 31500;i<54000;i+=time_dif){
+            		for(double i = 31500;i<54600;i+=time_dif){
             			int hour_null = (int)(i)/3600;
                 		int minute_null = ((int)(i)%3600)/60;
                 		String hour_null_output = String.valueOf(hour_null);
