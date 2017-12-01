@@ -29,7 +29,7 @@ public class HTICDT_Circuit{
 
             while ((line = brtxt.readLine()) != null) {
 
-            	//System_print1.Circuit(line);
+            	System_print1.Circuit(line);
             	//System_print1.Print(line);
 
             	if(Integer.parseInt(line.substring(56,66))==0){
@@ -53,7 +53,8 @@ class System_print//class
 	{
 		String Circuit = a.substring(52,55);
 
-		if(Circuit.equals(" 18") || Circuit.equals(" 19") || Circuit.equals(" 20") || Circuit.equals(" 21")){
+		if(Circuit.equals("  4") || Circuit.equals(" 12") || Circuit.equals("  8") || Circuit.equals(" 18") || Circuit.equals(" 19") || 
+				Circuit.equals(" 20") || Circuit.equals(" 21") || Circuit.equals(" 23") || Circuit.equals(" 64")){
     		System.out.println(a);
     	}
 	}
