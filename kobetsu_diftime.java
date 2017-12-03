@@ -153,7 +153,7 @@ public class kobetsu_diftime{
 
             	length_konma = Index.length();
 
-        		for(i1=0;i1<length_konma;i1++){//2016年取得ロイター　ここから
+        		/*for(i1=0;i1<length_konma;i1++){//2016年取得ロイター　ここから
                     a = Index.substring(i1,i1+1);
 
                     if(count_if == 2 && !(a.equals(",")) && count1 == 0){
@@ -207,18 +207,18 @@ public class kobetsu_diftime{
         		i2 = 0;
                 i3 = 0;
                 i4 = 0;
-                i5 = 0;//2016年取得ロイター　ここまで
+                i5 = 0;//2016年取得ロイター　ここまで*/
 
             	//limit_order_final_trade(ここから）
 
-            	/*String JNIc_split[] = line.split(",", 0);
+            	String JNIc_split[] = line.split(",", 0);
             	day = Integer.parseInt(JNIc_split[0]);
             	hour = Double.parseDouble(JNIc_split[1].substring(0, 2));//時間
             	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));//分
             	second = Double.parseDouble(JNIc_split[1].substring(6));//秒
             	time_sum = hour*3600 + minute*60 + second;//時間を秒換算
             	int volume = Integer.parseInt(JNIc_split[2]);
-            	//limit_order_final_trade(ここまで）*/
+            	//limit_order_final_trade(ここまで）
 
             	//System.out.println(volume);
 
@@ -252,6 +252,8 @@ public class kobetsu_diftime{
 
             		if(time_dif > 0){//時間差に0を含むか含まないか　これは非常に重要．volumeは指値注文のとき，キャンセルなのか否かを判別するもの
             			pw.println(day + " " + time_dif);
+            			//pw.println(time_dif);
+            			
             		}
             		/*else if(time_dif == 0){
             			pw.println(day + " 0.0000001");//limit_orderの場合（時間差0のときの処理）．volumeは指値注文のとき，キャンセルなのか否かを判別するもの
