@@ -222,9 +222,9 @@ public class CDF_simulater_pareto_new{
             //書き込みデータの順番
             //年度_成行注文の時間間隔の分布_指値注文の時間間隔の分布_指値キャンセルの時間間隔の分布_成行注文量の分布_指値注文量の分布_指値キャンセルの分布_同一注文の分布
 
-        	File file_simu = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
+        	/*File file_simu = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
          			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_timeseries.txt");//時系列データの発生
-         	PrintWriter pw_simu = new PrintWriter(new BufferedWriter(new FileWriter(file_simu)));
+         	PrintWriter pw_simu = new PrintWriter(new BufferedWriter(new FileWriter(file_simu)));*/
 
          	File file_ita_move = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
          			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_move_data.txt");//板の移動回数の記録
@@ -237,10 +237,17 @@ public class CDF_simulater_pareto_new{
          	File file_li_imb = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
          			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_li_imb_data.txt");//板の共分散を算出
          	PrintWriter pw_li_imb = new PrintWriter(new BufferedWriter(new FileWriter(file_li_imb)));
+
+         	File file_markov = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_markov_data.txt");//板の共分散を算出
+         	PrintWriter pw_markov = new PrintWriter(new BufferedWriter(new FileWriter(file_markov)));
+
+
          	//買い指値注文量の総量_買い指値キャンセル量の総量_買い成行注文量の総量_売り指値注文量の総量_売り指値キャンセル量の総量_売り成行注文量の総量_終値（買板）_初値（買板）_終値（売板）_初値（売板）
 
          	pw_li_imb.println("day,AM or PM,limit buy order volume,cancel buy order volume,market buy order volume,limit sell order volume,cancel sell order volume,market sell order volume,last price(bid),first price(bid),last price(ask),first price(ask)");
 
+         	pw_markov.println("day,AM or PM,up_up_count,up_down_count,down_up_count,down_down_count,");
 
 
 
@@ -278,6 +285,15 @@ public class CDF_simulater_pareto_new{
             	String hour_out = "";//出力用の時間
             	String minute_out = "";//出力用の時間
             	String second_out = "";//出力用の時間
+
+            	boolean ita_up = false;//板が上昇したもの
+            	boolean ita_down = false;//板が下降したもの
+
+            	int ita_up_up_count = 0;//板が上昇した後に上昇するものの数
+            	int ita_up_down_count = 0;//板が上昇した後に下降するものの数
+            	int ita_down_up_count = 0;//板が下降した後に上昇するものの数
+            	int ita_down_down_count = 0;//板が下降した後に下降するものの数
+
 
             	//---------------統計量の変数-------------------
             	int count_sell_market_order_volume = 0;//売り成行注文の数
@@ -415,6 +431,8 @@ public class CDF_simulater_pareto_new{
                 					  count_sell_limit_order_volume + "," + count_sell_cancel_order_volume + "," + count_sell_market_order_volume + "," +
                 					  bid_price + "," + first_bid_price + "," + ask_price + "," + first_ask_price);
 
+                			  pw_markov.println(day[first_number] + ",morning," + ita_up_up_count + "," + ita_up_down_count + "," + ita_down_up_count + "," + ita_down_down_count);
+
                 			  //System.out.println(day[first_number] + ",morning," + up_count + "," + down_count);
                 			  first_number++;
                 			  //System.out.println(first_number);
@@ -434,6 +452,12 @@ public class CDF_simulater_pareto_new{
                           	  count_buy_limit_order_volume = 0;//買い指値注文の数
                           	  count_sell_cancel_order_volume = 0;//売り指値キャンセルの数
                           	  count_buy_cancel_order_volume = 0;//買い指値キャンセルの数
+                          	  ita_up_up_count = 0;
+                          	  ita_up_down_count = 0;
+                          	  ita_down_up_count = 0;
+                          	  ita_down_down_count = 0;
+                          	  ita_up = false;
+                          	  ita_down = false;
                 			  max_price = 0;
                 			  min_price = 1000000;
                 			//-------------初期化----------------
@@ -446,7 +470,10 @@ public class CDF_simulater_pareto_new{
                 					  count_sell_limit_order_volume + "," + count_sell_cancel_order_volume + "," + count_sell_market_order_volume + "," +
                 					  bid_price + "," + first_bid_price + "," + ask_price + "," + first_ask_price);
 
-                			//-------------初期化----------------
+                			  pw_markov.println(day[first_number] + ",morning," + ita_up_up_count + "," + ita_up_down_count + "," + ita_down_up_count + "," + ita_down_down_count);
+
+
+                			  //-------------初期化----------------
                 			  first_ask_price = ask_price;
                 			  first_bid_price = bid_price;
                 			  up_count = 0;
@@ -463,6 +490,12 @@ public class CDF_simulater_pareto_new{
                           	  count_buy_cancel_order_volume = 0;//買い指値キャンセルの数
                     		  ask_depth = first_ask_depth[first_number][2];//最初の売板の枚数（後場）
                   			  bid_depth = first_bid_depth[first_number][2];//最初の買板の枚数（後場）
+                  			  ita_up_up_count = 0;
+                        	  ita_up_down_count = 0;
+                        	  ita_down_up_count = 0;
+                        	  ita_down_down_count = 0;
+                        	  ita_up = false;
+                        	  ita_down = false;
                   			//-------------初期化----------------
 
                   			  //System.out.println(ask_depth + ",いた," + bid_depth);
@@ -512,6 +545,10 @@ public class CDF_simulater_pareto_new{
             					  count_sell_limit_order_volume + "," + count_sell_cancel_order_volume + "," + count_sell_market_order_volume + "," +
             					  bid_price + "," + first_bid_price + "," + ask_price + "," + first_ask_price);
 
+
+                		  pw_markov.println(day[first_number] + ",afternoon," + ita_up_up_count + "," + ita_up_down_count + "," + ita_down_up_count + "," + ita_down_down_count);
+
+
                 		//-------------初期化----------------
                 		  up_count = 0;
                 		  down_count = 0;
@@ -531,6 +568,12 @@ public class CDF_simulater_pareto_new{
                 		  next_market_order = false;
                 		  next_limit_order = false;
                 		  next_limit_cancel = false;
+                		  ita_up_up_count = 0;
+                    	  ita_up_down_count = 0;
+                    	  ita_down_up_count = 0;
+                    	  ita_down_down_count = 0;
+                    	  ita_up = false;
+                    	  ita_down = false;
             			//-------------初期化----------------
                 		  first_number++;
                 		  /*if(first_number == 227){//検証するデータのジャンプ（20071203）
@@ -548,7 +591,7 @@ public class CDF_simulater_pareto_new{
                 		  ask_prob = ransu.NextUnif();//買い注文・売り注文の決定
 
 
-                		  
+
 
                 		  //-------------（時刻を出力するための行）----------------
                 		  hour = (int)(market_order_intervals_sum)/3600;//時間に変換
@@ -623,20 +666,20 @@ public class CDF_simulater_pareto_new{
                     			  ask_market_order = (int)cdf.zeta(ransu.NextUnif(), Double.parseDouble(para_split_simu[0].substring(1)));//ゼータ分布のとき
                     			  para_split_simu = market_volume_same_para[first_number][second_number].split("	", 0);//複合過程
                     			  ask_market_order = ask_market_order*(int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));//複合過程
-                    			  
+
                     		  }
                     		  else if(para_split_simu.length == 2){//負の二項分布
                     			  //System.out.println(para_split_simu);
                     			  ask_market_order = (int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));
                     			  para_split_simu = market_volume_same_para[first_number][second_number].split("	", 0);//複合過程
                     			  ask_market_order = ask_market_order*(int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));//複合過程
-                    			  
+
                     		  }
                 			  //ask_market_order = (int)cdf.negabio(ransu.NextUnif(),2,0.3);
-                    		  
+
                 			  count_sell_market_order_volume += ask_market_order;//売り成行注量文のカウント
 
-                			  pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Trade," + ",," + bid_price + "," + ask_market_order + ",,,,,m");
+                			  //pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Trade," + ",," + bid_price + "," + ask_market_order + ",,,,,m");
                 			  bid_depth -= ask_market_order;
                 			  //pw_simu.println("ask Trade," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
 
@@ -662,6 +705,23 @@ public class CDF_simulater_pareto_new{
                 					  move_time_check = market_order_intervals_sum;
                 				  }
 
+                				  //遷移確率の計算
+                				  if(ita_up == false && ita_down == false){//初期値がどちらもfalse
+                					  ita_down = true;
+                				  }
+                				  else if(ita_up == true){//ita_down_up
+                					  ita_up_down_count++;
+                					  ita_up = false;
+                					  ita_down = true;
+                				  }
+                				  else if(ita_down == true){//ita_down_down
+                					  ita_down_down_count++;
+                					  ita_up = false;
+                					  ita_down = true;
+                				  }
+
+
+
                 				  pw_ita_corr.println(day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",-1");//板の移動（板の共分散）
                 				  bid_price -= 10;
                 				  ask_price -= 10;
@@ -674,9 +734,9 @@ public class CDF_simulater_pareto_new{
 
                 		  }
                 		  else{//買い注文
-                			  
-                			  
-                			  
+
+
+
                 			  para_split_simu = bid_market_volume_para[first_number][second_number].split("	", 0);
                 			  if(filename_constant_market.equals("constant.csv")){//定数
                     			  bid_market_order = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
@@ -686,20 +746,20 @@ public class CDF_simulater_pareto_new{
                     			  bid_market_order = (int)cdf.zeta(ransu.NextUnif(), Double.parseDouble(para_split_simu[0].substring(1)));//ゼータ分布のとき
                     			  para_split_simu = market_volume_same_para[first_number][second_number].split("	", 0);//複合過程
                         		  bid_market_order = bid_market_order*(int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));//複合過程
-                        		  
+
                     		  }
                     		  else if(para_split_simu.length == 2){//負の二項分布
 
                     			  bid_market_order = (int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));
                     			  para_split_simu = market_volume_same_para[first_number][second_number].split("	", 0);//複合過程
                         		  bid_market_order = bid_market_order*(int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));//複合過程
-                        		  
+
                     		  }
-                    		  
+
                     		  count_buy_market_order_volume += bid_market_order;//買い成行注量文のカウント
 
                 			  //bid_market_order = bid_market_order*(int)cdf.negabio(ransu.NextUnif(),2,0.3);//複合過程
-                			  pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Trade," + ",," + ask_price + "," + bid_market_order + ",,,,,m");
+                			  //pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Trade," + ",," + ask_price + "," + bid_market_order + ",,,,,m");
                 			  ask_depth -= bid_market_order;
                 			  //pw_simu.println("bid Trade," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
 
@@ -724,6 +784,21 @@ public class CDF_simulater_pareto_new{
                 				  else{//板の移動時間の計算
                 					  up_time_sum += (market_order_intervals_sum - move_time_check);
                 					  move_time_check = market_order_intervals_sum;
+                				  }
+
+                				//遷移確率の計算
+                				  if(ita_up == false && ita_down == false){//初期値がどちらもfalse
+                					  ita_up = true;
+                				  }
+                				  else if(ita_up == true){//ita_down_up
+                					  ita_up_up_count++;
+                					  ita_down = false;
+                					  ita_up = true;
+                				  }
+                				  else if(ita_down == true){//ita_down_down
+                					  ita_down_up_count++;
+                					  ita_down = false;
+                					  ita_up = true;
                 				  }
 
 
@@ -793,14 +868,14 @@ public class CDF_simulater_pareto_new{
 
                     			  ask_limit_order = (int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));
                     		  }
-                    		  
-                    		  
+
+
 
                     		  count_sell_limit_order_volume += ask_limit_order;//売り指値注文量のカウント
 
                 			  //ask_limit_order = (int)cdf.negabio(ransu.NextUnif(),2,0.3);
                 			  ask_depth += ask_limit_order;
-                			  pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Quote," + ",,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth + ",l");
+                			  //pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Quote," + ",,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth + ",l");
                 			  //pw_simu.println("ask limit," + ask_limit_order + ","+ bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
 
                 		  }
@@ -817,14 +892,14 @@ public class CDF_simulater_pareto_new{
 
                     			  bid_limit_order = (int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));
                     		  }
-                    		  
-                    		  
+
+
 
                     		  count_buy_limit_order_volume += bid_limit_order;//買い指値注文量のカウント
 
                 			  //bid_limit_order = (int)cdf.negabio(ransu.NextUnif(),2,0.3);
                 			  bid_depth += bid_limit_order;
-                			  pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Quote," + ",,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth +",l");
+                			  //pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Quote," + ",,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth +",l");
                 			  //pw_simu.println("bid limit," + bid_limit_order + ","+ bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
 
                 		  }
@@ -882,8 +957,8 @@ public class CDF_simulater_pareto_new{
 
                     			  ask_limit_cancel = (int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));
                     		  }
-                    		  
-                    		  
+
+
 
                     		  count_sell_cancel_order_volume += ask_limit_cancel;//売り指値キャンセル量のカウント
 
@@ -913,6 +988,21 @@ public class CDF_simulater_pareto_new{
                 					  move_time_check = limit_cancel_intervals_sum;
                 				  }
 
+                				  //遷移確率の計算
+                				  if(ita_up == false && ita_down == false){//初期値がどちらもfalse
+                					  ita_up = true;
+                				  }
+                				  else if(ita_up == true){//ita_down_up
+                					  ita_up_up_count++;
+                					  ita_down = false;
+                					  ita_up = true;
+                				  }
+                				  else if(ita_down == true){//ita_down_down
+                					  ita_down_up_count++;
+                					  ita_down = false;
+                					  ita_up = true;
+                				  }
+
                 				  pw_ita_corr.println(day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",+1");//板の移動（板の共分散）
 
                 				  bid_price += 10;
@@ -922,7 +1012,7 @@ public class CDF_simulater_pareto_new{
                 					  max_price = ask_price;
                 				  }
                 			  }
-                			  pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Quote," + ",,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth+ ",c");
+                			  //pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Quote," + ",,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth+ ",c");
                 			  //pw_simu.println("ask cancel," + ask_limit_cancel + ","+ bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
 
 
@@ -940,8 +1030,8 @@ public class CDF_simulater_pareto_new{
 
                     			  bid_limit_cancel = (int)cdf.negabio(ransu.NextUnif(),Double.parseDouble(para_split_simu[0].substring(1)),Double.parseDouble(para_split_simu[1].substring(0,para_split_simu[1].length()-1)));
                     		  }
-                    		  
-                    		  
+
+
 
                     		  count_buy_cancel_order_volume += bid_limit_cancel;//売り指値キャンセル量のカウント
 
@@ -971,6 +1061,21 @@ public class CDF_simulater_pareto_new{
                 					  move_time_check = limit_cancel_intervals_sum;
                 				  }
 
+                				  //遷移確率の計算
+                				  if(ita_up == false && ita_down == false){//初期値がどちらもfalse
+                					  ita_down = true;
+                				  }
+                				  else if(ita_up == true){//ita_down_up
+                					  ita_up_down_count++;
+                					  ita_up = false;
+                					  ita_down = true;
+                				  }
+                				  else if(ita_down == true){//ita_down_down
+                					  ita_down_down_count++;
+                					  ita_up = false;
+                					  ita_down = true;
+                				  }
+
                 				  pw_ita_corr.println(day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",-1");//板の移動（板の共分散）
 
                 				  bid_price -= 10;
@@ -981,7 +1086,7 @@ public class CDF_simulater_pareto_new{
                 				  }
 
                 			  }
-                			  pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Quote," + ",,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth + ",c");
+                			  //pw_simu.println("Naoki," + day[first_number] + "," + hour_out + ":" + minute_out + ":" + second_out + ",Quote," + ",,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth + ",c");
                 			  //pw_simu.println("bid cancel," + bid_limit_cancel + ","+ bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
 
 
@@ -1013,10 +1118,11 @@ public class CDF_simulater_pareto_new{
 
             	}//while文の終わり
 
-            	pw_simu.close();
+            	//pw_simu.close();
             	pw_ita_move.close();
             	pw_ita_corr.close();
             	pw_li_imb.close();
+            	pw_markov.close();
     	}
 
     	br_first.close();
