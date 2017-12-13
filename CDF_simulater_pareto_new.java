@@ -329,7 +329,7 @@ public class CDF_simulater_pareto_new{
 
             	}*/
 
-            	first_number = 1;//二つの配列の１つめ（これでなにから始めるか決まる）
+            	first_number = 226;//二つの配列の１つめ（これでなにから始めるか決まる）
 
             	while(//first_number ==  227//一部分
             			day[first_number] != 0//最後まで
@@ -737,6 +737,7 @@ public class CDF_simulater_pareto_new{
 
 
 
+                			  //System.out.println(day[first_number]);
                 			  para_split_simu = bid_market_volume_para[first_number][second_number].split("	", 0);
                 			  if(filename_constant_market.equals("constant.csv")){//定数
                     			  bid_market_order = Integer.parseInt(para_split_simu[0].substring(1,para_split_simu[0].length()));
