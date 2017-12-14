@@ -226,14 +226,14 @@ public class JNIc_ita_corr{
 			pw.print(day_now + ",no noon recess," + value_ave + "," + value_va + "," + value_cova +  "," + value_cor + "," + significance + ",");
 		}
 		else{
-			System.out.println(line);
+			//System.out.println(line);
 		}
 
 		if(Math.abs(value_cor) > Math.abs(significance)){
-			pw.println("採択される");
+			//pw.println("採択される");
 		}
 		else if(Math.abs(value_cor) < Math.abs(significance)){
-			pw.println("棄却される");
+			//pw.println("棄却される");
 		}
 
 
