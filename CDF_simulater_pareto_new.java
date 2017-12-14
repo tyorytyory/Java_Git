@@ -329,7 +329,7 @@ public class CDF_simulater_pareto_new{
 
             	}*/
 
-            	first_number = 226;//二つの配列の１つめ（これでなにから始めるか決まる）
+            	first_number = 1;//二つの配列の１つめ（これでなにから始めるか決まる）
 
             	while(//first_number ==  227//一部分
             			day[first_number] != 0//最後まで
