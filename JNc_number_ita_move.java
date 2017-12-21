@@ -46,7 +46,7 @@ public class JNc_number_ita_move{
 
             String[] filename = txtFileName.split("\\.");
 
-            File file = new File(filename[0] + "_not_divide_15min.csv");//時間差に0を含むときは0を記入
+            File file = new File(filename[0] + "_down_15min.csv");//時間差に0を含むときは0を記入
          	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
          			//"F:\\個別株\\TICST120\\201602\\" +
          	file)));
@@ -83,8 +83,8 @@ public class JNc_number_ita_move{
             		day = Integer.parseInt(JNc_split[0]);
             		day_array[day_count] = day;
 
-            		if(JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
-            				//JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
+            		if(//JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
+            				JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
             				){
             			count_bid_number_trade[time_count]++;
             			count_bid_volume[time_count] += Integer.parseInt(JNc_split[4]);
@@ -95,13 +95,13 @@ public class JNc_number_ita_move{
             			count_ask_number_trade[time_count]++;
             			count_ask_volume[time_count] += Integer.parseInt(JNc_split[6]);
 
-            			count_number[day_count][time_count][2]++;//売り注文回数
-            			count_number[day_count][time_count][3] += Integer.parseInt(JNc_split[6]);//売り注文量
+            			//count_number[day_count][time_count][2]++;//売り注文回数
+            			count_number[day_count][time_count][2] += Integer.parseInt(JNc_split[6]);//売り注文量
 
 
             		}
-            		else if(JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
-            					//JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
+            		else if(//JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
+            					JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
             				){
 
             		}
@@ -120,8 +120,8 @@ public class JNc_number_ita_move{
             		day = Integer.parseInt(JNc_split[0]);
             		day_array[day_count] = day;
 
-            		if(JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
-            				//JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
+            		if(//JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
+            				JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
             				){
             			count_bid_number_trade[time_count]++;
             			count_bid_volume[time_count] += Integer.parseInt(JNc_split[4]);
@@ -132,13 +132,13 @@ public class JNc_number_ita_move{
             			count_ask_number_trade[time_count]++;
             			count_ask_volume[time_count] += Integer.parseInt(JNc_split[6]);
 
-            			count_number[day_count][time_count][2]++;//売り注文回数
-            			count_number[day_count][time_count][3] += Integer.parseInt(JNc_split[6]);//売り注文量
+            			//count_number[day_count][time_count][2]++;//売り注文回数
+            			count_number[day_count][time_count][2] += Integer.parseInt(JNc_split[6]);//売り注文量
 
 
             		}
-            		else if(JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
-            				//JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
+            		else if(//JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
+            				JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
             				){
 
 
@@ -153,8 +153,8 @@ public class JNc_number_ita_move{
 
             	}
             	else if(day == Integer.parseInt(JNc_split[0])){
-            		if(JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
-            				//JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
+            		if(//JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
+            				JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
             				){
             			count_bid_number_trade[time_count]++;
             			count_bid_volume[time_count] += Integer.parseInt(JNc_split[4]);
@@ -165,13 +165,13 @@ public class JNc_number_ita_move{
             			count_ask_number_trade[time_count]++;
             			count_ask_volume[time_count] += Integer.parseInt(JNc_split[6]);
 
-            			count_number[day_count][time_count][2]++;//売り注文回数
-            			count_number[day_count][time_count][3] += Integer.parseInt(JNc_split[6]);//売り注文量
+            			//count_number[day_count][time_count][2]++;//売り注文回数
+            			count_number[day_count][time_count][2] += Integer.parseInt(JNc_split[6]);//売り注文量
 
 
             		}
-            		else if(JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
-            				//JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
+            		else if(//JNc_split[2].equals("up") || JNc_split[2].equals("up not Trade")//板の上昇
+            				JNc_split[2].equals("down") || JNc_split[2].equals("down not Trade")//板の下降
             				){
 
 
@@ -187,18 +187,18 @@ public class JNc_number_ita_move{
 
             }
 
-            for(int h=0;h<=3;h++){//買い注文と売り注文で区別している。
+            for(int h=0;h<=2;h++){//買い注文と売り注文で区別している。
             	if(h == 0){
-            		pw.println("bid number,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
+            		pw.println("move number,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
             	}
             	else if(h == 1){
-            		pw.println("bid volume,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
+            		pw.println("bid depth sum,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
             	}
+            	//else if(h == 2){
+            		//pw.println("ask move number,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
+            	//}
             	else if(h == 2){
-            		pw.println("ask number,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
-            	}
-            	else if(h == 3){
-            		pw.println("ask volume,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
+            		pw.println("ask depth sum,8:45:00,9:00:00,9:15:00,9:30:00,9:45:00,10:00:00,10:15:00,10:30:00,10:45:00,11:00:00,11:15:00,11:30:00,11:45:00,12:00:00,12:15:00,12:30:00,12:45:00,13:00:00,13:15:00,13:30:00,13:45:00,14:00:00,14:15:00,14:30:00,14:45:00,15:00:00");
             	}
             	for(int j=0;j<=260;j++){
             		if(day_array[j] != 0){
