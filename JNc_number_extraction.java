@@ -35,7 +35,7 @@ public class JNc_number_extraction{
         	int time_count = 0;//配列の２番目に用いる変数*/
         	int day_count = 0;
         	int if_time[] = new int[400];//サーキットブレイカーのときに必要になる文章。
-        	int time_dif = 300;//time_difを変えることにより、時間間隔を変える。
+        	int time_dif = 900;//time_difを変えることにより、時間間隔を変える。
         	int pw_enter_point = 0;//書き込みの際に改行するもの
 
 
