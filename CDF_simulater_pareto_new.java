@@ -43,10 +43,10 @@ public class CDF_simulater_pareto_new{
             double market_ask_trade_prob [] [] = new double [500][30];//成行注文の買い注文率
             double limit_ask_trade_prob [] [] = new double [500][30];//指値注文の買い注文率
             double cancel_ask_trade_prob [] [] = new double [500][30];//指値キャンセルの買い注文率
-            int down_ask_depth [] [] = new int [500][3];//板が下降した後の売板の枚数
-            int down_bid_depth [] [] = new int [500][3];//板が下降した後の買板の枚数
-            int up_ask_depth [] [] = new int [500][3];//板が上昇した後の売板の枚数
-            int up_bid_depth [] [] = new int [500][3];//板が上昇した後の買板の枚数
+            int down_ask_depth [] [] = new int [500][30];//板が下降した後の売板の枚数
+            int down_bid_depth [] [] = new int [500][30];//板が下降した後の買板の枚数
+            int up_ask_depth [] [] = new int [500][30];//板が上昇した後の売板の枚数
+            int up_bid_depth [] [] = new int [500][30];//板が上昇した後の買板の枚数
             int first_ask_depth [] [] = new int [500][3];//一番最初の売板の枚数
             int first_bid_depth [] [] = new int [500][3];//一番最初の買板の枚数
 
@@ -56,6 +56,10 @@ public class CDF_simulater_pareto_new{
             int day [] = new int[500];//日付を格納する配列
             int first_number = 1;//２次元配列で用いる関数（１つめ）
             int second_number = 1;//２次元配列で用いる関数（２つめ）
+
+            boolean ita_15min = true;//板の枚数を15分間隔にするか、前場・後場で定数にするか（true→15分、false→定数）
+
+
 
             System.out.println(txtFileName_first);
 
@@ -181,7 +185,7 @@ public class CDF_simulater_pareto_new{
                 			}
                 			first_number++;
                 		}
-                		else if(filename[1].equals("depth") && filename[2].equals("info")){//板の厚さの情報
+                		else if(filename[1].equals("depth") && filename[2].equals("info")){//板の厚さの情報(板の枚数を前場・後場で定数にするとき）
                 			int depth_number = 1;//下のfor文のためにある変数
                 			for(second_number = 1;second_number <= (para_split.length-1) ;second_number+=6){
                 				//System.out.println(second_number);
@@ -195,6 +199,46 @@ public class CDF_simulater_pareto_new{
                 			}
                 			//System.out.println(first_bid_depth[2][2]);
                 			depth_number = 1;
+                			first_number++;
+                		}
+                		else if(filename[1].equals("down") && filename[2].equals("ask") && filename[3].equals("depth")){//板の枚数を15分間隔にするとき（買板の下落）
+                			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
+                				if(second_number == 9){
+                					second_number +=6;
+                				}
+                				down_ask_depth [first_number][second_number] = (int)Double.parseDouble(para_split[second_number]);
+
+                			}
+                			first_number++;
+                		}
+                		else if(filename[1].equals("down") && filename[2].equals("bid") && filename[3].equals("depth")){//板の枚数を15分間隔にするとき（売板の下落）
+                			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
+                				if(second_number == 9){
+                					second_number +=6;
+                				}
+                				down_bid_depth [first_number][second_number] = (int)Double.parseDouble(para_split[second_number]);
+
+                			}
+                			first_number++;
+                		}
+                		else if(filename[1].equals("up") && filename[2].equals("ask") && filename[3].equals("depth")){//板の枚数を15分間隔にするとき（買板の上昇）
+                			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
+                				if(second_number == 9){
+                					second_number +=6;
+                				}
+                				up_ask_depth [first_number][second_number] = (int)Double.parseDouble(para_split[second_number]);
+
+                			}
+                			first_number++;
+                		}
+                		else if(filename[1].equals("up") && filename[2].equals("bid") && filename[3].equals("depth")){//板の枚数を15分間隔にするとき（売板の上昇）
+                			for(second_number = 1;second_number <= (para_split.length-1) ;second_number++){
+                				if(second_number == 9){
+                					second_number +=6;
+                				}
+                				up_bid_depth [first_number][second_number] = (int)Double.parseDouble(para_split[second_number]);
+
+                			}
                 			first_number++;
                 		}
                 		else if(filename[1].equals("Pareto3")){//成行注文のパレート分布３に限ったver（平均値を用いる）
@@ -227,19 +271,19 @@ public class CDF_simulater_pareto_new{
          	PrintWriter pw_simu = new PrintWriter(new BufferedWriter(new FileWriter(file_simu)));*/
 
          	File file_ita_move = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_move_data.txt");//板の移動回数の記録
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_move_data_ita15.txt");//板の移動回数の記録
          	PrintWriter pw_ita_move = new PrintWriter(new BufferedWriter(new FileWriter(file_ita_move)));
 
          	File file_ita_corr = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_ita_corr_data.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_ita_corr_data_ita15.txt");//板の共分散を算出
          	PrintWriter pw_ita_corr = new PrintWriter(new BufferedWriter(new FileWriter(file_ita_corr)));
 
          	File file_li_imb = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_li_imb_data.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_li_imb_data_ita15.txt");//板の共分散を算出
          	PrintWriter pw_li_imb = new PrintWriter(new BufferedWriter(new FileWriter(file_li_imb)));
 
          	File file_markov = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_markov_data.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_markov_data_ita15.txt");//板の共分散を算出
          	PrintWriter pw_markov = new PrintWriter(new BufferedWriter(new FileWriter(file_markov)));
 
 
@@ -685,15 +729,21 @@ public class CDF_simulater_pareto_new{
 
                 			  if(bid_depth <= 0){//板の下降
                 				  down_count++;
-                				  if(second_number <= 8){//前場の板が移動した後の板の厚み
-                					  ask_depth = down_ask_depth[first_number][1];
-                					  bid_depth = down_bid_depth[first_number][1];
-                					  //System.out.println(ask_depth + "," + bid_depth);
+                				  if(ita_15min == false){//板の枚数が前場・後場で定数
+                					  if(second_number <= 8){//前場の板が移動した後の板の厚み
+                    					  ask_depth = down_ask_depth[first_number][1];
+                    					  bid_depth = down_bid_depth[first_number][1];
+                    					  //System.out.println(ask_depth + "," + bid_depth);
+                    				  }
+                    				  else{//後場の板が移動した後の板の厚み
+                    					  ask_depth = down_ask_depth[first_number][2];
+                    					  bid_depth = down_bid_depth[first_number][2];
+                    					  //System.out.println(ask_depth + "," + bid_depth);
+                    				  }
                 				  }
-                				  else{//後場の板が移動した後の板の厚み
-                					  ask_depth = down_ask_depth[first_number][2];
-                					  bid_depth = down_bid_depth[first_number][2];
-                					  //System.out.println(ask_depth + "," + bid_depth);
+                				  else if(ita_15min == true){//板の枚数が15分間隔で定数
+                					  ask_depth = down_ask_depth[first_number][second_number];
+                					  bid_depth = down_bid_depth[first_number][second_number];
                 				  }
 
                 				  if(up_time_sum == 0 && down_time_sum == 0){//板の移動時間の計算
@@ -767,15 +817,19 @@ public class CDF_simulater_pareto_new{
                 			  if(ask_depth <= 0){//板の上昇
                 				  up_count++;
 
-                				  if(second_number <= 8){//前場の板が移動した後の板の厚み
-                					  ask_depth = up_ask_depth[first_number][1];
-                					  bid_depth = up_bid_depth[first_number][1];
-
+                				  if(ita_15min == false){//板の枚数が前場・後場で定数
+                					  if(second_number <= 8){//前場の板が移動した後の板の厚み
+                    					  ask_depth = up_ask_depth[first_number][1];
+                    					  bid_depth = up_bid_depth[first_number][1];
+                    				  }
+                    				  else{//後場の板が移動した後の板の厚み
+                    					  ask_depth = up_ask_depth[first_number][2];
+                    					  bid_depth = up_bid_depth[first_number][2];
+                    				  }
                 				  }
-                				  else{//後場の板が移動した後の板の厚み
-                					  ask_depth = up_ask_depth[first_number][2];
-                					  bid_depth = up_bid_depth[first_number][2];
-
+                				  else if(ita_15min == true){//板の枚数が15分間隔で定数
+                					  ask_depth = up_ask_depth[first_number][second_number];
+                					  bid_depth = up_bid_depth[first_number][second_number];
                 				  }
 
                 				  if(up_time_sum == 0 && down_time_sum == 0){//板の移動時間の計算
@@ -969,15 +1023,19 @@ public class CDF_simulater_pareto_new{
                 			  if(ask_depth <= 0){//板の上昇
                 				  up_count++;
 
-                				  if(second_number <= 8){//前場の板が移動した後の板の厚み
-                					  ask_depth = up_ask_depth[first_number][1];
-                					  bid_depth = up_bid_depth[first_number][1];
-
+                				  if(ita_15min == false){//板の枚数が前場・後場で定数
+                					  if(second_number <= 8){//前場の板が移動した後の板の厚み
+                    					  ask_depth = up_ask_depth[first_number][1];
+                    					  bid_depth = up_bid_depth[first_number][1];
+                    				  }
+                    				  else{//後場の板が移動した後の板の厚み
+                    					  ask_depth = up_ask_depth[first_number][2];
+                    					  bid_depth = up_bid_depth[first_number][2];
+                    				  }
                 				  }
-                				  else{//後場の板が移動した後の板の厚み
-                					  ask_depth = up_ask_depth[first_number][2];
-                					  bid_depth = up_bid_depth[first_number][2];
-
+                				  else if(ita_15min == true){//板の枚数が15分間隔で定数
+                					  ask_depth = up_ask_depth[first_number][second_number];
+                					  bid_depth = up_bid_depth[first_number][second_number];
                 				  }
 
                 				  if(up_time_sum == 0 && down_time_sum == 0){//板の移動時間の計算
@@ -1042,15 +1100,23 @@ public class CDF_simulater_pareto_new{
                 			  if(bid_depth <= 0){//板の下降
                 				  down_count++;
 
-                				  if(second_number <= 8){//前場の板が移動した後の板の厚み
-                					  ask_depth = down_ask_depth[first_number][1];
-                					  bid_depth = down_bid_depth[first_number][1];
-                					  //System.out.println(ask_depth + "," + bid_depth);
+
+
+                				  if(ita_15min == false){//板の枚数が前場・後場で定数
+                					  if(second_number <= 8){//前場の板が移動した後の板の厚み
+                    					  ask_depth = down_ask_depth[first_number][1];
+                    					  bid_depth = down_bid_depth[first_number][1];
+                    					  //System.out.println(ask_depth + "," + bid_depth);
+                    				  }
+                    				  else{//後場の板が移動した後の板の厚み
+                    					  ask_depth = down_ask_depth[first_number][2];
+                    					  bid_depth = down_bid_depth[first_number][2];
+                    					  //System.out.println(ask_depth + "," + bid_depth);
+                    				  }
                 				  }
-                				  else{//後場の板が移動した後の板の厚み
-                					  ask_depth = down_ask_depth[first_number][2];
-                					  bid_depth = down_bid_depth[first_number][2];
-                					  //System.out.println(ask_depth + "," + bid_depth);
+                				  else if(ita_15min == true){//板の枚数が15分間隔で定数
+                					  ask_depth = down_ask_depth[first_number][second_number];
+                					  bid_depth = down_bid_depth[first_number][second_number];
                 				  }
 
                 				  if(up_time_sum == 0 && down_time_sum == 0){//板の移動時間の計算
