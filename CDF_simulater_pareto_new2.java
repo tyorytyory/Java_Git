@@ -57,7 +57,7 @@ public class CDF_simulater_pareto_new2{
             int first_number = 1;//２次元配列で用いる関数（１つめ）
             int second_number = 1;//２次元配列で用いる関数（２つめ）
 
-            boolean ita_15min = true;//板の枚数を15分間隔にするか、前場・後場で定数にするか（true→15分、false→定数）
+            boolean ita_15min = false;//板の枚数を15分間隔にするか、前場・後場で定数にするか（true→15分、false→定数）
 
 
 
@@ -271,19 +271,19 @@ public class CDF_simulater_pareto_new2{
          	PrintWriter pw_simu = new PrintWriter(new BufferedWriter(new FileWriter(file_simu)));*/
 
          	File file_ita_move = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_move_data_ita15_new1.txt");//板の移動回数の記録
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_move_data_new1.txt");//板の移動回数の記録
          	PrintWriter pw_ita_move = new PrintWriter(new BufferedWriter(new FileWriter(file_ita_move)));
 
          	File file_ita_corr = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_ita_corr_data_ita15_new1.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_ita_corr_data_new1.txt");//板の共分散を算出
          	PrintWriter pw_ita_corr = new PrintWriter(new BufferedWriter(new FileWriter(file_ita_corr)));
 
          	File file_li_imb = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_li_imb_data_ita15_new1.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_li_imb_data_new1.txt");//板の共分散を算出
          	PrintWriter pw_li_imb = new PrintWriter(new BufferedWriter(new FileWriter(file_li_imb)));
 
          	File file_markov = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_markov_data_ita15_new1.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_markov_data_new1.txt");//板の共分散を算出
          	PrintWriter pw_markov = new PrintWriter(new BufferedWriter(new FileWriter(file_markov)));
 
 
@@ -745,8 +745,10 @@ public class CDF_simulater_pareto_new2{
                 			  bid_depth -= ask_market_order;
                 			  //pw_simu.println("ask Trade," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
 
+
                 			  if(bid_depth <= 0){//板の下降
                 				  down_count++;
+
                 				  if(ita_15min == false){//板の枚数が前場・後場で定数
                 					  if(second_number <= 8){//前場の板が移動した後の板の厚み
                     					  ask_depth = down_ask_depth[first_number][1];
@@ -854,6 +856,7 @@ public class CDF_simulater_pareto_new2{
                 				  up_count++;
 
                 				  if(ita_15min == false){//板の枚数が前場・後場で定数
+
                 					  if(second_number <= 8){//前場の板が移動した後の板の厚み
                     					  ask_depth = up_ask_depth[first_number][1];
                     					  bid_depth = up_bid_depth[first_number][1];
