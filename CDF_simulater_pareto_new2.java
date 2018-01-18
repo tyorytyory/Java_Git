@@ -271,19 +271,19 @@ public class CDF_simulater_pareto_new2{
          	PrintWriter pw_simu = new PrintWriter(new BufferedWriter(new FileWriter(file_simu)));*/
 
          	File file_ita_move = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_move_data_ita15.txt");//板の移動回数の記録
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_move_data_ita15_new1.txt");//板の移動回数の記録
          	PrintWriter pw_ita_move = new PrintWriter(new BufferedWriter(new FileWriter(file_ita_move)));
 
          	File file_ita_corr = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_ita_corr_data_ita15.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_ita_corr_data_ita15_new1.txt");//板の共分散を算出
          	PrintWriter pw_ita_corr = new PrintWriter(new BufferedWriter(new FileWriter(file_ita_corr)));
 
          	File file_li_imb = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_li_imb_data_ita15.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_li_imb_data_ita15_new1.txt");//板の共分散を算出
          	PrintWriter pw_li_imb = new PrintWriter(new BufferedWriter(new FileWriter(file_li_imb)));
 
          	File file_markov = new File(txtFileName_first_array[0] + "_" + filename_pw[0] + "_" + filename_pw[1] + "_" + filename_pw[2] + "_" + filename_pw[3] + "_" +
-         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_markov_data_ita15.txt");//板の共分散を算出
+         			filename_pw[4] + "_" + filename_pw[5] + "_" + filename_pw[6] + "_" + filename_pw[7] + "_" + "simulater_markov_data_ita15_new1.txt");//板の共分散を算出
          	PrintWriter pw_markov = new PrintWriter(new BufferedWriter(new FileWriter(file_markov)));
 
 
