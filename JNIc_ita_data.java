@@ -7,99 +7,99 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class JNIc_ita_data{
-//JNIc_limit_order.javaから作成したdepthファイルから、板の移動回数や最初の板の枚数を計算するプログラム
-////(inlcude only)は「買板だけ下落し、その後売板だけが下落する」「売板だけ上昇し、その後買板だけが上昇する(inlcude only)」を考慮したいとき、if文を挿入する。
+	//JNIc_limit_order.javaから作成したdepthファイルから、板の移動回数や最初の板の枚数を計算するプログラム
+	////(inlcude only)は「買板だけ下落し、その後売板だけが下落する」「売板だけ上昇し、その後買板だけが上昇する(inlcude only)」を考慮したいとき、if文を挿入する。
 
-    public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException{
 
-        BufferedReader br = new BufferedReader(new FileReader("filelist_depth.txt"));//読み取りたいファイル名の記入
-        String txtFileName;
-
-
-        double hour = 0;//時間
-        double minute = 0;//分
-        double second = 0;//秒
-        double time_total = 0;//累積時間（秒）
+		BufferedReader br = new BufferedReader(new FileReader("filelist_depth.txt"));//読み取りたいファイル名の記入
+		String txtFileName;
 
 
-
-
-
-        while((txtFileName = br.readLine()) != null) {
-
-            String day = null;
-
-
-
-        	FileReader fr = new FileReader(txtFileName);
-            BufferedReader brtxt = new BufferedReader(fr);
-            String line ="";
-
-            String[] filename = txtFileName.split("\\.");
-
-            File file = new File(filename[0] + "_ita_move_without_only.csv");
-         	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-
-
-
-         	String  JNIc_split[] = null;
-
-         	int before_move_condition = 0;//直前の板の移動の情報を書き込む
-
-
-         	boolean morning_or_afternoon = false;//前場(false) or 後場(true)
-
-
-            while ((line = brtxt.readLine()) != null) {
-
-            	JNIc_split = line.split(",", 0);
-
-            	hour = Double.parseDouble(JNIc_split[1].substring(0, 2));
-            	minute = Double.parseDouble(JNIc_split[1].substring(3, 5));
-            	second = Double.parseDouble(JNIc_split[1].substring(6));
-            	time_total = hour*3600 + minute*60 + second;
-
-
-
-            	if(day == null){
-            		day = JNIc_split[0];
-            	}
-            	else if(!(day.equals(JNIc_split[0])) || (((20060104 < Integer.parseInt(day) && Integer.parseInt(day) < 20061229) || (20070104 < Integer.parseInt(day) && Integer.parseInt(day) < 20071228) || (20080104 < Integer.parseInt(day) && Integer.parseInt(day) < 20081230) || (20090105 < Integer.parseInt(day) && Integer.parseInt(day) < 20110214))
-            			&& time_total > 45000 && morning_or_afternoon == false)){
-
-
-
-            		before_move_condition = 0;//初期化
-
-
-
-            		if(!(day.equals(JNIc_split[0]))){
-            			day = JNIc_split[0];
-            			morning_or_afternoon = false;
-            		}
-            		else if(Integer.parseInt(day) < 20110214){
-            			morning_or_afternoon = true;
-            			//System.out.println(line);
-            		}
-
-
-
-
-            	}
+		double hour = 0;//時間
+		double minute = 0;//分
+		double second = 0;//秒
+		double time_total = 0;//累積時間（秒）
 
 
 
 
 
-            	if(JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade")){//板が上昇した後の、板の上昇
-            		before_move_condition = 0;
-            		pw.println(line + "," + "+1");
-            	}
-            	else if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){//板が上昇した後の、板の下落
-            		before_move_condition = 0;
-            		pw.println(line + "," + "-1");
-            	}
-            	/*else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
+		while((txtFileName = br.readLine()) != null) {
+
+			String day = null;
+
+
+
+			FileReader fr = new FileReader(txtFileName);
+			BufferedReader brtxt = new BufferedReader(fr);
+			String line ="";
+
+			String[] filename = txtFileName.split("\\.");
+
+			File file = new File(filename[0] + "_ita_move_without_only.csv");
+			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+
+
+
+			String  JNIc_split[] = null;
+
+			int before_move_condition = 0;//直前の板の移動の情報を書き込む
+
+
+			boolean morning_or_afternoon = false;//前場(false) or 後場(true)
+
+
+			while ((line = brtxt.readLine()) != null) {
+
+				JNIc_split = line.split(",", 0);
+
+				hour = Double.parseDouble(JNIc_split[1].substring(0, 2));
+				minute = Double.parseDouble(JNIc_split[1].substring(3, 5));
+				second = Double.parseDouble(JNIc_split[1].substring(6));
+				time_total = hour*3600 + minute*60 + second;
+
+
+
+				if(day == null){
+					day = JNIc_split[0];
+				}
+				else if(!(day.equals(JNIc_split[0])) || (((20060104 < Integer.parseInt(day) && Integer.parseInt(day) < 20061229) || (20070104 < Integer.parseInt(day) && Integer.parseInt(day) < 20071228) || (20080104 < Integer.parseInt(day) && Integer.parseInt(day) < 20081230) || (20090105 < Integer.parseInt(day) && Integer.parseInt(day) < 20110214))
+						&& time_total > 45000 && morning_or_afternoon == false)){
+
+
+
+					before_move_condition = 0;//初期化
+
+
+
+					if(!(day.equals(JNIc_split[0]))){
+						day = JNIc_split[0];
+						morning_or_afternoon = false;
+					}
+					else if(Integer.parseInt(day) < 20110214){
+						morning_or_afternoon = true;
+						//System.out.println(line);
+					}
+
+
+
+
+				}
+
+
+
+
+
+				if(JNIc_split[2].equals("up") || JNIc_split[2].equals("up not Trade")){//板が上昇した後の、板の上昇
+					before_move_condition = 0;
+					pw.println(line + "," + "+1");
+				}
+				else if(JNIc_split[2].equals("down") || JNIc_split[2].equals("down not Trade")){//板が上昇した後の、板の下落
+					before_move_condition = 0;
+					pw.println(line + "," + "-1");
+				}
+				/*else if(JNIc_split[2].equals("down only bid") || JNIc_split[2].equals("down only bid not Trade")){//(inlcude only)
             		before_move_condition = 1;
 
             	}
@@ -119,23 +119,23 @@ public class JNIc_ita_data{
             	}*/
 
 
-            }
+			}
 
-            morning_or_afternoon = false;//初期化
-
-
-
-            brtxt.close();
-            fr.close();
-            pw.close();
+			morning_or_afternoon = false;//初期化
 
 
 
+			brtxt.close();
+			fr.close();
+			pw.close();
 
 
-        }
 
-        br.close();
-    }
+
+
+		}
+
+		br.close();
+	}
 }
 

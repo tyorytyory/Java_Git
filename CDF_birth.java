@@ -1,5 +1,7 @@
 import java.math.BigDecimal;
-import org.apache.commons.math3.special.*;
+
+import org.apache.commons.math3.special.Beta;
+import org.apache.commons.math3.special.Gamma;
 
 class CDF_birth{
 	double pareto3(double randam, double alpha, double beta){//pareto分布３の累積分布関数から実際の値をだすやつ．
@@ -47,14 +49,14 @@ class CDF_birth{
 				bunbo += 1/(Math.pow(n, (1+rho)));
 			}
 			x = bunsi/bunbo;
-			
+
 			if(random < x){
 				//k--;
 				break;
 			}
-			
+
 		}
-		 //if(k == 11)System.out.println(k);
+		//if(k == 11)System.out.println(k);
 		return k;
 	}
 	double poisson(double random, double mu){//ポアソン分布
@@ -68,7 +70,7 @@ class CDF_birth{
 				break;
 			}
 		}
-		
+
 		return k+1;//定義域に0を含むので
 	}
 	double Test(double random){

@@ -1,8 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 
 public class simuletor_new_pareto {//11/10更新
@@ -21,7 +17,7 @@ public class simuletor_new_pareto {//11/10更新
     	PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));*/
 
 		do{
-			
+
 			double total_pareto = 0.0;
 			double time =21600.0;
 			double trade_time1[] = new double[9000000];
@@ -75,7 +71,7 @@ public class simuletor_new_pareto {//11/10更新
 					int dummy_c1 = (int)dummy_c;
 
 					for(int i=0;i<=dummy_c1;i++){*/
-						c = ransu.NextUnif();
+					c = ransu.NextUnif();
 					//}
 
 					for_time_alpha=0.0;//初期化
@@ -91,24 +87,24 @@ public class simuletor_new_pareto {//11/10更新
 					beta = 0.6;
 
 
-						double x1 = c/(1-c);
-						double x2 = Math.pow(x1,beta);
-						double x3 = x2*alpha;
-						BigDecimal x4 = new BigDecimal(x3);
-			    		double x = x4.setScale(3, BigDecimal.ROUND_UP).doubleValue();
-			    		trade_time1[i1] = x;
-			    		total_pareto = total_pareto + x;
-						double total1 = total_pareto + x;
-						BigDecimal total2 = new BigDecimal(total1);
-			    		total_pareto = total2.setScale(3, BigDecimal.ROUND_UP).doubleValue();
-						trade_timing1[i1] = total_pareto;
-						i1++;
-						/*if(c>0.9){
+					double x1 = c/(1-c);
+					double x2 = Math.pow(x1,beta);
+					double x3 = x2*alpha;
+					BigDecimal x4 = new BigDecimal(x3);
+					double x = x4.setScale(3, BigDecimal.ROUND_UP).doubleValue();
+					trade_time1[i1] = x;
+					total_pareto = total_pareto + x;
+					double total1 = total_pareto + x;
+					BigDecimal total2 = new BigDecimal(total1);
+					total_pareto = total2.setScale(3, BigDecimal.ROUND_UP).doubleValue();
+					trade_timing1[i1] = total_pareto;
+					i1++;
+					/*if(c>0.9){
 							System.out.println(c+":"+x3);
 						}*/
-						if(x==0){
-							System.out.println(x);
-						}
+					if(x==0){
+						System.out.println(x);
+					}
 
 				}
 
@@ -237,7 +233,7 @@ public class simuletor_new_pareto {//11/10更新
 					int dummy_c1 = (int)dummy_c;
 
 					for(int i=0;i<=dummy_c1;i++){*/
-						c = ransu.NextUnif();
+					c = ransu.NextUnif();
 					//}
 
 					for_time_pareto=0.0;//初期化
@@ -263,12 +259,12 @@ public class simuletor_new_pareto {//11/10更新
 					double x2 = Math.pow(x1,beta);
 					double x3 = x2*alpha;
 					BigDecimal x4 = new BigDecimal(x3);
-		    		double x = x4.setScale(3, BigDecimal.ROUND_UP).doubleValue();
-		    		trade_time1[i1] = x;
-		    		total_pareto = total_pareto + x;
+					double x = x4.setScale(3, BigDecimal.ROUND_UP).doubleValue();
+					trade_time1[i1] = x;
+					total_pareto = total_pareto + x;
 					double total1 = total_pareto + x;
 					BigDecimal total2 = new BigDecimal(total1);
-		    		total_pareto = total2.setScale(3, BigDecimal.ROUND_UP).doubleValue();
+					total_pareto = total2.setScale(3, BigDecimal.ROUND_UP).doubleValue();
 					trade_timing2[i1] = total_pareto;
 					i1++;
 				}
@@ -286,264 +282,264 @@ public class simuletor_new_pareto {//11/10更新
 			int ask_price = 15010;
 			double limit_order_time = 1383;//秒単位(1000倍する)
 			double limit_order_time_dif = 1383;//秒単位(1000倍する)
-	        double bid_or_ask;
-	        int bid_or_ask_Sfmt;
-	        String second_string = null;
-	        int second_length = 0;
-	        String second_konma = null;
-	        double for_time_order = 0.0;
-	        int count_simulate = count_pw;
-	        String count_simulate_length = null;
-	        int count_simulate_zero = 0;
+			double bid_or_ask;
+			int bid_or_ask_Sfmt;
+			String second_string = null;
+			int second_length = 0;
+			String second_konma = null;
+			double for_time_order = 0.0;
+			int count_simulate = count_pw;
+			String count_simulate_length = null;
+			int count_simulate_zero = 0;
 
-			 //try {
-		        	//File file = new File("simulater_pareto" + count_pw + ".txt");//ファイルを一つ一つ出力する
-		        	//PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-		        	for_time_order = time*1000;
+			//try {
+			//File file = new File("simulater_pareto" + count_pw + ".txt");//ファイルを一つ一つ出力する
+			//PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+			for_time_order = time*1000;
 
-		        	//pw.print("SIMn8,");
+			//pw.print("SIMn8,");
 
-		        	count_simulate_length = String.valueOf(count_simulate);
-		        	count_simulate_zero = count_simulate_length.length();
-		        	for(int i=1;i<=8-count_simulate_zero;i++){
-			        	//pw.print("0");
-		        	}
-		        	//pw.print(count_simulate + ",");
-
-
-		        	//pw.println("09:00:00.000,,,,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth + ",,,,,,,,,,");
+			count_simulate_length = String.valueOf(count_simulate);
+			count_simulate_zero = count_simulate_length.length();
+			for(int i=1;i<=8-count_simulate_zero;i++){
+				//pw.print("0");
+			}
+			//pw.print(count_simulate + ",");
 
 
-		        	for(double d = 0;d<=for_time_order;d++){
-		    			double d1 = d/1000;
-		    			if(d1 != 0 && d1%60==0){//秒を分に、分を時間にする
-	                        minute++;
-	                        if(minute == 60){
-	                            hour++;
-	                            minute = 0;
-	                        }
-	                    }
-		    			second = d1;
-
-		    			if(d1 == trade_timing1[i2]){
-		    				count_nariyuki++;//取引回数のカウント
+			//pw.println("09:00:00.000,,,,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth + ",,,,,,,,,,");
 
 
-		    				//pw.print("SIMn8,");
-		    				count_simulate_length = String.valueOf(count_simulate);
-		    				count_simulate_zero = count_simulate_length.length();
-				        	for(int i=1;i<=8-count_simulate_zero;i++){
-					        	//pw.print("0");
-				        	}
-				        	//pw.print(count_simulate + ",");
+			for(double d = 0;d<=for_time_order;d++){
+				double d1 = d/1000;
+				if(d1 != 0 && d1%60==0){//秒を分に、分を時間にする
+					minute++;
+					if(minute == 60){
+						hour++;
+						minute = 0;
+					}
+				}
+				second = d1;
 
-		    				for(double n = 1;n<50000;n++){
-	        					if(second >= n*60 && second < (n+1)*60){
-	        						second = second - n*60.0;
-	        					}
-	        				}
-	                        BigDecimal second1 = new BigDecimal(second);
-	        	    		second = second1.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-	                        if(1==Integer.toString(hour).length()){
-	                            //pw.print("0"+ hour + ":");
-	                        }
-	                        else{
-	                            //pw.print(hour + ":");
-	                        }
-	                        if(1==Integer.toString(minute).length()){
-	                            //pw.print("0"+ minute + ":");
-	                        }
-	                        else{
-	                            //pw.print(minute + ":");
-	                        }
-	                        second_string = String.valueOf(second);
-	                        second_length = Double.toString(second).length();
-	                        second_konma = second_string.substring(1,2);
-	                        if(second_konma.equals(".")){
-	                        	if(second_length == 3){
-	                        		//pw.print("0"+ second + "00");
-	                        	}
-	                        	else if(second_length == 4){
-	                        		//pw.print("0"+ second + "0");
-	                        	}
-	                        	else{
-	                        		//pw.print("0"+ second);
-	                        	}
-	                        }
-	                        else{
-	                        	if(second_length == 4){
-	                        		//pw.print(second + "00");
-	                        	}
-	                        	else if(second_length == 5){
-	                        		//pw.print(second + "0");
-	                        	}
-	                        	else{
-	                        		//pw.print(second);
-	                        	}
-	                        }
-	                        /*bid_or_ask = Math.random();
+				if(d1 == trade_timing1[i2]){
+					count_nariyuki++;//取引回数のカウント
+
+
+					//pw.print("SIMn8,");
+					count_simulate_length = String.valueOf(count_simulate);
+					count_simulate_zero = count_simulate_length.length();
+					for(int i=1;i<=8-count_simulate_zero;i++){
+						//pw.print("0");
+					}
+					//pw.print(count_simulate + ",");
+
+					for(double n = 1;n<50000;n++){
+						if(second >= n*60 && second < (n+1)*60){
+							second = second - n*60.0;
+						}
+					}
+					BigDecimal second1 = new BigDecimal(second);
+					second = second1.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+					if(1==Integer.toString(hour).length()){
+						//pw.print("0"+ hour + ":");
+					}
+					else{
+						//pw.print(hour + ":");
+					}
+					if(1==Integer.toString(minute).length()){
+						//pw.print("0"+ minute + ":");
+					}
+					else{
+						//pw.print(minute + ":");
+					}
+					second_string = String.valueOf(second);
+					second_length = Double.toString(second).length();
+					second_konma = second_string.substring(1,2);
+					if(second_konma.equals(".")){
+						if(second_length == 3){
+							//pw.print("0"+ second + "00");
+						}
+						else if(second_length == 4){
+							//pw.print("0"+ second + "0");
+						}
+						else{
+							//pw.print("0"+ second);
+						}
+					}
+					else{
+						if(second_length == 4){
+							//pw.print(second + "00");
+						}
+						else if(second_length == 5){
+							//pw.print(second + "0");
+						}
+						else{
+							//pw.print(second);
+						}
+					}
+					/*bid_or_ask = Math.random();
 	                        bid_or_ask = (dummy_c)*100+1;
 	        				bid_or_ask_Sfmt = (int)bid_or_ask;
 	        				for(int i=0;i<=bid_or_ask_Sfmt;i++){*/
-	        					bid_or_ask = ransu.NextUnif();
-	        				//}
+					bid_or_ask = ransu.NextUnif();
+					//}
 
 
-	                        if(bid_or_ask<=0.46){//買い注文
-	                        	ask_depth -=bid_trade;
-	                        	if(ask_depth <= 0){
-	                        		//pw.print(",Trade,," + bid_price + "," + (bid_trade+ask_depth));// + " " + bid_depth + " " + ask_depth);
-	                        	}
-	                        	else{
-	                        		//pw.print(",Trade,," + bid_price + "," + bid_trade);// + " " + bid_depth + " " + ask_depth);
-	                        	}
-	                        }
-	                        else{//売り注文
-	                            bid_depth -=ask_trade;
-	                            if(bid_depth <= 0){
-	                            	//pw.print(",Trade,," + ask_price + "," + (ask_trade+bid_depth));// + " "+ bid_depth + " " + ask_depth);
-	                            }
-	                            else{
-	                            	//pw.print(",Trade,," + ask_price + "," + ask_trade );//+ " "+ bid_depth + " " + ask_depth);
-	                            }
+					if(bid_or_ask<=0.46){//買い注文
+						ask_depth -=bid_trade;
+						if(ask_depth <= 0){
+							//pw.print(",Trade,," + bid_price + "," + (bid_trade+ask_depth));// + " " + bid_depth + " " + ask_depth);
+						}
+						else{
+							//pw.print(",Trade,," + bid_price + "," + bid_trade);// + " " + bid_depth + " " + ask_depth);
+						}
+					}
+					else{//売り注文
+						bid_depth -=ask_trade;
+						if(bid_depth <= 0){
+							//pw.print(",Trade,," + ask_price + "," + (ask_trade+bid_depth));// + " "+ bid_depth + " " + ask_depth);
+						}
+						else{
+							//pw.print(",Trade,," + ask_price + "," + ask_trade );//+ " "+ bid_depth + " " + ask_depth);
+						}
 
-	                        }
+					}
 
-	                        i2++;
-	                        if(bid_depth <= 0){
-	                        	ask_depth = 41 + (-1*bid_depth);
-	                        	bid_depth = 307;
-	                        	bid_price -=10;
-	                        	ask_price -=10;
-	                        	count_down++;
-	                        }
-	                        if(ask_depth <= 0){
-	                        	bid_depth = 41 + (-1*ask_depth);
-	                        	ask_depth = 302;
-	                        	bid_price +=10;
-	                        	ask_price +=10;
-	                        	count_up++;
-	                        }
+					i2++;
+					if(bid_depth <= 0){
+						ask_depth = 41 + (-1*bid_depth);
+						bid_depth = 307;
+						bid_price -=10;
+						ask_price -=10;
+						count_down++;
+					}
+					if(ask_depth <= 0){
+						bid_depth = 41 + (-1*ask_depth);
+						ask_depth = 302;
+						bid_price +=10;
+						ask_price +=10;
+						count_up++;
+					}
 
-	                        //pw.println(",,,,,,,,,,,,,");
-		    			}
-		    			if(d1 > 7200 && d1 <12600){//昼休み
-		    				bid_depth = 190;
-		    				ask_depth = 225;
-		    				bid_price = 15000;
-		    				ask_price = 15010;
+					//pw.println(",,,,,,,,,,,,,");
+				}
+				if(d1 > 7200 && d1 <12600){//昼休み
+					bid_depth = 190;
+					ask_depth = 225;
+					bid_price = 15000;
+					ask_price = 15010;
 
-		    			}
-		    			if(trade_timing2[i3] == d1){
-		    				count_sasine++;//取引回数のカウント
-		    				i3++;
-		    				limit_order_time +=limit_order_time_dif;
-		    				//pw.print("SIMn8,");
+				}
+				if(trade_timing2[i3] == d1){
+					count_sasine++;//取引回数のカウント
+					i3++;
+					limit_order_time +=limit_order_time_dif;
+					//pw.print("SIMn8,");
 
-		    				count_simulate_length = String.valueOf(count_simulate);
-		    				count_simulate_zero = count_simulate_length.length();
-				        	for(int i=1;i<=8-count_simulate_zero;i++){
-					        	//pw.print("0");
-				        	}
-				        	//pw.print(count_simulate + ",");
+					count_simulate_length = String.valueOf(count_simulate);
+					count_simulate_zero = count_simulate_length.length();
+					for(int i=1;i<=8-count_simulate_zero;i++){
+						//pw.print("0");
+					}
+					//pw.print(count_simulate + ",");
 
-		    				for(double n = 1;n<50000;n++){
-	        					if(second >= n*60 && second < (n+1)*60){
-	        						second = second - n*60.0;
-	        					}
-	        				}
-		    				BigDecimal second1 = new BigDecimal(second);
-	        	    		second = second1.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-		    				if(1==Integer.toString(hour).length()){
-	                            //pw.print("0"+ hour + ":");
-	                        }
-	                        else{
-	                            //pw.print(hour + ":");
-	                        }
-	                        if(1==Integer.toString(minute).length()){
-	                            //pw.print("0"+ minute + ":");
-	                        }
-	                        else{
-	                            //pw.print(minute + ":");
-	                        }
-	                        second_string = String.valueOf(second);
-	                        second_length = Double.toString(second).length();
-	                        second_konma = second_string.substring(1,2);
-	                        if(second_konma.equals(".")){
-	                        	if(second_length == 3){
-	                        		//pw.print("0"+ second + "00");
-	                        	}
-	                        	else if(second_length == 4){
-	                        		//pw.print("0"+ second + "0");
-	                        	}
-	                        	else{
-	                        		//pw.print("0"+ second);
-	                        	}
-	                        }
-	                        else{
-	                        	if(second_length == 4){
-	                        		//pw.print(second + "00");
-	                        	}
-	                        	else if(second_length == 5){
-	                        		//pw.print(second + "0");
-	                        	}
-	                        	else{
-	                        		//pw.print(second);
-	                        	}
-	                        }
-	                        /*bid_or_ask = Math.random();
+					for(double n = 1;n<50000;n++){
+						if(second >= n*60 && second < (n+1)*60){
+							second = second - n*60.0;
+						}
+					}
+					BigDecimal second1 = new BigDecimal(second);
+					second = second1.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+					if(1==Integer.toString(hour).length()){
+						//pw.print("0"+ hour + ":");
+					}
+					else{
+						//pw.print(hour + ":");
+					}
+					if(1==Integer.toString(minute).length()){
+						//pw.print("0"+ minute + ":");
+					}
+					else{
+						//pw.print(minute + ":");
+					}
+					second_string = String.valueOf(second);
+					second_length = Double.toString(second).length();
+					second_konma = second_string.substring(1,2);
+					if(second_konma.equals(".")){
+						if(second_length == 3){
+							//pw.print("0"+ second + "00");
+						}
+						else if(second_length == 4){
+							//pw.print("0"+ second + "0");
+						}
+						else{
+							//pw.print("0"+ second);
+						}
+					}
+					else{
+						if(second_length == 4){
+							//pw.print(second + "00");
+						}
+						else if(second_length == 5){
+							//pw.print(second + "0");
+						}
+						else{
+							//pw.print(second);
+						}
+					}
+					/*bid_or_ask = Math.random();
 	                        bid_or_ask = (dummy_c)*100+1;
 	        				bid_or_ask_Sfmt = (int)bid_or_ask;
 	        				for(int i=0;i<=bid_or_ask_Sfmt;i++){*/
-	        					bid_or_ask = ransu.NextUnif();
-	        				//}
-		    				if(bid_or_ask<=0.48){//買い注文
-		    					bid_depth += bid_limit_order;
-		    				}
-		    				else{//売り注文
-		    					ask_depth += ask_limit_order;
-		    				}
-		    				//pw.print(",Quote,,,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
+					bid_or_ask = ransu.NextUnif();
+					//}
+					if(bid_or_ask<=0.48){//買い注文
+						bid_depth += bid_limit_order;
+					}
+					else{//売り注文
+						ask_depth += ask_limit_order;
+					}
+					//pw.print(",Quote,,,,," + bid_price + "," + bid_depth + "," + ask_price + "," + ask_depth);
 
-	                        //pw.println(",,,,,,,,,,,,,,");
-		    				//System.out.println(limit_order_time);
-		    			}
-		        	}
+					//pw.println(",,,,,,,,,,,,,,");
+					//System.out.println(limit_order_time);
+				}
+			}
 
 
-		        		//pw.close();//ファイルを一つ一つ書き込むもの
+			//pw.close();//ファイルを一つ一つ書き込むもの
 
-		        /*}catch(IOException e){
+			/*}catch(IOException e){
 		        	System.out.println(e);
 		        }*/
-		        /*System.out.println(count_nariyuki);//取引回数のカウント
+			/*System.out.println(count_nariyuki);//取引回数のカウント
 		        System.out.println(count_sasine);//取引回数のカウント
 		        System.out.println(count_up);//板の移動
  		        System.out.println(count_down);//板の移動*/
- 		       count_up_sum += count_up;
-		        count_down_sum += count_down;
-		        count_nariyuki = 0;
-		        count_sasine = 0;
-		        count_up=0;
- 		        count_down=0;
-			 count_pw++;
-			 
+			count_up_sum += count_up;
+			count_down_sum += count_down;
+			count_nariyuki = 0;
+			count_sasine = 0;
+			count_up=0;
+			count_down=0;
+			count_pw++;
+
 
 
 		}while(count_pw <= 100);
 		//pw.close();//まとめて出力
 		System.out.println(count_up_sum + " " + count_down_sum);
 
-}
+	}
 	public static double Ram(){
 
 
-			double b_random = Math.random();
+		double b_random = Math.random();
 
 
-			return b_random;
-			}
+		return b_random;
 	}
+}
 
 
 
